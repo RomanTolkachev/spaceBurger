@@ -1,0 +1,27 @@
+.card{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    composes: pt-4 pb-4 pl-8 pr-8 from global;
+    background-color: #1C1C21;
+    border-radius: 9999px;
+    position: relative;
+}
+
+
+.wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.drag_icon {
+    composes: mr-1 from global;
+}
+
+.price {
+    display: flex;
+}
+
+.price svg {
+    margin-right: 5px;
+}

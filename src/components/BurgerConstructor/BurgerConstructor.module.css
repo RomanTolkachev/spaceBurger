@@ -1,0 +1,51 @@
+
+.section {
+    composes: pt-25 pl-4 pr-4 pb-10 from global;
+}
+
+.constructor_wrapper{
+    composes: pt-25 pl-4 pr-5 from global;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 86px;
+    align-items: flex-end;
+}
+
+.item {
+    padding-right: 10px;
+}
+
+/*composes опять не сработал, теперь на last-of-type*/
+.item:last-of-type {
+    margin-bottom: 40px;
+}
+
+.chosen_items {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: thin;
+    flex-shrink: 1;
+}
+
+.order {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    composes: mt-8 mb-10 from global;
+}
+
+.total_price {
+    gap: 15px;
+    display: flex;
+    composes: text text_type_main-large from global;
+    align-items: center;
+}
+
+.total_price svg {
+    margin-right: 40px;
+    width: 34px;
+    height: 34px;
+}
