@@ -1,5 +1,5 @@
 import styles from './BurgerIngredients.module.css'
-import React from "react";
+import React, {useMemo} from "react";
 import IngridientsSection from "./IngridientsSection/IngridientSection";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
@@ -7,6 +7,16 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 
 const BurgerIngredients = (props) => {
     const [current, setCurrent] = React.useState('булки')
+    const filterIngredientTypeBy = (type) => props.burgerData.filter(item => item.type === type)
+
+    const [buns, sauce, main] = useMemo(() => {
+        return [
+            filterIngredientTypeBy('buns'),
+            filterIngredientTypeBy('sauce'),
+            filterIngredientTypeBy("main")
+        ]
+    }, [props.burgerData])
+
     return (
         <>
             <section className={styles.section}>
@@ -25,9 +35,9 @@ const BurgerIngredients = (props) => {
                     </nav>
                 </nav>
                 <div className={styles.ingredients}>
-                    <IngridientsSection ingridientsData={props.burgerData.filter(item => item.type === "bun")}>булки</IngridientsSection>
-                    <IngridientsSection ingridientsData={props.burgerData.filter(item => item.type === "sauce")}>соусы</IngridientsSection>
-                    <IngridientsSection ingridientsData={props.burgerData.filter(item => item.type === "main")}>начинки</IngridientsSection>
+                    <IngridientsSection ingridientsData={buns}>булки</IngridientsSection>
+                    <IngridientsSection ingridientsData={sauce}>соусы</IngridientsSection>
+                    <IngridientsSection ingridientsData={main}>начинки</IngridientsSection>
                 </div>
             </section>
         </>
