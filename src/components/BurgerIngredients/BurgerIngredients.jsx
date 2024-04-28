@@ -9,12 +9,15 @@ const BurgerIngredients = (props) => {
     const [current, setCurrent] = React.useState('булки')
     const filterIngredientTypeBy = (type) => props.burgerData.filter(item => item.type === type)
 
-    const [buns, sauce, main] = useMemo(() => {
-        return [
-            filterIngredientTypeBy('buns'),
-            filterIngredientTypeBy('sauce'),
-            filterIngredientTypeBy("main")
-        ]
+    // возможно, тут лучше сделать через 3 переменные, чтобы у каждой было свое useMemo, т.к сейчас,
+    // при изменении burgerData будет рендер всех 3 компонентов, в которые попадает результат useMemo..но это не точно
+
+    const {buns, sauce, main} = useMemo(() => {
+        return {
+            buns: filterIngredientTypeBy('buns'),
+            sauce: filterIngredientTypeBy('sauce'),
+            main: filterIngredientTypeBy("main")
+        }
     }, [props.burgerData])
 
     return (
