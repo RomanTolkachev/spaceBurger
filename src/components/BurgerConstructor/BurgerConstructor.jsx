@@ -1,8 +1,16 @@
 import styles from './BurgerConstructor.module.css'
 import ConstructorCard from './ConstructorCard/ConstructorCard'
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
+import PropTypes from "prop-types";
 
 const BurgerConstructor = (props) => {
+
+
+
+
+
+
     return (
         <div className={styles.constructor_wrapper}>
             <div className={styles.item}>
@@ -45,6 +53,23 @@ const BurgerConstructor = (props) => {
             </div>
         </div>
     )
+}
+
+// works well
+BurgerConstructor.propTypes = {
+    burgerData: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        proteins: PropTypes.number.isRequired,
+        fat: PropTypes.number.isRequired,
+        carbohydrates: PropTypes.number.isRequired,
+        calories: PropTypes.number.isRequired,
+        price: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+        image_mobile: PropTypes.string.isRequired,
+        image_large: PropTypes.string.isRequired,
+    }))
 }
 
 export default BurgerConstructor;

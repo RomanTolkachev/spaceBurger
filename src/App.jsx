@@ -5,19 +5,8 @@ import BurgerIngredients from "./components/BurgerIngredients/BurgerIngredients"
 // @ts-ignore
 import styles from './App.module.css'
 import burgerData from './utils/burgerData.json'
-import PropTypes from "prop-types";
-
-console.log(burgerData)
 
 function App()  {
-
-    BurgerIngredients.propTypes = {
-        burgerData: PropTypes.array
-    }
-    BurgerConstructor.propTypes = {
-        burgerData: PropTypes.array
-    }
-
     return (
       <main>
         <AppHeader />
