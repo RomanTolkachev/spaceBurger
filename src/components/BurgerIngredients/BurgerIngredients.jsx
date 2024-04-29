@@ -1,6 +1,6 @@
 import styles from './BurgerIngredients.module.css'
 import React, {useMemo} from "react";
-import IngridientsSection from "./IngridientsSection/IngridientSection";
+import IngridientsSection from "./IngridientsSection/IngredientSection";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
@@ -14,7 +14,7 @@ const BurgerIngredients = (props) => {
 
     const {buns, sauce, main} = useMemo(() => {
         return {
-            buns: filterIngredientTypeBy('buns'),
+            buns: filterIngredientTypeBy('bun'),
             sauce: filterIngredientTypeBy('sauce'),
             main: filterIngredientTypeBy("main")
         }
@@ -23,7 +23,7 @@ const BurgerIngredients = (props) => {
     return (
         <>
             <section className={styles.section}>
-                <h2 className={`${styles.section_header}`}>соберите бургер</h2>
+                <h1 className={`${styles.section_header}`}>соберите бургер</h1>
                 <nav>
                     <nav style={{ display: 'flex', marginBottom: '40px'}}>
                         <Tab value="булки" active={current === 'булки'} onClick={setCurrent}>
