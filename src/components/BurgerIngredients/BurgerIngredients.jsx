@@ -1,5 +1,5 @@
 import styles from './BurgerIngredients.module.css'
-import React, {useMemo} from "react";
+import React, {useEffect, useMemo} from "react";
 import IngridientsSection from "./IngridientsSection/IngredientSection";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
@@ -13,19 +13,29 @@ const BurgerIngredients = (props) => {
     // при изменении burgerData будет рендер всех 3 компонентов, в которые попадает результат useMemo..но это не точно
 
     const {buns, sauce, main} = useMemo(() => {
-        return {
-            buns: filterIngredientTypeBy('bun'),
-            sauce: filterIngredientTypeBy('sauce'),
-            main: filterIngredientTypeBy("main")
+        if (props.burgerData) {
+            return {
+                buns: filterIngredientTypeBy('bun'),
+                sauce: filterIngredientTypeBy('sauce'),
+                main: filterIngredientTypeBy("main")
+            }
         }
+        return {
+            buns: [],
+            sauce: [],
+            main: []
+        }
+
     }, [props.burgerData])
+    console.log(props.isDataLoaded)
+
 
     return (
         <>
             <section className={styles.section}>
                 <h1 className={`${styles.section_header}`}>соберите бургер</h1>
                 <nav>
-                    <nav style={{ display: 'flex', marginBottom: '40px'}}>
+                    <nav style={{display: 'flex', marginBottom: '40px'}}>
                         <Tab value="булки" active={current === 'булки'} onClick={setCurrent}>
                             булки
                         </Tab>
@@ -37,11 +47,13 @@ const BurgerIngredients = (props) => {
                         </Tab>
                     </nav>
                 </nav>
-                <div className={styles.ingredients}>
+                {!props.isDataLoaded && <div>загрузка...</div>}
+                {props.hasError && <div>ошибка при загрузке данных, попробуйте обновить страницу</div>}
+                {props.isDataLoaded && <div className={styles.ingredients}>
                     <IngridientsSection ingridientsData={buns}>булки</IngridientsSection>
                     <IngridientsSection ingridientsData={sauce}>соусы</IngridientsSection>
                     <IngridientsSection ingridientsData={main}>начинки</IngridientsSection>
-                </div>
+                </div>}
             </section>
         </>
     )
