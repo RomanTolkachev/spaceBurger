@@ -5,10 +5,14 @@ import Modal from '../Modal/Modal.jsx'
 import React from "react";
 
 const BurgerConstructor = (props) => {
-const [isModalOpen, setModalOpen] = React.useState(false);
-function toggleModal() {
-    setModalOpen(!isModalOpen)
-}
+
+    const orderDetails = true; //*пока нет данных о заказе, пусть будет костыль, чтобы в модалке рендерился компонент заказа*//
+
+    const [isModalOpen, setModalOpen] = React.useState(false);
+
+    function toggleModal() {
+        setModalOpen(!isModalOpen)
+    }
 
     return (
         <>
@@ -25,8 +29,8 @@ function toggleModal() {
                     />
                 </div>
                 <ul className={`${styles.chosen_items} custom-scroll`}>
-                    {props.burgerData.map(listItem => (
-                        <li key={listItem.id}>
+                    {props.burgerData.map((listItem, key) => (
+                        <li key={key}>
                             <p className={styles.drag_icon}>
                                 <DragIcon type="primary"/>
                             </p>
@@ -53,13 +57,13 @@ function toggleModal() {
                         Оформить заказ
                     </Button>
                 </div>
-                {isModalOpen && <Modal toggleModal={toggleModal}/>}
+                {isModalOpen && <Modal toggleModal={toggleModal} orderDetails={orderDetails}/>}
             </div>}
         </>
     )
 }
 
-// works well
+
 BurgerConstructor.propTypes = {
     burgerData: PropTypes.arrayOf(PropTypes.shape({
         _id: PropTypes.string.isRequired,

@@ -5,8 +5,8 @@ import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 
 const BurgerIngredients = (props) => {
-    const [current, setCurrent] = React.useState('булки')
-    const filterIngredientTypeBy = (type) => props.burgerData.filter(item => item.type === type)
+    const [current, setCurrent] = React.useState('булки');
+    const filterIngredientTypeBy = (type) => props.burgerData.filter(item => item.type === type);
 
     // возможно, тут лучше сделать через 3 переменные, чтобы у каждой было свое useMemo, т.к сейчас,
     // при изменении burgerData будет рендер всех 3 компонентов, в которые попадает результат useMemo..но это не точно
@@ -24,9 +24,8 @@ const BurgerIngredients = (props) => {
             sauce: [],
             main: []
         }
+    }, [props.burgerData]);
 
-    }, [props.burgerData])
-    console.log(props.isDataLoaded)
 
 
     return (
@@ -55,8 +54,8 @@ const BurgerIngredients = (props) => {
                 </div>}
             </section>
         </>
-    )
-}
+    );
+};
 
 BurgerIngredients.propTypes = {
     burgerData: PropTypes.arrayOf(PropTypes.shape({
@@ -72,6 +71,6 @@ BurgerIngredients.propTypes = {
         image_mobile: PropTypes.string.isRequired,
         image_large: PropTypes.string.isRequired,
     }))
-}
+};
 
 export default BurgerIngredients;

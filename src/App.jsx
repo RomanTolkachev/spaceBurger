@@ -13,19 +13,24 @@ function App() {
     const [isLoading, setIsLoading] = React.useState(false);
     const [hasError, setHasError] = React.useState(false);
 
-    useEffect(() => {
+    function getData(url) {
         setIsLoading(true);
         setHasError(false)
         fetch(url)
-        .then(res => res.json())
-        .then(resJson => setFetchedData(resJson.data))
-        .catch(error => {
-            setHasError(true)
-            return console.log(error)
-        })
-        .finally(() => {
-            setIsLoading(false); return console.log("фетч завершен")
-        })
+            .then(res => res.json())
+            .then(resJson => setFetchedData(resJson.data))
+            .catch(error => {
+                setHasError(true)
+                return console.log(error)
+            })
+            .finally(() => {
+                setIsLoading(false); return console.log("фетч завершен. я обожаю смотреть на это сообщение. удалять не хочу!")
+            }
+        )
+    }
+
+    useEffect(() => {
+        getData(url)
     },[])
 
     return (

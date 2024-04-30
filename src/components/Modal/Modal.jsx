@@ -1,41 +1,48 @@
 import styles from './Modal.module.css'
 import {createPortal} from "react-dom";
 import React, {useEffect} from "react";
+import DetailedIngredientInfo from './DetailedIngredientInfo/DetailedIngredientInfo'
+import OrderModal from "./OrderModal/OrderModal";
+import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 
 const Modal = (props) => {
     const innerRef = React.useRef(null)
 
     useEffect(() => {
-        document.addEventListener('click', clickOutside, true);
-        document.addEventListener('keydown', clickEscape, true);
+        document.addEventListener('click', handleClickOutside, true);
+        document.addEventListener('keydown', handleClickEscape, true);
         return () => {
-            document.removeEventListener('click', clickOutside, true);
-            document.removeEventListener('keydown', clickEscape, true)
+            document.removeEventListener('click', handleClickOutside, true);
+            document.removeEventListener('keydown', handleClickEscape, true)
         }
     },[])
 
-    function clickOutside(e) {
+    function handleClickOutside(e) {
         if (!innerRef.current.contains(e.target)) {
             props.toggleModal()
         }
     }
 
-    function clickEscape(e) {
+    function handleClickEscape(e) {
         if (e.keyCode === 27) {
             props.toggleModal()
         }
     }
 
-
     return createPortal(
-    (
-        <div className={styles.overlay}>
-            <div className={styles.inner} ref={innerRef}>
-                я модалка
+        (
+            <div className={styles.overlay}>
+                <div className={styles.inner} ref={innerRef}>
+                    {props.orderDetails && <OrderModal />}
+                    {props.detailedInfo && <DetailedIngredientInfo details={props.detailedInfo}/>}
+                    <div className={styles.close} onClick={props.toggleModal}>
+                        <CloseIcon type="primary" />
+                    </div>
+                </div>
             </div>
-        </div>
-    ),document.getElementById('portal'))
+        ),document.getElementById('portal')
+    )
 }
 
 export default Modal
