@@ -1,9 +1,8 @@
 import styles from './BurgerIngredients.module.css'
-import React, {useEffect, useMemo} from "react";
-import IngridientsSection from "./IngridientsSection/IngredientSection";
+import React, {useMemo} from "react";
+import IngredientsSection from "./IngridientsSection/IngredientSection";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 
 const BurgerIngredients = (props) => {
     const [current, setCurrent] = React.useState('булки')
@@ -50,9 +49,9 @@ const BurgerIngredients = (props) => {
                 {!props.isDataLoaded && <div>загрузка...</div>}
                 {props.hasError && <div>ошибка при загрузке данных, попробуйте обновить страницу</div>}
                 {props.isDataLoaded && <div className={styles.ingredients}>
-                    <IngridientsSection ingridientsData={buns}>булки</IngridientsSection>
-                    <IngridientsSection ingridientsData={sauce}>соусы</IngridientsSection>
-                    <IngridientsSection ingridientsData={main}>начинки</IngridientsSection>
+                    <IngredientsSection ingridientsData={buns}>булки</IngredientsSection>
+                    <IngredientsSection ingridientsData={sauce}>соусы</IngredientsSection>
+                    <IngredientsSection ingridientsData={main}>начинки</IngredientsSection>
                 </div>}
             </section>
         </>

@@ -1,11 +1,14 @@
 import styles from './BurgerConstructor.module.css'
-import ConstructorCard from './ConstructorCard/ConstructorCard'
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import PropTypes from "prop-types";
+import Modal from '../Modal/Modal.jsx'
+import React from "react";
 
 const BurgerConstructor = (props) => {
-
+const [isModalOpen, setModalOpen] = React.useState(false);
+function toggleModal() {
+    setModalOpen(!isModalOpen)
+}
 
     return (
         <>
@@ -46,10 +49,11 @@ const BurgerConstructor = (props) => {
                 </div>
                 <div className={styles.order}>
                     <p className={styles.total_price}>610 <CurrencyIcon type="primary"/></p>
-                    <Button htmlType="button" type="primary" size="large">
-                        Нажми на меня
+                    <Button htmlType="button" type="primary" size="large" onClick={toggleModal}>
+                        Оформить заказ
                     </Button>
                 </div>
+                {isModalOpen && <Modal toggleModal={toggleModal}/>}
             </div>}
         </>
     )
