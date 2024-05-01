@@ -3,7 +3,6 @@ import styles from './DetailedIngredientInfo.module.css'
 import burgerDataProps from "../../../utils/propTypes";
 
 const DetailedIngredientInfo = (props) => {
-    console.log(props.details)
     const nutrientsInfo = (
         <>
             <div className={styles.nutrients_item}>

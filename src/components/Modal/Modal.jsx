@@ -11,6 +11,10 @@ import burgerDataProps from '../../utils/propTypes'
 const Modal = (props) => {
     const innerRef = React.useRef(null)
 
+    // линтер ругается, что ему нужны handleClickOutside и handleClickEscape в зависимостях. Если их туда положить, то он начнет просить их
+    // обернуть еще и в useCallback. но и без этих манипуляции слушатели удаляются из браузера. Возможно, если пропсы в открытой модалке будут меняться
+    // т.е будет возможен перерендер открытой модалки, то добавать useCallback все-таки придется
+
     useEffect(() => {
         document.addEventListener('click', handleClickOutside, true);
         document.addEventListener('keydown', handleClickEscape, true);
@@ -53,4 +57,4 @@ Modal.propTypes = {
     detailedInfo: burgerDataProps
 }
 
-export default Modal
+export default Modal;
