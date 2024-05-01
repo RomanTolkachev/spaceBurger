@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './DetailedIngredientInfo.module.css'
+import burgerDataProps from "../../../utils/propTypes";
 
 const DetailedIngredientInfo = (props) => {
     console.log(props.details)
@@ -35,4 +36,9 @@ const DetailedIngredientInfo = (props) => {
         </div>
     )
 };
+
+DetailedIngredientInfo.propTypes = {
+    details: burgerDataProps
+}
+
 export default DetailedIngredientInfo;

@@ -4,6 +4,8 @@ import React, {useEffect} from "react";
 import DetailedIngredientInfo from './DetailedIngredientInfo/DetailedIngredientInfo'
 import OrderModal from "./OrderModal/OrderModal";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
+import burgerDataProps from '../../utils/propTypes'
 
 
 const Modal = (props) => {
@@ -43,6 +45,12 @@ const Modal = (props) => {
             </div>
         ),document.getElementById('portal')
     )
+};
+
+Modal.propTypes = {
+    toggleModal: PropTypes.func,
+    orderDetails: PropTypes.bool, //* потом указать точнее, пока там только bool*//
+    detailedInfo: burgerDataProps
 }
 
 export default Modal

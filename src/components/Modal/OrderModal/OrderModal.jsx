@@ -2,7 +2,7 @@ import React from "react";
 import styles from './OrderModal.module.css'
 import {CheckMarkIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
-const OrderModal = (props) => {
+const OrderModal = () => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.order_number}>
