@@ -16,8 +16,6 @@ const BurgerConstructor = (props) => {
 
     return (
         <>
-            {props.hasError && <div className={styles.constructor_wrapper}>попробуйте перезагрузить страницу</div>}
-            {!props.isDataLoaded && <div className={styles.constructor_wrapper}>загрузка...</div>}
             { props.burgerData && <div className={styles.constructor_wrapper}>
                 <div className={styles.item}>
                     <ConstructorElement
@@ -35,8 +33,8 @@ const BurgerConstructor = (props) => {
                                 <DragIcon type="primary"/>
                             </p>
                             <ConstructorElement
-                                text="Краторная булка N-200i (верх)"
-                                price={50}
+                                text={listItem.name}
+                                price={listItem.price}
                                 thumbnail={listItem.image_mobile}
                             />
                         </li>

@@ -45,13 +45,11 @@ const BurgerIngredients = (props) => {
                         </Tab>
                     </nav>
                 </nav>
-                {!props.isDataLoaded && <div>загрузка...</div>}
-                {props.hasError && <div>ошибка при загрузке данных, попробуйте обновить страницу</div>}
-                {props.isDataLoaded && <div className={styles.ingredients}>
+                <div className={styles.ingredients}>
                     <IngredientsSection ingridientsData={buns}>булки</IngredientsSection>
                     <IngredientsSection ingridientsData={sauce}>соусы</IngredientsSection>
                     <IngredientsSection ingridientsData={main}>начинки</IngredientsSection>
-                </div>}
+                </div>
             </section>
         </>
     );

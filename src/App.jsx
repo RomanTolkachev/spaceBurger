@@ -37,16 +37,10 @@ function App() {
       <main>
         <AppHeader />
         <div className={styles.app}>
-            <BurgerIngredients
-                burgerData={fetchedData}
-                isDataLoaded={!isLoading}
-                hasError={hasError}
-            />
-            <BurgerConstructor
-                burgerData={fetchedData}
-                isDataLoaded={!isLoading}
-                hasError={hasError}
-            />
+            {hasError && <div className={styles.error}>не удалось загрузить данные,<br/> попробуйте обновить страницу</div>}
+            {isLoading && <div className={styles.preloader}></div>}
+            {!isLoading && !hasError && <BurgerIngredients burgerData={fetchedData} />}
+            {!isLoading && !hasError && <BurgerConstructor burgerData={fetchedData} />}
         </div>
       </main>
   );
