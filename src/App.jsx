@@ -16,14 +16,20 @@ function App() {
         setIsLoading(true);
         setHasError(false)
         fetch(url)
-            .then(res => res.json())
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                } else {
+                    throw new Error(`Ошибка при запросе: ${res.status}`)
+                }
+            })
             .then(resJson => setFetchedData(resJson.data))
             .catch(error => {
                 setHasError(true)
                 return console.log(error)
             })
             .finally(() => {
-                setIsLoading(false); return console.log("фетч завершен. я обожаю смотреть на это сообщение. удалять не хочу!")
+                setIsLoading(false);
             }
         )
     }
