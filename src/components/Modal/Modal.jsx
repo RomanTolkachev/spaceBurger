@@ -30,8 +30,10 @@ const Modal = (props) => {
         }
     }
 
+
+
     function handleClickEscape(e) {
-        if (e.keyCode === 27) {
+        if (e.key === 'Escape') {
             props.toggleModal()
         }
     }
@@ -40,8 +42,7 @@ const Modal = (props) => {
         (
             <div className={styles.overlay}>
                 <div className={styles.inner} ref={innerRef}>
-                    {props.orderDetails && <OrderModal />}
-                    {props.detailedInfo && <DetailedIngredientInfo details={props.detailedInfo}/>}
+                    {props.children}
                     <div className={styles.close} onClick={props.toggleModal}>
                         <CloseIcon type="primary" />
                     </div>
@@ -53,8 +54,7 @@ const Modal = (props) => {
 
 Modal.propTypes = {
     toggleModal: PropTypes.func,
-    orderDetails: PropTypes.bool, //* потом указать точнее, пока там только bool*//
-    detailedInfo: burgerDataProps
+    children: PropTypes.element
 }
 
 export default Modal;

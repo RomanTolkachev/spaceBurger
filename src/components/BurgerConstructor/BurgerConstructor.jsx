@@ -3,6 +3,7 @@ import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/
 import PropTypes from "prop-types";
 import Modal from '../Modal/Modal.jsx'
 import React from "react";
+import OrderModal from "../Modal/OrderModal/OrderModal";
 
 const BurgerConstructor = (props) => {
 
@@ -55,7 +56,9 @@ const BurgerConstructor = (props) => {
                         Оформить заказ
                     </Button>
                 </div>
-                {isModalOpen && <Modal toggleModal={toggleModal} orderDetails={orderDetails}/>}
+                {isModalOpen && <Modal toggleModal={toggleModal}>
+                    <OrderModal/>
+                </Modal>}
             </div>}
         </>
     )

@@ -3,6 +3,7 @@ import React from "react";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from '../../../Modal/Modal'
+import DetailedIngredientInfo from "../../../Modal/DetailedIngredientInfo/DetailedIngredientInfo";
 
 const IngredientCard = (props) => {
     const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -21,7 +22,9 @@ const IngredientCard = (props) => {
                 <p className={`${styles.price} mb-1`}><CurrencyIcon type="primary"/>{props.burgerData.price}</p>
                 <h3 className={`${styles.name} text text_type_main-small pb-6`}>{props.burgerData.name}</h3>
             </li>
-            {isModalOpen && <Modal detailedInfo={props.burgerData} toggleModal={toggleModal}/>}
+            {isModalOpen && <Modal toggleModal={toggleModal}>
+                <DetailedIngredientInfo details={props.burgerData}/>
+            </Modal>}
         </>
     )
 }

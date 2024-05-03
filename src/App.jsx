@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import AppHeader from "./components/AppHeader/AppHeader.jsx";
 import BurgerConstructor from "./components/BurgerConstructor/BurgerConstructor.jsx"
 import BurgerIngredients from "./components/BurgerIngredients/BurgerIngredients";
-// @ts-ignore
 import styles from './App.module.css'
 
 const url = "https://norma.nomoreparties.space/api/ingredients"
