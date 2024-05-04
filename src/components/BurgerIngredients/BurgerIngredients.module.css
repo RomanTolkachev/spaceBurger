@@ -1,0 +1,32 @@
+.section {
+    margin-top: 86px;
+    composes: pl-4 pr-4 from global;
+}
+
+.section_header {
+    composes:  text text_type_main-large pt-10 pb-5 from global;
+}
+
+.section_header::first-letter {
+    text-transform: capitalize;
+}
+
+.section_nav {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-transform: capitalize;
+    composes: text text_type_main-small mb-10 from global;
+}
+
+.section_nav * {
+    margin: 16px auto;
+}
+
+.ingredients {
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    height: 65svh;
+}
+
+

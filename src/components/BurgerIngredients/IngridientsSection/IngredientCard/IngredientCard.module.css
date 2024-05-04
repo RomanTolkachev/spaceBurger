@@ -1,0 +1,32 @@
+.card {
+    max-width: 260px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.card_image_wrapper {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card_image {
+    display: block;
+    margin: 0 auto;
+}
+
+.price {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    composes: text text_type_digits-default from global;
+}
+
+.price svg {
+    margin-right: 5px;
+}
+
+.name {
+    text-align: center;
+}
