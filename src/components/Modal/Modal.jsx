@@ -6,10 +6,15 @@ import OrderModal from "./OrderModal/OrderModal";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import burgerDataProps from '../../utils/propTypes'
+import {useSelector, useDispatch} from "react-redux";
+import { toggleModal } from "../../services/actions/root-reducer";
+import {CLEAR_DETAILED_INGREDIENT_INFO} from "../../services/actions/ingredientDetailedInfo";
 
 
 const Modal = (props) => {
     const innerRef = React.useRef(null)
+
+    const dispatch = useDispatch()
 
     // линтер ругается, что ему нужны handleClickOutside и handleClickEscape в зависимостях. Если их туда положить, то он начнет просить их
     // обернуть еще и в useCallback. но и без этих манипуляции слушатели удаляются из браузера. Возможно, если пропсы в открытой модалке будут меняться
@@ -26,7 +31,7 @@ const Modal = (props) => {
 
     function handleClickOutside(e) {
         if (!innerRef.current.contains(e.target)) {
-            props.toggleModal()
+            dispatch({type: CLEAR_DETAILED_INGREDIENT_INFO})
         }
     }
 
@@ -34,7 +39,7 @@ const Modal = (props) => {
 
     function handleClickEscape(e) {
         if (e.key === 'Escape') {
-            props.toggleModal()
+            dispatch({type: CLEAR_DETAILED_INGREDIENT_INFO})
         }
     }
 
@@ -43,7 +48,7 @@ const Modal = (props) => {
             <div className={styles.overlay}>
                 <div className={styles.inner} ref={innerRef}>
                     {props.children}
-                    <div className={styles.close} onClick={props.toggleModal}>
+                    <div className={styles.close} onClick={() => dispatch({type: CLEAR_DETAILED_INGREDIENT_INFO})}>
                         <CloseIcon type="primary" />
                     </div>
                 </div>
