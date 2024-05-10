@@ -1,22 +1,30 @@
 import styles from './BurgerIngredients.module.css'
-import React, {useMemo} from "react";
+import React, {useEffect, useMemo} from "react";
 import IngredientsSection from "./IngridientsSection/IngredientSection";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import {useSelector, useDispatch} from "react-redux";
-import {setCurrentTab} from "../../services/actions/burgerIngredients";
+import {fetchIngredients, setCurrentTab} from "../../services/actions/burgerIngredients";
+const url = "https://norma.nomoreparties.space/api/ingredients"
 
-const BurgerIngredients = (props) => {
+const BurgerIngredients = () => {
+
+
+    useEffect(() => {
+        dispatch(fetchIngredients(url))
+    },[])
+
+    const { ingredients } = useSelector(state => state.burgerIngredients)
 
     const dispatch = useDispatch();
-    const current = useSelector(state => state.burgerIngredients.currentTab);
-    const filterIngredientTypeBy = (type) => props.burgerData.filter(item => item.type === type);
+    const {isLoading, currentTab} = useSelector(state => state.burgerIngredients);
+    const filterIngredientTypeBy = (type) => ingredients.filter(item => item.type === type);
 
     // возможно, тут лучше сделать через 3 переменные, чтобы у каждой было свое useMemo, т.к сейчас,
     // при изменении burgerData будет рендер всех 3 компонентов, в которые попадает результат useMemo..но это не точно
 
     const {buns, sauce, main} = useMemo(() => {
-        if (props.burgerData) {
+        if (ingredients) {
             return {
                 buns: filterIngredientTypeBy('bun'),
                 sauce: filterIngredientTypeBy('sauce'),
@@ -28,7 +36,7 @@ const BurgerIngredients = (props) => {
             sauce: [],
             main: []
         }
-    }, [props.burgerData]);
+    }, [ingredients]);
 
 
 
@@ -38,41 +46,26 @@ const BurgerIngredients = (props) => {
                 <h1 className={`${styles.section_header}`}>соберите бургер</h1>
                 <nav>
                     <nav style={{display: 'flex', marginBottom: '40px'}}>
-                        <Tab value="булки" active={current === 'булки'} onClick={() => dispatch(setCurrentTab('булки'))}>
+                        <Tab value="булки" active={currentTab === 'булки'} onClick={() => dispatch(setCurrentTab('булки'))}>
                             булки
                         </Tab>
-                        <Tab value="соусы" active={current === 'соусы'} onClick={() => dispatch(setCurrentTab('соусы'))}>
+                        <Tab value="соусы" active={currentTab === 'соусы'} onClick={() => dispatch(setCurrentTab('соусы'))}>
                             соусы
                         </Tab>
-                        <Tab value="начинки" active={current === 'начинки'} onClick={() => dispatch(setCurrentTab('начинки'))}>
+                        <Tab value="начинки" active={currentTab === 'начинки'} onClick={() => dispatch(setCurrentTab('начинки'))}>
                             начинки
                         </Tab>
                     </nav>
                 </nav>
                 <div className={styles.ingredients}>
-                    <IngredientsSection ingridientsData={buns}>булки</IngredientsSection>
-                    <IngredientsSection ingridientsData={sauce}>соусы</IngredientsSection>
-                    <IngredientsSection ingridientsData={main}>начинки</IngredientsSection>
+                    {isLoading && <div className={styles.preloader}></div>}
+                    {!isLoading && <IngredientsSection ingridientsData={buns}>булки</IngredientsSection>}
+                    {!isLoading && <IngredientsSection ingridientsData={sauce}>соусы</IngredientsSection>}
+                    {!isLoading && <IngredientsSection ingridientsData={main}>начинки</IngredientsSection>}
                 </div>
             </section>
         </>
     );
-};
-
-BurgerIngredients.propTypes = {
-    burgerData: PropTypes.arrayOf(PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        proteins: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        carbohydrates: PropTypes.number.isRequired,
-        calories: PropTypes.number.isRequired,
-        price: PropTypes.number.isRequired,
-        image: PropTypes.string.isRequired,
-        image_mobile: PropTypes.string.isRequired,
-        image_large: PropTypes.string.isRequired,
-    }))
 };
 
 export default BurgerIngredients;
