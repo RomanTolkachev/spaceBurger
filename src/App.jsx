@@ -24,7 +24,7 @@ function App() {
             {hasError && <div className={styles.error}>не удалось загрузить данные,<br/> попробуйте обновить страницу</div>}
             {isLoading && <div className={styles.preloader}></div>}
             {!isLoading && !hasError && <BurgerIngredients burgerData={ingredients} />}
-            {!isLoading && !hasError && <BurgerConstructor burgerData={ingredients} />}
+            {!isLoading && !hasError && <BurgerConstructor />}
         </div>
       </main>
   );
