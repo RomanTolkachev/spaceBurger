@@ -1,8 +1,10 @@
 import { burgerIngredients } from "./burgerIngredients";
 import {combineReducers} from "redux";
-import {cartReducer} from "./cart";
+import { burgerCounstructor } from "./burgerCounstructor";
 
 export const rootReducer = combineReducers({
-    cart: cartReducer,
+    burgerConstructor: burgerCounstructor,
     burgerIngredients: burgerIngredients,
+    ingredientDetailedInfo: null,
+    order: null,
 });
