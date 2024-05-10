@@ -1,6 +1,7 @@
 export const FETCH_INGREDIENTS = "FETCH_INGREDIENTS";
 export const FETCH_INGREDIENTS_SUCCESS = "FETCH_INGREDIENTS_SUCCESS";
 export const FETCH_INGREDIENTS_FAILED = "FETCH_INGREDIENTS_FAILED";
+export const SWITCH_TAB = 'SWITCH_TAB'
 
 export function fetchIngredients(url) {
     return function (dispatch) {
@@ -30,5 +31,14 @@ export function fetchIngredients(url) {
                     error: "404"
                 })
             })
+    }
+}
+
+export const setCurrentTab = (tab) => {
+    return function (dispatch) {
+        dispatch({
+            type: SWITCH_TAB,
+            current: tab
+        })
     }
 }

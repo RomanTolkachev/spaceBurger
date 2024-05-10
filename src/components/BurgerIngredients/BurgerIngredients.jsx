@@ -3,9 +3,13 @@ import React, {useMemo} from "react";
 import IngredientsSection from "./IngridientsSection/IngredientSection";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
+import {useSelector, useDispatch} from "react-redux";
+import {setCurrentTab} from "../../services/actions/burgerIngredients";
 
 const BurgerIngredients = (props) => {
-    const [current, setCurrent] = React.useState('булки');
+
+    const dispatch = useDispatch();
+    const current = useSelector(state => state.burgerIngredients.currentTab);
     const filterIngredientTypeBy = (type) => props.burgerData.filter(item => item.type === type);
 
     // возможно, тут лучше сделать через 3 переменные, чтобы у каждой было свое useMemo, т.к сейчас,
@@ -34,13 +38,13 @@ const BurgerIngredients = (props) => {
                 <h1 className={`${styles.section_header}`}>соберите бургер</h1>
                 <nav>
                     <nav style={{display: 'flex', marginBottom: '40px'}}>
-                        <Tab value="булки" active={current === 'булки'} onClick={setCurrent}>
+                        <Tab value="булки" active={current === 'булки'} onClick={() => dispatch(setCurrentTab('булки'))}>
                             булки
                         </Tab>
-                        <Tab value="соусы" active={current === 'соусы'} onClick={setCurrent}>
+                        <Tab value="соусы" active={current === 'соусы'} onClick={() => dispatch(setCurrentTab('соусы'))}>
                             соусы
                         </Tab>
-                        <Tab value="начинки" active={current === 'начинки'} onClick={setCurrent}>
+                        <Tab value="начинки" active={current === 'начинки'} onClick={() => dispatch(setCurrentTab('начинки'))}>
                             начинки
                         </Tab>
                     </nav>

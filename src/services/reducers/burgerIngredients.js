@@ -1,10 +1,15 @@
-import {FETCH_INGREDIENTS, FETCH_INGREDIENTS_SUCCESS, FETCH_INGREDIENTS_FAILED} from "../actions/burgerIngredients";
+import {
+    FETCH_INGREDIENTS,
+    FETCH_INGREDIENTS_SUCCESS,
+    FETCH_INGREDIENTS_FAILED,
+    SWITCH_TAB } from "../actions/burgerIngredients";
 
 const initialState = {
     hello: "i am burgerIngredients store",
     ingredients: null,
     isLoading: false,
-    hasError: false
+    hasError: false,
+    currentTab: 'булки',
 }
 export const burgerIngredients = (state = initialState, action) => {
 
@@ -29,6 +34,12 @@ export const burgerIngredients = (state = initialState, action) => {
                 errorMessage: action.error,
                 hasError: true,
                 isLoading: false,
+            }
+        }
+        case SWITCH_TAB: {
+            return {
+                ...state,
+                currentTab: action.current
             }
         }
         default: {

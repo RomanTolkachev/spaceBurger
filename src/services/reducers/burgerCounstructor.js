@@ -1,8 +1,8 @@
 
 const initialState = [];
 
-export const burgerCounstructor = (state = initialState, action) => {
-    switch (action.type){
+export const burgerConstructor = (state = initialState, action) => {
+    switch (action.type) {
         default: return state
     }
 }
