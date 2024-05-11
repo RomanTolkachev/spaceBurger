@@ -9,7 +9,7 @@ const initialState = {
     ingredients: null,
     isLoading: false,
     hasError: false,
-    currentTab: 'булки',
+    currentTab: "buns",
 }
 export const burgerIngredients = (state = initialState, action) => {
 
