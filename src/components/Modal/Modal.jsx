@@ -1,13 +1,9 @@
 import styles from './Modal.module.css'
 import {createPortal} from "react-dom";
 import React, {useEffect} from "react";
-import DetailedIngredientInfo from './DetailedIngredientInfo/DetailedIngredientInfo'
-import OrderModal from "./OrderModal/OrderModal";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import burgerDataProps from '../../utils/propTypes'
-import {useSelector, useDispatch} from "react-redux";
-import { toggleModal } from "../../services/actions/root-reducer";
+import { useDispatch } from "react-redux";
 import {CLEAR_DETAILED_INGREDIENT_INFO} from "../../services/actions/ingredientDetailedInfo";
 
 
@@ -34,8 +30,6 @@ const Modal = (props) => {
             dispatch({type: CLEAR_DETAILED_INGREDIENT_INFO})
         }
     }
-
-
 
     function handleClickEscape(e) {
         if (e.key === 'Escape') {
