@@ -1,5 +1,5 @@
 
-import {HANDLE_DROP, HANDLE_DELETE} from "../actions/burgerCounstructor";
+import {HANDLE_DROP, HANDLE_DELETE, HANDLE_CLEAR_CART} from "../actions/burgerCounstructor";
 
 
 const initialState = {
@@ -37,6 +37,11 @@ export const burgerConstructor = (state = initialState, action) => {
             return {
                 ...state,
                 filling: state.filling.filter(item => item.dynamicId !== action.deletableItemId)
+            }
+        }
+        case HANDLE_CLEAR_CART: {
+            return {
+                initialState
             }
         }
         default:

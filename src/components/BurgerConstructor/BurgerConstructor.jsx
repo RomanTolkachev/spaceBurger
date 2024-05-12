@@ -1,6 +1,5 @@
 import styles from './BurgerConstructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes, {oneOf} from "prop-types";
 import Modal from '../Modal/Modal.jsx'
 import React, {useEffect, useMemo} from "react";
 import OrderModal from "../Modal/OrderModal/OrderModal";
@@ -8,11 +7,18 @@ import {useSelector, useDispatch} from "react-redux";
 import { useDrop } from "react-dnd";
 import {handleDelete, handleDrop} from "../../services/actions/burgerCounstructor";
 import {ConstructorCard} from './ConstructorCard/ConstructorCard'
+import { sendOrder } from "../../services/actions/order";
+const url = 'https://norma.nomoreparties.space/api/orders'
 
 
-const BurgerConstructor = (props) => {
+const BurgerConstructor = () => {
 
+    const commonCart = useSelector(state => state.burgerConstructor)
+    const currentFilling = useSelector(state => state.burgerConstructor.filling)
+    const currentBun = useSelector(state => state.burgerConstructor.bun)
     const dispatch = useDispatch();
+    const isOrderLocked = useSelector(state => state.orderStore.isOrderButtonLocked);
+    const orderNumber = useSelector(state => state.orderStore.modalContent);
 
     const [{isDragging}, dropRef] = useDrop({
         accept: ['main', 'sauce'],
@@ -44,9 +50,6 @@ const BurgerConstructor = (props) => {
         })
     })
 
-
-
-    const commonCart = useSelector(state => state.burgerConstructor)
     const totalPrice = useMemo(() => {
         let total = 0;
         for (let key in commonCart) {
@@ -55,15 +58,22 @@ const BurgerConstructor = (props) => {
         return total;
     }, [commonCart])
 
-
-    const currentFilling = useSelector(state => state.burgerConstructor.filling)
-    const currentBun = useSelector(state => state.burgerConstructor.bun)
+    const ids = useMemo(() => {
+        const ids = [];
+        for (let key in commonCart) {
+            commonCart[key].forEach(item => {
+                ids.push(item._id)
+            })
+        }
+        return ids;
+    }, [commonCart])
 
     const [isModalOpen, setModalOpen] = React.useState(false);
 
     function toggleModal() {
         setModalOpen(!isModalOpen)
     }
+
 
     return (
         <>
@@ -114,12 +124,21 @@ const BurgerConstructor = (props) => {
                 </div>
                 <div className={styles.order}>
                     <p className={styles.total_price}>{totalPrice} <CurrencyIcon type="primary"/></p>
-                    <Button htmlType="button" type="primary" size="large" onClick={toggleModal}>
+                    <Button
+                        disabled={
+                            isOrderLocked
+                            || currentFilling.length === 0
+                            || currentBun.length === 0
+                        }
+                        htmlType="button"
+                        type="primary"
+                        size="large"
+                        onClick={() => dispatch(sendOrder(url,ids))}>
                         Оформить заказ
                     </Button>
                 </div>
-                {isModalOpen && <Modal toggleModal={toggleModal}>
-                    <OrderModal/>
+                {orderNumber && <Modal toggleModal={toggleModal}>
+                    <OrderModal>{orderNumber}</OrderModal>
                 </Modal>}
             </div>}
         </>

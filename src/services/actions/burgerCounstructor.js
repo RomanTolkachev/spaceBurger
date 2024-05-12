@@ -1,6 +1,9 @@
+
 import uuid from "react-uuid";
 export const HANDLE_DROP = 'HANDLE_DROP';
 export const HANDLE_DELETE = 'HANDLE_DELETE';
+export const HANDLE_CLEAR_CART = 'HANDLE_CLEAR_CART';
+
 
 export function handleDrop(item) {
     return function(dispatch) {
@@ -14,8 +17,6 @@ export function handleDrop(item) {
         })
     }
 }
-
-
 
 export function handleDelete(itemDynamicId) {
     return function(dispatch) {
