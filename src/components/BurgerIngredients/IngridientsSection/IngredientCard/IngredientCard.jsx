@@ -4,14 +4,19 @@ import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux";
 import {configureDetailedInfo} from "../../../../services/actions/ingredientDetailedInfo";
+import {useDrag} from "react-dnd";
 
 const IngredientCard = (props) => {
 
-    const dispatch = useDispatch();
+    const [, dragRef] = useDrag({
+        type: props.burgerData.type,
+        item: props.burgerData
+    })
 
+    const dispatch = useDispatch();
     return (
         <>
-            <li className={`${styles.card}`} onClick={() => dispatch(configureDetailedInfo(props.burgerData))}>
+            <li ref={dragRef} className={`${styles.card}`} onClick={() => dispatch(configureDetailedInfo(props.burgerData))}>
                 <Counter  count={1} size="default" extraClass="m-1" style={{position: 'absolute'}}/>
                 <div className={`${styles.card_image_wrapper} mb-1`}>
                     <img className={styles.card_image} src={props.burgerData.image} alt="картинка"/>

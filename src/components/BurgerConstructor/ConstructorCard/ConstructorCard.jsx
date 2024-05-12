@@ -1,21 +1,17 @@
 import styles from './ConstructorCard.module.css'
-import {CurrencyIcon, DeleteIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
-
-const ConstructorCard = (props) => {
+export const ConstructorCard = (props) => {
     return(
-        <div className={styles.wrapper}>
-        <div className={styles.drag_icon}>
-            <DragIcon type="primary" />
+        <li className={styles.wrapper}>
+        <p>
+            <DragIcon style={{display: 'none'}} type="secondary" />
+        </p>
+        <div className={styles.content}>
+            <div className={styles.text}>
+                <span>{props.children}</span>
+            </div>
         </div>
-        <div className={styles.card}>
-            <img src={props.ingredientData.image_mobile} alt="картинка"/>
-            <h4>{props.ingredientData.name}</h4>
-            <p className={styles.price}> <CurrencyIcon type="primary" />{props.ingredientData.price}</p>
-            <DeleteIcon type="primary" />
-        </div>
-        </div>
+        </li>
     )
 }
-
-export default ConstructorCard

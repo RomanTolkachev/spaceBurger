@@ -3,6 +3,7 @@ import React from "react";
 import styles from './IngredientSection.module.css'
 import { forwardRef } from "react";
 
+
 const IngredientsSection = forwardRef(function IngredientsSection(props, ref) {
     return (
         <div ref={ref}>

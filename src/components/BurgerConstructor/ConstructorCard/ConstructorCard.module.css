@@ -1,27 +1,31 @@
-.card{
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    composes: pt-4 pb-4 pl-8 pr-8 from global;
-    background-color: #1C1C21;
-    border-radius: 9999px;
-    position: relative;
-}
-
 
 .wrapper {
     display: flex;
-    align-items: center;
+    /*width: 536px;*/
 }
 
-.drag_icon {
-    composes: mr-1 from global;
-}
-
-.price {
+.content {
+    padding: 16px 24px;
     display: flex;
+    border-radius: var(--common-border-radius-s);
+    background: var(--background-element);
+    width: 536px;
+    /*width: 100%;*/
+    min-height: 80px;
+    font-family: 'Jet Brains Mono';
+    font-size: 16px;
+    line-height: 24px;
+    flex-grow: 1;
+    box-sizing: border-box;
 }
 
-.price svg {
-    margin-right: 5px;
+.text {
+    display: block;
+    width: fit-content;
+    margin: auto auto;
+    composes: text text_type_main-default text_color_inactive from global;
+}
+
+.text::first-letter {
+    text-transform: capitalize;
 }

@@ -5,7 +5,9 @@ import App from './App';
 import { rootReducer } from "./services/reducers/root-reducer";
 import { Provider } from "react-redux";
 import { thunk } from "redux-thunk";
-import { createStore, compose, applyMiddleware} from "redux";
+import { createStore, compose, applyMiddleware } from "redux";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 
 const composeEnhancers =
@@ -25,7 +27,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store = {store}>
-        <App />
+        <DndProvider backend={HTML5Backend}>
+            <App />
+        </DndProvider>
     </Provider>
   </React.StrictMode>
 );
