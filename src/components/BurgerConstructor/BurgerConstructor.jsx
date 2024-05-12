@@ -2,7 +2,7 @@ import styles from './BurgerConstructor.module.css'
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes, {oneOf} from "prop-types";
 import Modal from '../Modal/Modal.jsx'
-import React from "react";
+import React, {useEffect, useMemo} from "react";
 import OrderModal from "../Modal/OrderModal/OrderModal";
 import {useSelector, useDispatch} from "react-redux";
 import { useDrop } from "react-dnd";
@@ -15,7 +15,7 @@ const BurgerConstructor = (props) => {
     const dispatch = useDispatch();
 
     const [{isDragging}, dropRef] = useDrop({
-        accept: 'main',
+        accept: ['main', 'sauce'],
         drop(droppableItem) {
             dispatch(handleDrop(droppableItem))
         },
@@ -34,6 +34,27 @@ const BurgerConstructor = (props) => {
         })
     })
 
+    const [{isBottomBunDragging} , bottomBunRef] = useDrop({
+        accept: 'bun',
+        drop(droppableItem) {
+            dispatch(handleDrop(droppableItem))
+        },
+        collect: (monitor) => ({
+            isBottomBunDragging: monitor.isOver()
+        })
+    })
+
+
+
+    const commonCart = useSelector(state => state.burgerConstructor)
+    const totalPrice = useMemo(() => {
+        let total = 0;
+        for (let key in commonCart) {
+            commonCart[key].forEach(item => total+=item.price)
+        }
+        return total;
+    }, [commonCart])
+
 
     const currentFilling = useSelector(state => state.burgerConstructor.filling)
     const currentBun = useSelector(state => state.burgerConstructor.bun)
@@ -47,7 +68,7 @@ const BurgerConstructor = (props) => {
     return (
         <>
             {<div className={styles.constructor_wrapper}>
-                <div className={`${styles.item} ${isBunDragging ? styles.dragging : ""}`} ref={bunRef}>
+                <div className={`${styles.item} ${isBunDragging || isBottomBunDragging ? styles.dragging : ""}`} ref={bunRef}>
                     {currentBun.length > 0 ? (
                             <div className={styles.top_bun}>
                                 <p className={styles.drag_icon}>
@@ -59,7 +80,7 @@ const BurgerConstructor = (props) => {
                                     thumbnail={currentBun[0].image_mobile}
                                 />
                             </div>) :
-                        <ConstructorCard>перетащите сюда ингредиенты</ConstructorCard>}
+                        <ConstructorCard>перетащите сюда булку</ConstructorCard>}
                 </div>
                 <ul className={`${styles.chosen_items} custom-scroll ${isDragging ? styles.dragging : ""}` } ref={dropRef}>
                     {currentFilling.length > 0 ? (currentFilling.map((listItem, key) => (
@@ -77,7 +98,7 @@ const BurgerConstructor = (props) => {
                         : (<ConstructorCard>перетащите сюда ингредиенты</ConstructorCard>)
                     }
                 </ul>
-                <div className={styles.item}>
+                <div className={`${styles.item} ${isBunDragging || isBottomBunDragging ? styles.dragging : ""}`} ref={bottomBunRef}>
                     {currentBun.length > 0 ? (
                             <div className={styles.top_bun}>
                                 <p className={styles.drag_icon}>
@@ -89,10 +110,10 @@ const BurgerConstructor = (props) => {
                                     thumbnail={currentBun[0].image_mobile}
                                 />
                             </div>) :
-                        <ConstructorCard>нижняя часть булки</ConstructorCard>}
+                        <ConstructorCard>перетащите сюда булку</ConstructorCard>}
                 </div>
                 <div className={styles.order}>
-                    <p className={styles.total_price}>610 <CurrencyIcon type="primary"/></p>
+                    <p className={styles.total_price}>{totalPrice} <CurrencyIcon type="primary"/></p>
                     <Button htmlType="button" type="primary" size="large" onClick={toggleModal}>
                         Оформить заказ
                     </Button>

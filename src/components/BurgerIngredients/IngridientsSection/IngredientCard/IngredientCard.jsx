@@ -1,8 +1,8 @@
 import styles from './IngredientCard.module.css'
-import React from "react";
+import React, {useMemo} from "react";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux";
+import {useSelector, useDispatch } from "react-redux";
 import {configureDetailedInfo} from "../../../../services/actions/ingredientDetailedInfo";
 import {useDrag} from "react-dnd";
 
@@ -13,11 +13,24 @@ const IngredientCard = (props) => {
         item: props.burgerData
     })
 
+    const commonCart = useSelector(state => state.burgerConstructor)
+    const quantity = useMemo(() => {
+        let total = 0;
+        for (let key in commonCart) {
+            commonCart[key].forEach(item => {
+                if (props.burgerData._id === item._id) {
+                    total+=1
+                }
+            })
+        }
+        return total;
+    }, [commonCart])
+
     const dispatch = useDispatch();
     return (
         <>
             <li ref={dragRef} className={`${styles.card}`} onClick={() => dispatch(configureDetailedInfo(props.burgerData))}>
-                <Counter  count={1} size="default" extraClass="m-1" style={{position: 'absolute'}}/>
+                {quantity > 0 && <Counter count={quantity} size="default" extraClass="m-1" style={{position: 'absolute'}}/>}
                 <div className={`${styles.card_image_wrapper} mb-1`}>
                     <img className={styles.card_image} src={props.burgerData.image} alt="картинка"/>
                 </div>
