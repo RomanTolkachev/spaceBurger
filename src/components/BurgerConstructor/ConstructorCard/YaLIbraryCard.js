@@ -2,9 +2,10 @@ import styles from "../BurgerConstructor.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useRef} from "react";
 import {handleDelete} from "../../../services/actions/burgerCounstructor";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
 import {handleSwap} from "../../../services/actions/burgerCounstructor";
+import PropTypes from "prop-types";
 
 export function YaLibraryCard(props) {
 
@@ -60,4 +61,24 @@ export function YaLibraryCard(props) {
             />
         </li>
     )
+}
+
+YaLibraryCard.propTypes = {
+    id: PropTypes.number,
+    index: PropTypes.number,
+    listItem: PropTypes.shape({
+        calories: PropTypes.number.isRequired,
+        carbohydrates: PropTypes.number.isRequired,
+        dynamicId: PropTypes.string.isRequired,
+        fat: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+        image_large: PropTypes.string.isRequired,
+        image_mobile: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        proteins: PropTypes.number.isRequired,
+        type: PropTypes.string.isRequired,
+        __v: PropTypes.number.isRequired,
+        _id: PropTypes.string.isRequired,
+    }),
 }
