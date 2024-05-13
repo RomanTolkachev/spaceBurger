@@ -30,6 +30,10 @@
     gap: 10px;
     scrollbar-width: thin;
     flex-shrink: 1;
+    width: 100%;
+}
+.chosen_items div {
+    background: #3A3A55;
 }
 
 .order {
@@ -55,6 +59,9 @@
 .top_bun {
     display: flex;
     align-items: center;
+}
+.top_bun div {
+    background: #3A3A55;
 }
 
 .dragging {

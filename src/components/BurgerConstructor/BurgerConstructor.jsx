@@ -7,7 +7,7 @@ import OrderModal from "../Modal/OrderModal/OrderModal";
 import {useSelector, useDispatch} from "react-redux";
 import {useDrag, useDrop} from "react-dnd";
 import {handleDelete, handleDrop} from "../../services/actions/burgerCounstructor";
-import {ConstructorCard} from './ConstructorCard/ConstructorCard'
+import {EmptyCard} from './ConstructorCard/EmptyCard'
 import { sendOrder } from "../../services/actions/order";
 const url = 'https://norma.nomoreparties.space/api/orders'
 
@@ -89,14 +89,15 @@ const BurgerConstructor = () => {
                                     text={currentBun[0].name}
                                     price={currentBun[0].price}
                                     thumbnail={currentBun[0].image_mobile}
+                                    type={'top'}
                                 />
                             </div>) :
-                        <ConstructorCard>перетащите сюда булку</ConstructorCard>}
+                        <EmptyCard type={'top'} >перетащите сюда булку</EmptyCard>}
                 </div>
                 <ul className={`${styles.chosen_items} custom-scroll ${isDragging ? styles.dragging : ""}` } ref={dropRef}>
                     {currentFilling.length > 0 ? (currentFilling.map((listItem, index) => (
                             <YaLibraryCard key={listItem.dynamicId} id={index} index={index} listItem={listItem}/>)))
-                        : (<ConstructorCard>перетащите сюда ингредиенты</ConstructorCard>)
+                        : (<EmptyCard type={'middle'}>перетащите сюда ингредиенты</EmptyCard>)
                     }
                 </ul>
                 <div className={`${styles.item} ${isBunDragging || isBottomBunDragging ? styles.dragging : ""}`} ref={bottomBunRef}>
@@ -109,9 +110,10 @@ const BurgerConstructor = () => {
                                     text={currentBun[0].name}
                                     price={currentBun[0].price}
                                     thumbnail={currentBun[0].image_mobile}
+                                    type={'bottom'}
                                 />
                             </div>) :
-                        <ConstructorCard>перетащите сюда булку</ConstructorCard>}
+                        <EmptyCard type={'bottom'}>перетащите сюда булку</EmptyCard>}
                 </div>
                 <div className={styles.order}>
                     <p className={styles.total_price}>{totalPrice} <CurrencyIcon type="primary"/></p>

@@ -1,4 +1,4 @@
-import styles from "../BurgerConstructor.module.css";
+import styles from "./YaLibraryCard.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useRef} from "react";
 import {handleDelete} from "../../../services/actions/burgerCounstructor";
@@ -49,7 +49,7 @@ export function YaLibraryCard(props) {
     drag(drop(ref));
 
     return (
-        <li ref={ref} style={{opacity}}>
+        <li ref={ref} style={{opacity}} className={styles.item}>
             <p className={styles.drag_icon}>
                 <DragIcon type="primary"/>
             </p>

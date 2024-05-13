@@ -8,7 +8,7 @@
     padding: 16px 24px;
     display: flex;
     border-radius: var(--common-border-radius-s);
-    background: var(--background-element);
+    background: #3A3A55;
     width: 536px;
     /*width: 100%;*/
     min-height: 80px;
