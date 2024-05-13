@@ -1,5 +1,5 @@
 
-import {HANDLE_DROP, HANDLE_DELETE, HANDLE_CLEAR_CART} from "../actions/burgerCounstructor";
+import {HANDLE_DROP, HANDLE_DELETE, HANDLE_CLEAR_CART, HANDLE_SWAP_CARD} from "../actions/burgerCounstructor";
 
 
 const initialState = {
@@ -37,6 +37,16 @@ export const burgerConstructor = (state = initialState, action) => {
             return {
                 ...state,
                 filling: state.filling.filter(item => item.dynamicId !== action.deletableItemId)
+            }
+        }
+        case HANDLE_SWAP_CARD: {
+            const newCards = [...state.filling];
+            newCards.splice(action.dragIndex, 1);
+            newCards.splice(action.hoverIndex, 0, state.filling[action.dragIndex]);
+            console.log(`тащим: ${action.dragIndex}   принимаем: ${action.hoverIndex}`)
+            return {
+                ...state,
+                filling: [...newCards]
             }
         }
         case HANDLE_CLEAR_CART: {

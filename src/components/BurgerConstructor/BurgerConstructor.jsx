@@ -1,10 +1,11 @@
 import styles from './BurgerConstructor.module.css'
+import {YaLibraryCard} from "./ConstructorCard/YaLIbraryCard";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from '../Modal/Modal.jsx'
 import React, {useEffect, useMemo} from "react";
 import OrderModal from "../Modal/OrderModal/OrderModal";
 import {useSelector, useDispatch} from "react-redux";
-import { useDrop } from "react-dnd";
+import {useDrag, useDrop} from "react-dnd";
 import {handleDelete, handleDrop} from "../../services/actions/burgerCounstructor";
 import {ConstructorCard} from './ConstructorCard/ConstructorCard'
 import { sendOrder } from "../../services/actions/order";
@@ -93,18 +94,8 @@ const BurgerConstructor = () => {
                         <ConstructorCard>перетащите сюда булку</ConstructorCard>}
                 </div>
                 <ul className={`${styles.chosen_items} custom-scroll ${isDragging ? styles.dragging : ""}` } ref={dropRef}>
-                    {currentFilling.length > 0 ? (currentFilling.map((listItem, key) => (
-                            <li key={key}>
-                                <p className={styles.drag_icon}>
-                                    <DragIcon type="primary"/>
-                                </p>
-                                <ConstructorElement
-                                    text={listItem.name}
-                                    price={listItem.price}
-                                    thumbnail={listItem.image_mobile}
-                                    handleClose={() => dispatch(handleDelete(listItem.dynamicId))}
-                                />
-                            </li>)))
+                    {currentFilling.length > 0 ? (currentFilling.map((listItem, index) => (
+                            <YaLibraryCard key={listItem.dynamicId} id={index} index={index} listItem={listItem}/>)))
                         : (<ConstructorCard>перетащите сюда ингредиенты</ConstructorCard>)
                     }
                 </ul>
