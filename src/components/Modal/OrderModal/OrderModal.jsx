@@ -1,6 +1,7 @@
 import React from "react";
 import styles from './OrderModal.module.css'
 import {CheckMarkIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 
 const OrderModal = (props) => {
     return (
@@ -17,5 +18,9 @@ const OrderModal = (props) => {
         </div>
     )
 };
+
+OrderModal.propTypes = {
+    children: PropTypes.node
+}
 
 export default OrderModal;

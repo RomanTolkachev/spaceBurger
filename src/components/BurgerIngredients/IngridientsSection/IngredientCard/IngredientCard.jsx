@@ -5,6 +5,7 @@ import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector, useDispatch } from "react-redux";
 import {configureDetailedInfo} from "../../../../services/actions/ingredientDetailedInfo";
 import {useDrag} from "react-dnd";
+import PropTypes from "prop-types";
 
 const IngredientCard = (props) => {
 
@@ -24,7 +25,7 @@ const IngredientCard = (props) => {
             })
         }
         return total;
-    }, [commonCart])
+    }, [commonCart, props])
 
     const dispatch = useDispatch();
     return (
@@ -39,6 +40,10 @@ const IngredientCard = (props) => {
             </li>
         </>
     )
+}
+
+IngredientCard.propTypes = {
+    burgerData: PropTypes.object.isRequired
 }
 
 export default IngredientCard;

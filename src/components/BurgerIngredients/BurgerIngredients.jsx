@@ -83,9 +83,9 @@ const BurgerIngredients = () => {
                 <div className={styles.ingredients} ref={burgerIngRef}>
                     {hasError && !isLoading && <div className={styles.error}>не удалось загрузить данные,<br/> попробуйте обновить страницу</div>}
                     {isLoading && <div className={styles.preloader}></div>}
-                    {!isLoading && !hasError && <IngredientsSection ref={bunsRef} ingridientsData={buns}>булки</IngredientsSection>}
-                    {!isLoading && !hasError && <IngredientsSection ref={sauceRef} ingridientsData={sauce}>соусы</IngredientsSection>}
-                    {!isLoading && !hasError && <IngredientsSection ref={mainRef} ingridientsData={main}>начинки</IngredientsSection>}
+                    {!isLoading && !hasError && <IngredientsSection ref={bunsRef} ingredientsData={buns}>булки</IngredientsSection>}
+                    {!isLoading && !hasError && <IngredientsSection ref={sauceRef} ingredientsData={sauce}>соусы</IngredientsSection>}
+                    {!isLoading && !hasError && <IngredientsSection ref={mainRef} ingredientsData={main}>начинки</IngredientsSection>}
                 </div>
             </section>
             {info &&

@@ -2,12 +2,12 @@ import styles from './BurgerConstructor.module.css'
 import {YaLibraryCard} from "./ConstructorCard/YaLIbraryCard";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from '../Modal/Modal.jsx'
-import React, {useEffect, useMemo} from "react";
+import React, { useMemo } from "react";
 import OrderModal from "../Modal/OrderModal/OrderModal";
 import {useSelector, useDispatch} from "react-redux";
-import {useDrag, useDrop} from "react-dnd";
-import {handleDelete, handleDrop} from "../../services/actions/burgerCounstructor";
-import {EmptyCard} from './ConstructorCard/EmptyCard'
+import { useDrop } from "react-dnd";
+import { handleDrop } from "../../services/actions/burgerCounstructor";
+import { EmptyCard } from './ConstructorCard/EmptyCard'
 import { sendOrder } from "../../services/actions/order";
 const url = 'https://norma.nomoreparties.space/api/orders'
 

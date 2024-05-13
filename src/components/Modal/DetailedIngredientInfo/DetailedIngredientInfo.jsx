@@ -1,10 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 import styles from './DetailedIngredientInfo.module.css'
-import burgerDataProps from "../../../utils/propTypes";
 import {useSelector} from "react-redux";
 
-const DetailedIngredientInfo = (props) => {
-
+const DetailedIngredientInfo = () => {
 
     const { info } = useSelector(state => state.ingredientDetailedInfo)
 
@@ -40,9 +38,5 @@ const DetailedIngredientInfo = (props) => {
         </div>
     )
 };
-
-DetailedIngredientInfo.propTypes = {
-    details: burgerDataProps
-}
 
 export default DetailedIngredientInfo;
