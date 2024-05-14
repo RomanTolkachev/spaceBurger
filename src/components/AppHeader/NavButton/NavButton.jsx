@@ -1,5 +1,5 @@
-import {BurgerIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './NavButton.module.css'
+import PropTypes from 'prop-types';
 
 const NavButton = (props) => {
     return (
@@ -7,4 +7,10 @@ const NavButton = (props) => {
     )
 }
 
+NavButton.propTypes = {
+    icon: PropTypes.object,
+    children: PropTypes.node
+}
+
 export default NavButton
+

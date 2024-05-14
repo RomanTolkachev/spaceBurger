@@ -1,12 +1,13 @@
 import React from "react";
 import styles from './OrderModal.module.css'
 import {CheckMarkIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 
-const OrderModal = () => {
+const OrderModal = (props) => {
     return (
         <div className={styles.wrapper}>
             <div className={styles.order_number}>
-                {'034536'}
+                {props.children}
             </div>
             <h4 className={styles.header}>идентиифкатор заказа</h4>
             <div className={styles.mark_box}>
@@ -17,5 +18,9 @@ const OrderModal = () => {
         </div>
     )
 };
+
+OrderModal.propTypes = {
+    children: PropTypes.node
+}
 
 export default OrderModal;

@@ -1,19 +1,23 @@
 import styles from './Modal.module.css'
 import {createPortal} from "react-dom";
 import React, {useEffect} from "react";
-import DetailedIngredientInfo from './DetailedIngredientInfo/DetailedIngredientInfo'
-import OrderModal from "./OrderModal/OrderModal";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import burgerDataProps from '../../utils/propTypes'
+import { useDispatch } from "react-redux";
+import {CLEAR_DETAILED_INGREDIENT_INFO} from "../../services/actions/ingredientDetailedInfo";
+import {CLEAR_ORDER_NUMBER} from "../../services/actions/order";
 
 
 const Modal = (props) => {
     const innerRef = React.useRef(null)
+    const dispatch = useDispatch()
 
-    // линтер ругается, что ему нужны handleClickOutside и handleClickEscape в зависимостях. Если их туда положить, то он начнет просить их
-    // обернуть еще и в useCallback. но и без этих манипуляции слушатели удаляются из браузера. Возможно, если пропсы в открытой модалке будут меняться
-    // т.е будет возможен перерендер открытой модалки, то добавать useCallback все-таки придется
+    function closeModal() {
+        return function(dispatch) {
+            dispatch({type: CLEAR_DETAILED_INGREDIENT_INFO});
+            dispatch({type: CLEAR_ORDER_NUMBER});
+        }
+    }
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside, true);
@@ -22,19 +26,17 @@ const Modal = (props) => {
             document.removeEventListener('click', handleClickOutside, true);
             document.removeEventListener('keydown', handleClickEscape, true)
         }
-    },[])
+    },[dispatch])
 
     function handleClickOutside(e) {
         if (!innerRef.current.contains(e.target)) {
-            props.toggleModal()
+            dispatch(closeModal())
         }
     }
 
-
-
     function handleClickEscape(e) {
         if (e.key === 'Escape') {
-            props.toggleModal()
+            dispatch(closeModal())
         }
     }
 
@@ -43,7 +45,7 @@ const Modal = (props) => {
             <div className={styles.overlay}>
                 <div className={styles.inner} ref={innerRef}>
                     {props.children}
-                    <div className={styles.close} onClick={props.toggleModal}>
+                    <div className={styles.close} onClick={() => dispatch(closeModal())}>
                         <CloseIcon type="primary" />
                     </div>
                 </div>

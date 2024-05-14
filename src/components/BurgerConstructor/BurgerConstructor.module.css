@@ -3,21 +3,23 @@
     composes: pt-25 pl-4 pr-4 pb-10 from global;
 }
 
-.constructor_wrapper{
+.constructor_wrapper {
     composes: pt-25 pl-4 pr-5 from global;
     display: flex;
     flex-direction: column;
     gap: 10px;
     margin-top: 86px;
-    align-items: flex-end;
+    align-items: flex-start;
+    padding-right: 10px;
 }
 
 .item {
     padding-right: 10px;
+    justify-self: start;
+    min-width: 100%;
 }
 
-/*composes опять не сработал, теперь на last-of-type*/
-.item:last-of-type {
+.item:last-child {
     margin-bottom: 40px;
 }
 
@@ -28,6 +30,10 @@
     gap: 10px;
     scrollbar-width: thin;
     flex-shrink: 1;
+    width: 100%;
+}
+.chosen_items div {
+    background: #3A3A55;
 }
 
 .order {
@@ -49,3 +55,17 @@
     width: 34px;
     height: 34px;
 }
+
+.top_bun {
+    display: flex;
+    align-items: center;
+}
+.top_bun div {
+    background: #3A3A55;
+}
+
+.dragging {
+    outline: solid 1px white;
+}
+
+

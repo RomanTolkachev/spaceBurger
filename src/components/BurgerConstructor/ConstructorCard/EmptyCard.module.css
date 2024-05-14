@@ -1,0 +1,31 @@
+
+.wrapper {
+    display: flex;
+    /*width: 536px;*/
+}
+
+.content {
+    padding: 16px 24px;
+    display: flex;
+    border-radius: var(--common-border-radius-s);
+    background: #3A3A55;
+    width: 536px;
+    /*width: 100%;*/
+    min-height: 80px;
+    font-family: 'Jet Brains Mono';
+    font-size: 16px;
+    line-height: 24px;
+    flex-grow: 1;
+    box-sizing: border-box;
+}
+
+.text {
+    display: block;
+    width: fit-content;
+    margin: auto auto;
+    composes: text text_type_main-default text_color_inactive from global;
+}
+
+.text::first-letter {
+    text-transform: capitalize;
+}

@@ -1,13 +1,74 @@
 import styles from './BurgerConstructor.module.css'
+import {YaLibraryCard} from "./ConstructorCard/YaLIbraryCard";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import Modal from '../Modal/Modal.jsx'
-import React from "react";
+import React, { useMemo } from "react";
 import OrderModal from "../Modal/OrderModal/OrderModal";
+import {useSelector, useDispatch} from "react-redux";
+import { useDrop } from "react-dnd";
+import { handleDrop } from "../../services/actions/burgerCounstructor";
+import { EmptyCard } from './ConstructorCard/EmptyCard'
+import { sendOrder } from "../../services/actions/order";
+const url = 'https://norma.nomoreparties.space/api/orders'
 
-const BurgerConstructor = (props) => {
 
-    const orderDetails = true; //*пока нет данных о заказе, пусть будет костыль, чтобы в модалке рендерился компонент заказа*//
+const BurgerConstructor = () => {
+
+    const dispatch = useDispatch();
+
+    const commonCart = useSelector(state => state.burgerConstructor)
+    const currentFilling = useSelector(state => state.burgerConstructor.filling)
+    const currentBun = useSelector(state => state.burgerConstructor.bun)
+    const isOrderLocked = useSelector(state => state.orderStore.isOrderButtonLocked);
+    const orderNumber = useSelector(state => state.orderStore.modalContent);
+
+    const [{isDragging}, dropRef] = useDrop({
+        accept: ['main', 'sauce'],
+        drop(droppableItem) {
+            dispatch(handleDrop(droppableItem))
+        },
+        collect: (monitor) => ({
+            isDragging: monitor.isOver()
+        })
+    })
+
+    const [{isBunDragging} , bunRef] = useDrop({
+        accept: 'bun',
+        drop(droppableItem) {
+            dispatch(handleDrop(droppableItem))
+        },
+        collect: (monitor) => ({
+            isBunDragging: monitor.isOver()
+        })
+    })
+
+    const [{isBottomBunDragging} , bottomBunRef] = useDrop({
+        accept: 'bun',
+        drop(droppableItem) {
+            dispatch(handleDrop(droppableItem))
+        },
+        collect: (monitor) => ({
+            isBottomBunDragging: monitor.isOver()
+        })
+    })
+
+    const totalPrice = useMemo(() => {
+        let total = 0;
+        for (let key in commonCart) {
+            commonCart[key].forEach(item => total+=item.price)
+        }
+        return total;
+    }, [commonCart])
+
+    const ids = useMemo(() => {
+        const ids = [];
+        for (let key in commonCart) {
+            commonCart[key].forEach(item => {
+                ids.push(item._id)
+            })
+        }
+        return ids;
+    }, [commonCart])
 
     const [isModalOpen, setModalOpen] = React.useState(false);
 
@@ -15,70 +76,68 @@ const BurgerConstructor = (props) => {
         setModalOpen(!isModalOpen)
     }
 
+
     return (
         <>
-            { props.burgerData && <div className={styles.constructor_wrapper}>
-                <div className={styles.item}>
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text="Краторная булка N-200i (верх)"
-                        price={200}
-                        thumbnail={props.burgerData[0].image_mobile}
-                    />
+            {<div className={styles.constructor_wrapper}>
+                <div className={`${styles.item} ${isBunDragging || isBottomBunDragging ? styles.dragging : ""}`} ref={bunRef}>
+                    {currentBun.length > 0 ? (
+                            <div className={styles.top_bun}>
+                                <p className={styles.drag_icon}>
+                                    <DragIcon type="primary"/>
+                                </p>
+                                <ConstructorElement
+                                    text={currentBun[0].name}
+                                    price={currentBun[0].price}
+                                    thumbnail={currentBun[0].image_mobile}
+                                    type={'top'}
+                                />
+                            </div>) :
+                        <EmptyCard type={'top'} >перетащите сюда булку</EmptyCard>}
                 </div>
-                <ul className={`${styles.chosen_items} custom-scroll`}>
-                    {props.burgerData.map((listItem, key) => (
-                        <li key={key}>
-                            <p className={styles.drag_icon}>
-                                <DragIcon type="primary"/>
-                            </p>
-                            <ConstructorElement
-                                text={listItem.name}
-                                price={listItem.price}
-                                thumbnail={listItem.image_mobile}
-                            />
-                        </li>
-                    ))}
+                <ul className={`${styles.chosen_items} custom-scroll ${isDragging ? styles.dragging : ""}` } ref={dropRef}>
+                    {currentFilling.length > 0 ? (currentFilling.map((listItem, index) => (
+                            <YaLibraryCard key={listItem.dynamicId} id={index} index={index} listItem={listItem}/>)))
+                        : (<EmptyCard type={'middle'}>перетащите сюда ингредиенты</EmptyCard>)
+                    }
                 </ul>
-                <div className={styles.item}>
-                    <ConstructorElement
-                        type="bottom"
-                        isLocked={true}
-                        text="Краторная булка N-200i (низ)"
-                        price={200}
-                        thumbnail={props.burgerData[0].image_mobile}
-                    />
+                <div className={`${styles.item} ${isBunDragging || isBottomBunDragging ? styles.dragging : ""}`} ref={bottomBunRef}>
+                    {currentBun.length > 0 ? (
+                            <div className={styles.top_bun}>
+                                <p className={styles.drag_icon}>
+                                    <DragIcon type="primary"/>
+                                </p>
+                                <ConstructorElement
+                                    text={currentBun[0].name}
+                                    price={currentBun[0].price}
+                                    thumbnail={currentBun[0].image_mobile}
+                                    type={'bottom'}
+                                />
+                            </div>) :
+                        <EmptyCard type={'bottom'}>перетащите сюда булку</EmptyCard>}
                 </div>
                 <div className={styles.order}>
-                    <p className={styles.total_price}>610 <CurrencyIcon type="primary"/></p>
-                    <Button htmlType="button" type="primary" size="large" onClick={toggleModal}>
+                    <p className={styles.total_price}>{totalPrice} <CurrencyIcon type="primary"/></p>
+                    <Button
+                        disabled={
+                            isOrderLocked
+                            || currentFilling.length === 0
+                            || currentBun.length === 0
+                        }
+                        htmlType="button"
+                        type="primary"
+                        size="large"
+                        onClick={() => dispatch(sendOrder(url,ids))}>
                         Оформить заказ
                     </Button>
                 </div>
-                {isModalOpen && <Modal toggleModal={toggleModal}>
-                    <OrderModal/>
+                {orderNumber && <Modal toggleModal={toggleModal}>
+                    <OrderModal>{orderNumber}</OrderModal>
                 </Modal>}
             </div>}
         </>
     )
 }
 
-
-BurgerConstructor.propTypes = {
-    burgerData: PropTypes.arrayOf(PropTypes.shape({
-        _id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        proteins: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        carbohydrates: PropTypes.number.isRequired,
-        calories: PropTypes.number.isRequired,
-        price: PropTypes.number.isRequired,
-        image: PropTypes.string.isRequired,
-        image_mobile: PropTypes.string.isRequired,
-        image_large: PropTypes.string.isRequired,
-    }))
-}
 
 export default BurgerConstructor;
