@@ -11,9 +11,13 @@ const url = "https://norma.nomoreparties.space/api/ingredients"
 const BurgerIngredients = () => {
 
     const dispatch = useDispatch();
-    const { ingredients } = useSelector(state => state.burgerIngredients)
-    const { isLoading, currentTab, hasError } = useSelector(state => state.burgerIngredients);
-    const { info } = useSelector(state => state.ingredientDetailedInfo)
+
+    const isLoading = useSelector(state => state.burgerIngredients.isLoading);
+    const currentTab = useSelector(state => state.burgerIngredients.currentTab);
+    const hasError = useSelector(state => state.burgerIngredients.hasError);
+    const ingredients = useSelector(state => state.burgerIngredients.ingredients);
+    const info = useSelector(state => state.burgerIngredients.info);
+
     const filterIngredientTypeBy = (type) => ingredients.filter(item => item.type === type);
     const {buns, sauce, main} = useMemo(() => {
         if (ingredients) {

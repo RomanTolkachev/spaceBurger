@@ -14,10 +14,11 @@ const url = 'https://norma.nomoreparties.space/api/orders'
 
 const BurgerConstructor = () => {
 
+    const dispatch = useDispatch();
+
     const commonCart = useSelector(state => state.burgerConstructor)
     const currentFilling = useSelector(state => state.burgerConstructor.filling)
     const currentBun = useSelector(state => state.burgerConstructor.bun)
-    const dispatch = useDispatch();
     const isOrderLocked = useSelector(state => state.orderStore.isOrderButtonLocked);
     const orderNumber = useSelector(state => state.orderStore.modalContent);
 
