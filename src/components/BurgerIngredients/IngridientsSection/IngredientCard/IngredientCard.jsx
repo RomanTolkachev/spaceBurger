@@ -6,8 +6,11 @@ import {useSelector, useDispatch } from "react-redux";
 import {configureDetailedInfo} from "../../../../services/actions/ingredientDetailedInfo";
 import {useDrag} from "react-dnd";
 import PropTypes from "prop-types";
+import {Link, useLocation} from "react-router-dom";
 
 const IngredientCard = (props) => {
+
+    const location = useLocation()
 
     const [, dragRef] = useDrag({
         type: props.burgerData.type,
@@ -30,14 +33,16 @@ const IngredientCard = (props) => {
     const dispatch = useDispatch();
     return (
         <>
-            <li ref={dragRef} className={`${styles.card}`} onClick={() => dispatch(configureDetailedInfo(props.burgerData))}>
-                {quantity > 0 && <Counter count={quantity} size="default" extraClass="m-1" style={{position: 'absolute'}}/>}
-                <div className={`${styles.card_image_wrapper} mb-1`}>
-                    <img className={styles.card_image} src={props.burgerData.image} alt="картинка"/>
-                </div>
-                <p className={`${styles.price} mb-1`}><CurrencyIcon type="primary"/>{props.burgerData.price}</p>
-                <h3 className={`${styles.name} text text_type_main-small pb-6`}>{props.burgerData.name}</h3>
-            </li>
+            <Link to={`/ingredients/${props.burgerData._id}`} state={{ background: location }}>
+                <li ref={dragRef} className={`${styles.card}`} onClick={() => dispatch(configureDetailedInfo(props.burgerData))}>
+                    {quantity > 0 && <Counter count={quantity} size="default" extraClass="m-1" style={{position: 'absolute'}}/>}
+                    <div className={`${styles.card_image_wrapper} mb-1`}>
+                        <img className={styles.card_image} src={props.burgerData.image} alt="картинка"/>
+                    </div>
+                    <p className={`${styles.price} mb-1`}><CurrencyIcon type="primary"/>{props.burgerData.price}</p>
+                    <h3 className={`${styles.name} text text_type_main-small pb-6`}>{props.burgerData.name}</h3>
+                </li>
+            </Link>
         </>
     )
 }

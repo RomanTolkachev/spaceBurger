@@ -1,12 +1,9 @@
 import styles from './BurgerIngredients.module.css'
-import React, {useCallback, useEffect, useMemo, useRef} from "react";
+import React, {useCallback, useMemo, useRef} from "react";
 import IngredientsSection from "./IngridientsSection/IngredientSection";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector, useDispatch} from "react-redux";
-import {fetchIngredients, setCurrentTab} from "../../services/actions/burgerIngredients";
-import Modal from "../Modal/Modal";
-import DetailedIngredientInfo from "../Modal/DetailedIngredientInfo/DetailedIngredientInfo";
-
+import { setCurrentTab} from "../../services/actions/burgerIngredients";
 
 const BurgerIngredients = () => {
 
@@ -16,7 +13,6 @@ const BurgerIngredients = () => {
     const currentTab = useSelector(state => state.burgerIngredients.currentTab);
     const hasError = useSelector(state => state.burgerIngredients.hasError);
     const ingredients = useSelector(state => state.burgerIngredients.ingredients);
-    const info = useSelector(state => state.burgerIngredients.info);
 
     const filterIngredientTypeBy = (type) => ingredients.filter(item => item.type === type);
     const {buns, sauce, main} = useMemo(() => {
@@ -57,7 +53,6 @@ const BurgerIngredients = () => {
         }
     }, [currentTab])
 
-
     return (
         <>
             <section className={styles.section}>
@@ -83,11 +78,11 @@ const BurgerIngredients = () => {
                     {!isLoading && !hasError && <IngredientsSection ref={mainRef} ingredientsData={main}>начинки</IngredientsSection>}
                 </div>
             </section>
-            {info &&
-                <Modal>
-                    <DetailedIngredientInfo/>
-                </Modal>
-            }
+            {/*{info &&*/}
+            {/*    <Modal>*/}
+            {/*        <DetailedIngredientInfo/>*/}
+            {/*    </Modal>*/}
+            {/*}*/}
         </>
     );
 };

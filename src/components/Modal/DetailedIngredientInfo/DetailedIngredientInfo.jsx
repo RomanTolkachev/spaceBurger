@@ -1,14 +1,24 @@
 import React from "react";
 import styles from './DetailedIngredientInfo.module.css'
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {useParams} from "react-router-dom";
+import {configureDetailedInfo} from "../../../services/actions/ingredientDetailedInfo";
 
 const DetailedIngredientInfo = () => {
+    const dispatch = useDispatch();
 
+    const { anyIdNumber } = useParams();
     const { info } = useSelector(state => state.ingredientDetailedInfo)
+
+    const data = useSelector(state => state.burgerIngredients.ingredients)
+    if (!info && data) {
+        const currentIngredientData = data.find(item => item._id === anyIdNumber)
+        dispatch(configureDetailedInfo(currentIngredientData))
+    }
 
     const nutrientsInfo = (
         <>
-            <div className={styles.nutrients_item}>
+            info && <div className={styles.nutrients_item}>
                 <h4>калории,ккал</h4>
                 <span className={styles.nutrients_item_numbers}>{info.calories}</span>
             </div>
@@ -28,7 +38,7 @@ const DetailedIngredientInfo = () => {
     )
 
     return (
-        <div className={styles.wrapper}>
+        info && <div className={styles.wrapper}>
             <h3 className={styles.header}> детали ингредиента</h3>
             <img className={styles.image} src={info.image_large} alt=""/>
             <h4 className={styles.item_name}>{info.name}</h4>
