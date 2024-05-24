@@ -3,21 +3,12 @@ import {createPortal} from "react-dom";
 import React, {useEffect} from "react";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import {CLEAR_DETAILED_INGREDIENT_INFO} from "../../services/actions/ingredientDetailedInfo";
-import {CLEAR_ORDER_NUMBER} from "../../services/actions/order";
+import {useNavigate} from "react-router-dom";
 
 
 const Modal = (props) => {
     const innerRef = React.useRef(null)
-    const dispatch = useDispatch()
-
-    function closeModal() {
-        return function(dispatch) {
-            dispatch({type: CLEAR_DETAILED_INGREDIENT_INFO});
-            dispatch({type: CLEAR_ORDER_NUMBER});
-        }
-    }
+    const navigate = useNavigate()
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside, true);
@@ -26,17 +17,17 @@ const Modal = (props) => {
             document.removeEventListener('click', handleClickOutside, true);
             document.removeEventListener('keydown', handleClickEscape, true)
         }
-    },[dispatch])
+    },[])
 
     function handleClickOutside(e) {
         if (!innerRef.current.contains(e.target)) {
-            dispatch(closeModal())
+            navigate(-1)
         }
     }
 
     function handleClickEscape(e) {
         if (e.key === 'Escape') {
-            dispatch(closeModal())
+            navigate(-1)
         }
     }
 
@@ -45,7 +36,7 @@ const Modal = (props) => {
             <div className={styles.overlay}>
                 <div className={styles.inner} ref={innerRef}>
                     {props.children}
-                    <div className={styles.close} onClick={() => dispatch(closeModal())}>
+                    <div className={styles.close} onClick={() => navigate(-1)}>
                         <CloseIcon type="primary" />
                     </div>
                 </div>
@@ -55,7 +46,6 @@ const Modal = (props) => {
 };
 
 Modal.propTypes = {
-    toggleModal: PropTypes.func,
     children: PropTypes.element
 }
 

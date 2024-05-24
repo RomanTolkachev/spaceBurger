@@ -12,27 +12,26 @@ function App() {
 
     const dispatch = useDispatch();
 
-    const modalInfo = useSelector(state => state.ingredientDetailedInfo.info)
-    const burgersData = useSelector(state => state.burgerIngredients.ingredients)
-
     const location = useLocation();
-    const navigate = useNavigate();
     const background = location.state && location.state.background;
+
+    const dataIsLoaded = useSelector(state => state.burgerIngredients.ingredients)
 
     useEffect(() => {
         dispatch(fetchIngredients(url))
     },[]);
 
+
     return (
         <>
             <AppHeader/>
-            <Routes location={background || location}>
+            {dataIsLoaded && <Routes location={background || location}>
                 <Route path="/" element={<HomePage />} />
-                <Route path="ingredients/:anyIdNumber" element={<><h1>sdfsdfsdf</h1><h1>компонент бэкграунд</h1></>}/>
-            </Routes>
+                <Route path="ingredients/:anyIdNumber" element={<DetailedIngredientInfo/>}/>
+            </Routes>}
 
             {
-                background && (
+                dataIsLoaded && background && (
                     <Routes>
                         <Route path="/ingredients/:anyIdNumber"
                                element={

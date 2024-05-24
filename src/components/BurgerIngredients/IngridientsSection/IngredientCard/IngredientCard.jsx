@@ -3,7 +3,6 @@ import React, {useMemo} from "react";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector, useDispatch } from "react-redux";
-import {configureDetailedInfo} from "../../../../services/actions/ingredientDetailedInfo";
 import {useDrag} from "react-dnd";
 import PropTypes from "prop-types";
 import {Link, useLocation} from "react-router-dom";
@@ -34,7 +33,7 @@ const IngredientCard = (props) => {
     return (
         <>
             <Link to={`/ingredients/${props.burgerData._id}`} state={{ background: location }}>
-                <li ref={dragRef} className={`${styles.card}`} onClick={() => dispatch(configureDetailedInfo(props.burgerData))}>
+                <li ref={dragRef} className={`${styles.card}`}>
                     {quantity > 0 && <Counter count={quantity} size="default" extraClass="m-1" style={{position: 'absolute'}}/>}
                     <div className={`${styles.card_image_wrapper} mb-1`}>
                         <img className={styles.card_image} src={props.burgerData.image} alt="картинка"/>

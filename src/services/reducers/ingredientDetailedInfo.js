@@ -3,7 +3,7 @@ import {
     CLEAR_DETAILED_INGREDIENT_INFO
 } from "../actions/ingredientDetailedInfo";
 
-const initialState = {hello: 'привет, я информация об ингредиенте'};
+const initialState = {};
 
 export const ingredientDetailedInfo = (state = initialState, action) => {
     switch (action.type) {

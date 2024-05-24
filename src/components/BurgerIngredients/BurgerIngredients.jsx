@@ -3,7 +3,7 @@ import React, {useCallback, useMemo, useRef} from "react";
 import IngredientsSection from "./IngridientsSection/IngredientSection";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector, useDispatch} from "react-redux";
-import { setCurrentTab} from "../../services/actions/burgerIngredients";
+import {setCurrentTab} from "../../services/actions/burgerIngredients";
 
 const BurgerIngredients = () => {
 
@@ -78,11 +78,6 @@ const BurgerIngredients = () => {
                     {!isLoading && !hasError && <IngredientsSection ref={mainRef} ingredientsData={main}>начинки</IngredientsSection>}
                 </div>
             </section>
-            {/*{info &&*/}
-            {/*    <Modal>*/}
-            {/*        <DetailedIngredientInfo/>*/}
-            {/*    </Modal>*/}
-            {/*}*/}
         </>
     );
 };
