@@ -1,12 +1,12 @@
 import styles from './BurgerIngredients.module.css'
-import React, {useEffect, useMemo, useRef} from "react";
+import React, {useCallback, useEffect, useMemo, useRef} from "react";
 import IngredientsSection from "./IngridientsSection/IngredientSection";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector, useDispatch} from "react-redux";
 import {fetchIngredients, setCurrentTab} from "../../services/actions/burgerIngredients";
 import Modal from "../Modal/Modal";
 import DetailedIngredientInfo from "../Modal/DetailedIngredientInfo/DetailedIngredientInfo";
-const url = "https://norma.nomoreparties.space/api/ingredients"
+
 
 const BurgerIngredients = () => {
 
@@ -34,38 +34,29 @@ const BurgerIngredients = () => {
         }
     }, [ingredients]);
 
-    useEffect(() => {
-        dispatch(fetchIngredients(url))
-    },[]);
 
     const burgerIngRef = useRef(null);
     const bunsRef = useRef(null);
     const sauceRef = useRef(null);
     const mainRef = useRef(null);
 
-    useEffect(() => {
-
-        const getCurrentTab = () => {
-            const itemsWithDifference = {
-                buns: Math.abs(bunsRef.current.getBoundingClientRect().top - burgerIngRef.current.getBoundingClientRect().top),
-                sauce: Math.abs(sauceRef.current.getBoundingClientRect().top - burgerIngRef.current.getBoundingClientRect().top),
-                main: Math.abs(mainRef.current.getBoundingClientRect().top - burgerIngRef.current.getBoundingClientRect().top)
-            }
-            const minimalDifference = Math.min(...Object.values(itemsWithDifference));
-            return Object.keys(itemsWithDifference).find(key => itemsWithDifference[key] === minimalDifference);
+    const getCurrentTab = useCallback(() => {
+        const itemsWithDifference = {
+            buns: Math.abs(bunsRef.current.getBoundingClientRect().top - burgerIngRef.current.getBoundingClientRect().top),
+            sauce: Math.abs(sauceRef.current.getBoundingClientRect().top - burgerIngRef.current.getBoundingClientRect().top),
+            main: Math.abs(mainRef.current.getBoundingClientRect().top - burgerIngRef.current.getBoundingClientRect().top)
         }
+        const minimalDifference = Math.min(...Object.values(itemsWithDifference));
+        return Object.keys(itemsWithDifference).find(key => itemsWithDifference[key] === minimalDifference);
+    }, [])
 
-        const compareStoreAndScroll = () => {
-            const currentSection = getCurrentTab()
-            if (currentSection !== currentTab) {
-                dispatch(setCurrentTab(currentSection))
-            }
+    const compareStoreAndScroll = useCallback(() => {
+        const currentSection = getCurrentTab();
+        if (currentSection !== currentTab) {
+            dispatch(setCurrentTab(currentSection))
         }
+    }, [currentTab])
 
-        burgerIngRef.current.addEventListener('scroll', compareStoreAndScroll);
-        return () => {burgerIngRef.current.removeEventListener('scroll', compareStoreAndScroll)};
-
-    }, [currentTab]);
 
     return (
         <>
@@ -84,7 +75,7 @@ const BurgerIngredients = () => {
                         </Tab>
                     </nav>
                 </nav>
-                <div className={styles.ingredients} ref={burgerIngRef}>
+                <div className={styles.ingredients} ref={burgerIngRef} onScroll={compareStoreAndScroll}>
                     {hasError && !isLoading && <div className={styles.error}>не удалось загрузить данные,<br/> попробуйте обновить страницу</div>}
                     {isLoading && <div className={styles.preloader}></div>}
                     {!isLoading && !hasError && <IngredientsSection ref={bunsRef} ingredientsData={buns}>булки</IngredientsSection>}
