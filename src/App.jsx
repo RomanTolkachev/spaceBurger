@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import AppHeader from "./components/AppHeader/AppHeader";
 import Modal from "./components/Modal/Modal";
 import DetailedIngredientInfo from "./components/Modal/DetailedIngredientInfo/DetailedIngredientInfo";
+import {IngredientPage} from "./pages/ingredientPage/ingredientPage";
 const url = "https://norma.nomoreparties.space/api/ingredients"
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
             <AppHeader/>
             {dataIsLoaded && <Routes location={background || location}>
                 <Route path="/" element={<HomePage />} />
-                <Route path="ingredients/:anyIdNumber" element={<DetailedIngredientInfo/>}/>
+                <Route path="ingredients/:anyIdNumber" element={<IngredientPage />} />
             </Routes>}
 
             {
