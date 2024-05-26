@@ -32,7 +32,7 @@ const IngredientCard = (props) => {
     const dispatch = useDispatch();
     return (
         <>
-            <Link to={`/ingredients/${props.burgerData._id}`} state={{ background: location }}>
+            <Link to={`/ingredients/${props.burgerData._id}`} state={{ background: location }} className={styles.link}>
                 <li ref={dragRef} className={`${styles.card}`}>
                     {quantity > 0 && <Counter count={quantity} size="default" extraClass="m-1" style={{position: 'absolute'}}/>}
                     <div className={`${styles.card_image_wrapper} mb-1`}>

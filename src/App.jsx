@@ -12,6 +12,7 @@ import {RegisterPage} from "./pages/registerPage/registerPage";
 import {ForgotPasswordPage} from "./pages/forgotPasswordPage/forgotPasswordPage";
 import {ResetPasswordPage} from "./pages/resetPasswordPage/resetPasswordPage";
 import {ProfilePage} from "./pages/profilePage/profilePage";
+import {NotFoundPage} from "./pages/404Page/404Page";
 const url = "https://norma.nomoreparties.space/api/ingredients"
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>}
 
             {
