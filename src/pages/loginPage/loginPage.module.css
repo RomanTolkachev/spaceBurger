@@ -1,0 +1,36 @@
+.frame {
+    padding-top: 86px;
+    height: calc(100svh - 86px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    composes: text text_type_main-medium mb-6 from global;
+}
+
+.header::first-letter {
+    text-transform: capitalize;
+}
+
+.login {
+    composes: mb-6 from global;
+}
+
+.password {
+    composes: mb-6 from global;
+}
+
+.enter {
+    composes: mb-20 from global
+}
+
+.register {
+    composes: text text_type_main-default text_color_inactive mb-4 from global;
+}
+
+.forgot_pass {
+    composes: text text_type_main-default text_color_inactive from global;
+}

@@ -7,6 +7,11 @@ import AppHeader from "./components/AppHeader/AppHeader";
 import Modal from "./components/Modal/Modal";
 import DetailedIngredientInfo from "./components/Modal/DetailedIngredientInfo/DetailedIngredientInfo";
 import {IngredientPage} from "./pages/ingredientPage/ingredientPage";
+import {LoginPage} from "./pages/loginPage/loginPage";
+import {RegisterPage} from "./pages/registerPage/registerPage";
+import {ForgotPasswordPage} from "./pages/forgotPasswordPage/forgotPasswordPage";
+import {ResetPasswordPage} from "./pages/resetPasswordPage/resetPasswordPage";
+import {ProfilePage} from "./pages/profilePage/profilePage";
 const url = "https://norma.nomoreparties.space/api/ingredients"
 
 function App() {
@@ -29,6 +34,11 @@ function App() {
             {dataIsLoaded && <Routes location={background || location}>
                 <Route path="/" element={<HomePage />} />
                 <Route path="ingredients/:anyIdNumber" element={<IngredientPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
             </Routes>}
 
             {
