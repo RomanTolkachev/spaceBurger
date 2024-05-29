@@ -43,4 +43,10 @@ a {
     display: block;
 }
 
+.link {
+    text-decoration: none;
+    color: inherit;
+    composes: text text_type_main-default from global;
+}
+
 
