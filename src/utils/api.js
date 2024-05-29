@@ -44,14 +44,14 @@ export const resetPassword = () => {
     .then(res => res.json().then(parsed => parsed))
 }
 
-const checkReponse = (res) => {
+const checkResponse = (res) => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
 export const fetchWithRefresh = async (url, options) => {
     try {
         const res = await fetch(url, options)
-        return await checkReponse(res);
+        return await checkResponse(res);
     } catch (error) {
         if (error.message === "jwt expired") {
             const refreshedTokens = await refreshToken();
@@ -79,7 +79,7 @@ export const refreshToken = () => {
             'token': localStorage.getItem('refreshToken')
         })
     })
-    .then(checkReponse)
+    .then(checkResponse)
     .then(parsed => {
         if (parsed.success) {
             let accessToken = parsed.accessToken.split('Bearer ')[1];
@@ -102,9 +102,7 @@ export const getUserData = () => {
             'authorization': `Bearer ${localStorage.getItem('accessToken')}`
         },
     })
-        .then(res => res.json()).then(parsed => {
-        console.log(parsed)
-    })
+    .then(res => console.log(res))
 }
 
 export const amendUserData = () => {
