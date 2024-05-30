@@ -26,3 +26,14 @@
 .remember {
     composes: text text_type_main-default text_color_inactive from global;
 }
+
+.register {
+    composes: text text_type_main-default text_color_inactive mb-4 from global;
+    display: flex;
+    gap: 20px;
+}
+
+.link {
+    text-decoration: none;
+    color: #4c4cff;
+}

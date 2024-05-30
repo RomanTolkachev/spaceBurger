@@ -1,6 +1,7 @@
 import styles from "./loginPage.module.css"
 import {Button, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
+import {Link} from "react-router-dom";
 export const LoginPage = () => {
 
     const [value, setValue] = React.useState('password')
@@ -35,8 +36,14 @@ export const LoginPage = () => {
                     войти
                 </Button>
             </div>
-            <div className={styles.register}>вы - новый пользователь? Зарегистрироваться</div>
-            <div className={styles.forgot_pass}>забыли пароль? Восстановить пароль</div>
+            <div className={styles.register}>
+                <span>вы - новый пользователь?</span>
+                <Link className={styles.link} to="/register">Зарегистрироваться</Link>
+            </div>
+            <div className={styles.register}>
+                <span>забыли пароль?</span>
+                <Link className={styles.link} to="/forgot-password">Восстановить пароль</Link>
+            </div>
         </section>
     )
 }

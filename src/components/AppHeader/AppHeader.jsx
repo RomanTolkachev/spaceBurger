@@ -45,9 +45,9 @@ const AppHeader = () => {
                     <Link to="/profile" className={styles.link}>
                         <li><NavButton icon={<ProfileIcon type="primary"/>}>личный кабинет</NavButton></li>
                     </Link>
-                    <button onClick={() => dispatch(loginRequest())}>залогиниться</button>
-                    <button onClick={getUserData}>получить данные</button>
-                    <button onClick={amendUserData}>изменить данные</button>
+                    {/*<button onClick={() => dispatch(loginRequest())}>залогиниться</button>*/}
+                    {/*<button onClick={getUserData}>получить данные</button>*/}
+                    {/*<button onClick={amendUserData}>изменить данные</button>*/}
                 </ul>
             </nav>
         </header>

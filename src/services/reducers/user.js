@@ -4,6 +4,7 @@ const initialState = {
     isAuthenticated: false,
     email: null,
     name: null,
+    isOrderButtonLocked: false,
 };
 
 export const userInfo = (state = initialState, action) => {

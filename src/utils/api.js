@@ -16,17 +16,19 @@ export const registerUser = () => {
         .then(res => res.json().then(parsed => parsed))
 }
 
-export const forgotPassword = () => {
+export const forgotPassword = (email) => {
     fetch('https://norma.nomoreparties.space/api/password-reset',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
         },
         body: JSON.stringify({
-            email: null,
+            email: email,
         })
     })
-    .then(res => res.json().then(parsed => parsed))
+    .then(res => res.json().then(parsed => {
+        alert(parsed.message === 'Reset email sent' ? "код восстановления направен на указанный E-mail" : 'что-то пошло не так')
+    }))
 
 }
 
