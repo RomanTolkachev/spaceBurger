@@ -1,5 +1,5 @@
 
-import {SET_USER} from "../services/actions/user";
+import {SEND_EMAIL_FINISHED, SEND_EMAIL_START, SET_USER} from "../services/actions/user";
 
 export const registerUser = () => {
     fetch('https://norma.nomoreparties.space/api/auth/register',{
@@ -16,34 +16,52 @@ export const registerUser = () => {
         .then(res => res.json().then(parsed => parsed))
 }
 
-export const forgotPassword = (email) => {
-    fetch('https://norma.nomoreparties.space/api/password-reset',{
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-        },
-        body: JSON.stringify({
-            email: email,
+export const forgotPassword = (email, navigate) => {
+    return function (dispatch) {
+        dispatch({
+            type: SEND_EMAIL_START
         })
-    })
-    .then(res => res.json().then(parsed => {
-        alert(parsed.message === 'Reset email sent' ? "код восстановления направен на указанный E-mail" : 'что-то пошло не так')
-    }))
-
+        fetch('https://norma.nomoreparties.space/api/password-reset', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+            },
+            body: JSON.stringify({
+                email: email,
+            })
+        })
+        .then(res => res.json().then(parsed => {
+            if (parsed.message === 'Reset email sent') {
+                localStorage.setItem('resetPasswordTokenSent', "yes")
+                navigate('/reset-password')
+            }
+        }))
+        .finally(() => {
+            dispatch({
+                type: SEND_EMAIL_FINISHED
+            });
+        })
+    }
 }
 
-export const resetPassword = () => {
+export const resetPassword = (form, navigate) => {
     fetch('https://norma.nomoreparties.space/api/password-reset/reset',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
         },
         body: JSON.stringify({
-            'password': null,
-            'token': "токен из сообщения на эмейл блять. не тот сука, токен, который токен, а тот который код подтверждения"
+            'password': form.password,
+            'token': form.code
         })
     })
-    .then(res => res.json().then(parsed => parsed))
+    .then(res => res.json().then(parsed => {
+        if (parsed.success) {
+            localStorage.removeItem('resetPasswordTokenSent')
+            console.log(parsed);
+            navigate('/login')
+        }
+    }))
 }
 
 const checkResponse = (res) => {

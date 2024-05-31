@@ -1,13 +1,17 @@
 import styles from "./forgotPassworgPage.module.css"
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {forgotPassword} from "../../utils/api";
+import {useDispatch, useSelector} from "react-redux";
 
 export const ForgotPasswordPage = () => {
 
     const [email, setEmail] = React.useState('email')
     const inputRef = React.useRef(null);
+    const isRequestButtonLocked = useSelector(state => state.userInfo.isRequestButtonLocked);
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
 
 
     return (
@@ -29,7 +33,7 @@ export const ForgotPasswordPage = () => {
                 />
             </div>
             <div className={styles.button}>
-                <Button htmlType="button" type="primary" size="medium" extraClass="ml-2" onClick={() => forgotPassword(email)}>
+                <Button disabled={isRequestButtonLocked} htmlType="button" type="primary" size="medium" extraClass="ml-2" onClick={() => dispatch(forgotPassword(email, navigate))}>
                     восстановить
                 </Button>
             </div>

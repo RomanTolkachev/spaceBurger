@@ -1,2 +1,4 @@
 export const SET_USER =  "SET_USER";
 export const CLEAR_USER = "CLEAR_USER"
+export const SEND_EMAIL_START = "SEND_EMAIL_START"
+export const SEND_EMAIL_FINISHED = "SEND_EMAIL_FINISHED"

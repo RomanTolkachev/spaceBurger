@@ -1,10 +1,10 @@
-import { SET_USER, CLEAR_USER} from "../actions/user";
+import { SET_USER, CLEAR_USER, SEND_EMAIL_START, SEND_EMAIL_FINISHED} from "../actions/user";
 
 const initialState = {
     isAuthenticated: false,
     email: null,
     name: null,
-    isOrderButtonLocked: false,
+    isRequestButtonLocked: false,
 };
 
 export const userInfo = (state = initialState, action) => {
@@ -18,6 +18,18 @@ export const userInfo = (state = initialState, action) => {
         }
         case CLEAR_USER: {
             return initialState
+        }
+        case SEND_EMAIL_START: {
+            return {
+                ...state,
+                isRequestButtonLocked: true,
+            }
+        }
+        case SEND_EMAIL_FINISHED: {
+            return {
+                ...state,
+                isRequestButtonLocked: false,
+            }
         }
         default: {
             return state;
