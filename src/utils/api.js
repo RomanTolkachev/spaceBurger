@@ -77,7 +77,7 @@ export const refreshToken = () => {
     .then(parsed => {
         if (parsed.success) {
             localStorage.setItem("refreshToken", parsed.refreshToken);
-            localStorage.setItem("accessToken", parsed.accessToken);
+            localStorage.setItem("accessToken", parsed.accessToken.split('Bearer ')[1]);
             console.log('token refreshed')
             return parsed;
         } else {

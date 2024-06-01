@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const NavButton = (props) => {
     return (
-        <a href="#" className={`${styles.navButton} pl-5 pr-5 pb-3 pt-3`}>{props.icon}{props.children}</a>
+        <span className={`${styles.navButton} pl-5 pr-5 pb-3 pt-3`}>{props.icon}{props.children}</span>
     )
 }
 
