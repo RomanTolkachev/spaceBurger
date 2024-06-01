@@ -149,7 +149,14 @@ export const loginRequest = (form) => {
             email: form.email,
             password: form.password
         })
-    });
+    })
+    .then((res) => {
+        if (res.success) {
+            localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
+            localStorage.setItem('refreshToken', res.refreshToken)
+            return res
+        }
+    })
 }
 
 export const logOut = () => {

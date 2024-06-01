@@ -38,7 +38,7 @@ export const LoginPage = () => {
                 </div>
             </div>
             <div className={styles.enter}>
-                <Button htmlType="button" type="primary" size="medium" onClick={async() =>  dispatch(await login(form))}>
+                <Button htmlType="button" type="primary" size="medium" onClick={async() =>  dispatch(await login(form))}> // TODO: переписть на onSubmit
                     войти
                 </Button>
             </div>
