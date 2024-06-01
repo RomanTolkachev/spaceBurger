@@ -1,5 +1,4 @@
-
-import {SEND_EMAIL_FINISHED, SEND_EMAIL_START, SET_USER} from "../services/actions/user";
+import {SEND_EMAIL_FINISHED, SEND_EMAIL_START} from "../services/actions/user";
 
 export const registerUser = () => {
     fetch('https://norma.nomoreparties.space/api/auth/register',{
@@ -64,33 +63,8 @@ export const resetPassword = (form, navigate) => {
     }))
 }
 
-const checkResponse = (res) => {
-    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-};
-
-export const fetchWithRefresh = async (url, options) => {
-    try {
-        const res = await fetch(url, options)
-        return await checkResponse(res);
-    } catch (error) {
-        if (error.message === "jwt expired") {
-            const refreshedTokens = await refreshToken();
-            options.headers.authorization = refreshedTokens.accessToken;
-            const res = await fetch(url, options);
-            if (res.ok) {
-                return res.json()
-            } else {
-                return console.log("что то пошло не так")
-            }
-        } else {
-            return console.log('что-то пошло не так при обновлении токена')
-        }
-    }
-}
-
-
 export const refreshToken = () => {
-    fetch('https://norma.nomoreparties.space/api/auth/token', {
+    return fetch('https://norma.nomoreparties.space/api/auth/token', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -102,27 +76,51 @@ export const refreshToken = () => {
     .then(checkResponse)
     .then(parsed => {
         if (parsed.success) {
-            let accessToken = parsed.accessToken.split('Bearer ')[1];
-            let refreshToken = parsed.refreshToken;
-            localStorage.setItem("accessToken", accessToken);
-            localStorage.setItem("refreshToken", refreshToken);
+            localStorage.setItem("refreshToken", parsed.refreshToken);
+            localStorage.setItem("accessToken", parsed.accessToken);
             console.log('token refreshed')
             return parsed;
         } else {
-            console.log(parsed)
+            return Promise.reject(parsed)
         }
     })
 }
 
+export const checkResponse = async (res) =>  {
+    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+};
+
+export const fetchWithRefresh = async (url, options) => {
+    try {
+        const res = await fetch(url, options);
+        console.log('сработал try в fetchWithRefresh')
+        return await checkResponse(res);
+    } catch (error) {
+        console.log('сработал catch в fetchWithRefresh')
+        if (error.message === "jwt expired") {
+            console.log('сработал if в fetchWithRefresh')
+            const refreshedTokens = await refreshToken();
+            console.log(refreshedTokens)
+            options.headers.authorization = refreshedTokens.accessToken;
+            const res = await fetch(url, options);
+            console.log(res)
+            return await checkResponse(res)
+        } else {
+            return () => {Promise.reject(error); console.log('стработал else в fetchWithRefresh')}
+        }
+    }
+}
+
 export const getUserData = () => {
-    fetchWithRefresh('https://norma.nomoreparties.space/api/auth/user', {
+    return fetchWithRefresh('https://norma.nomoreparties.space/api/auth/user', {
         method: 'GET',
             headers: {
             'Content-Type': 'application/json;charset=utf-8',
             'authorization': `Bearer ${localStorage.getItem('accessToken')}`
-        },
+        }
     })
-    .then(res => console.log(res))
+    .then(res => {console.log("срабоатал then в getUserData",res); return res}) // undefined из checkResponse
+    .catch((res) =>  Promise.reject(res))
 }
 
 export const amendUserData = () => {
@@ -141,26 +139,17 @@ export const amendUserData = () => {
     .then(res => console.log(res))
 }
 
-export const loginRequest = () => {
-    return function (dispatch) {
-        fetchWithRefresh('https://norma.nomoreparties.space/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-            },
-            body: JSON.stringify({
-                email: "tolkachevroman@bk.ru",
-                password: "123"
-            })
+export const loginRequest = (form) => {
+    return fetchWithRefresh('https://norma.nomoreparties.space/api/auth/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify({
+            email: form.email,
+            password: form.password
         })
-        .then((res) => {
-            dispatch({
-                type: SET_USER,
-                email: res.user.email,
-                name: res.user.name,
-            })
-        })
-    }
+    });
 }
 
 export const logOut = () => {

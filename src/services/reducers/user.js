@@ -1,4 +1,4 @@
-import { SET_USER, CLEAR_USER, SEND_EMAIL_START, SEND_EMAIL_FINISHED} from "../actions/user";
+import { SET_USER, CLEAR_USER, SEND_EMAIL_START, SEND_EMAIL_FINISHED, AUTH_STATUS_CHECKED} from "../actions/user";
 
 const initialState = {
     isAuthenticated: false,
@@ -12,12 +12,18 @@ export const userInfo = (state = initialState, action) => {
         case SET_USER: {
             return {
                 ...state,
-                email: action.email,
-                name: action.name,
+                email: action.data.email,
+                name: action.data.name,
             }
         }
         case CLEAR_USER: {
             return initialState
+        }
+        case AUTH_STATUS_CHECKED: {
+            return {
+                ...state,
+                isAuthenticated: true,
+            }
         }
         case SEND_EMAIL_START: {
             return {

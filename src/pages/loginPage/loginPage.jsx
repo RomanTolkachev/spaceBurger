@@ -1,12 +1,18 @@
 import styles from "./loginPage.module.css"
-import {Button, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import {Link} from "react-router-dom";
+import {login} from "../../services/actions/user";
+import {useDispatch} from "react-redux";
 export const LoginPage = () => {
 
-    const [value, setValue] = React.useState('password')
-    const onChange = e => {
-        setValue(e.target.value)
+    const [email, setEmail] = React.useState('tolkachevroman@bk.ru')
+    const [password, setPassword] = React.useState('RomA1992')
+    const dispatch = useDispatch()
+
+    const form = {
+        email: email,
+        password: password
     }
 
     return (
@@ -14,25 +20,25 @@ export const LoginPage = () => {
             <h1 className={styles.header}>вход</h1>
             <div style={{display: 'flex', flexDirection: 'column'}}>
                 <div className={styles.login}>
-                    <PasswordInput
-                        onChange={onChange}
-                        value={value}
-                        name={'login'}
+                    <Input
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
+                        name={'email'}
                         icon="EditIcon"
-                        placeholder={'Логин'}
+                        placeholder={'e-mail'}
                     />
                 </div>
                 <div className={styles.password}>
                     <PasswordInput
-                        onChange={onChange}
-                        value={value}
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
                         name={'password'}
                         icon="ShowIcon"
                     />
                 </div>
             </div>
             <div className={styles.enter}>
-                <Button htmlType="button" type="primary" size="medium">
+                <Button htmlType="button" type="primary" size="medium" onClick={async() =>  dispatch(await login(form))}>
                     войти
                 </Button>
             </div>
