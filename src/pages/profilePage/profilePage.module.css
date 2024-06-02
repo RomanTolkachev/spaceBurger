@@ -28,15 +28,29 @@
     composes: text text_type_main-medium text_color_inactive from global;
     height: 60px;
     vertical-align: center;
+    text-decoration: none;
+}
+
+.nav_item_active {
+    width: 100%;
+    composes: text text_type_main-medium from global;
+    text-decoration: none;
+    height: 60px;
+    vertical-align: center;
 }
 
 .nav_item:last-of-type {
     margin-bottom: 80px;
 }
 
+.nav_item_active:last-of-type {
+    margin-bottom: 80px;
+}
+
 .nav_info {
     composes: text text_type_main-default text_color_inactive from global;
 }
+
 
 .input {
     composes: mb-6 from global;
