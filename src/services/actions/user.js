@@ -1,4 +1,4 @@
-import {fetchWithRefresh, getUserData, loginRequest, refreshToken} from "../../utils/api";
+import {fetchWithRefresh, getUserData, loginRequest, refreshToken, registerUser} from "../../utils/api";
 
 export const SET_USER =  "SET_USER";
 export const CLEAR_USER = "CLEAR_USER"
@@ -14,21 +14,12 @@ export const checkUserAuth = () => {
                 type: SET_USER,
                 data: res.user
             });
-            // dispatch({
-            //     type: AUTH_STATUS_CHECKED,
-            // })
             console.log('стработал then в checkUserAuth', res)
         })
         .catch(() => {
             console.log('сработал кэтч в checkUserAuth')
-            // dispatch({
-            //     type: CLEAR_USER
-            // })
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
-            // dispatch({
-            //     type: AUTH_STATUS_CHECKED
-            // })
         })
         .finally(() => {
             dispatch({
@@ -49,6 +40,21 @@ export const login = async (form) => {
         dispatch({
             type: AUTH_STATUS_CHECKED
         });
+    }
+}
+
+export const register = (form) => {
+    return (dispatch) => {
+        registerUser(form)
+        .then(res => {
+            dispatch({
+                type: SET_USER,
+                data: res.user
+            });
+        })
+        .catch((res) => {
+            console.log('сработал кэтч в register', res)
+        })
     }
 }
 

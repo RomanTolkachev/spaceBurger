@@ -1,7 +1,7 @@
 import {SEND_EMAIL_FINISHED, SEND_EMAIL_START} from "../services/actions/user";
 
 export const registerUser = (form) => {
-    fetch('https://norma.nomoreparties.space/api/auth/register',{
+    return fetch('https://norma.nomoreparties.space/api/auth/register',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -12,8 +12,20 @@ export const registerUser = (form) => {
             name: form.name,
         })
     })
-    .then(res => res.json().then(parsed => parsed))
+    .then(checkResponse)
+    .then((parsed) => {
+        localStorage.setItem("refreshToken", parsed.refreshToken);
+        localStorage.setItem("accessToken", parsed.accessToken.split('Bearer ')[1]);
+        return parsed;
+    })
+    .catch(err => {
+        if (err.message === "User already exists") {
+            alert('пользователь с таким email уже существует');
+        }
+        return Promise.reject(err)
+    })
 }
+
 
 export const forgotPassword = (email, navigate) => {
     return function (dispatch) {

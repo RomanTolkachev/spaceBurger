@@ -2,6 +2,8 @@ import styles from './registerPage.module.css'
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import {Link} from "react-router-dom";
+import {register} from "../../services/actions/user";
+import {useDispatch} from "react-redux";
 
 
 export const RegisterPage = () => {
@@ -9,6 +11,7 @@ export const RegisterPage = () => {
     const [name, setName] = React.useState('name');
     const [email, setEmail] = React.useState('mail@blabla.ru');
     const [password, setPassword] = React.useState('123456');
+    const dispatch = useDispatch()
 
     const form = {
         name: name,
@@ -16,10 +19,16 @@ export const RegisterPage = () => {
         password: password,
     }
 
+
+    const handleSubmit = (e, form) => {
+        e.preventDefault();
+        return register(form)
+    }
+
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>регистрация</h1>
-            <form method='post' className={styles.input} style={{display: 'flex', flexDirection: 'column'}} onSubmit={(e) => {e.preventDefault();console.log(form)}}>
+            <form method='post' className={styles.input} style={{display: 'flex', flexDirection: 'column'}} onSubmit={async(e) => dispatch(handleSubmit(e, form))}>
                 <Input
                     onChange={(e) => setName(e.target.value)}
                     value={name}

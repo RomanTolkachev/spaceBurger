@@ -5,7 +5,6 @@ const ProtectedRoute = ({onlyUnAuth = false, component}) => {
     const user = useSelector(state => state.userInfo.name)
     const isAuthChecked = useSelector(state => state.userInfo.isAuthChecked);
     const location = useLocation()
-    console.log(location)
 
     if (!isAuthChecked) {
         return <h1>Загрузка...</h1>
