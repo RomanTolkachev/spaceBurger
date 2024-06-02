@@ -16,11 +16,13 @@
 }
 
 .input {
-    composes: mb-6 from global;
+    display: flex;
+    flex-direction: column;
 }
 
 .button {
     composes: mb-20 from global;
+    align-self: center;
 }
 
 .remember {

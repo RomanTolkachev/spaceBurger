@@ -1,18 +1,18 @@
 import {SEND_EMAIL_FINISHED, SEND_EMAIL_START} from "../services/actions/user";
 
-export const registerUser = () => {
+export const registerUser = (form) => {
     fetch('https://norma.nomoreparties.space/api/auth/register',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
         },
         body: JSON.stringify({
-            email: null,
-            password: null,
-            name: null,
+            email: form.email,
+            password: form.password,
+            name: form.name,
         })
     })
-        .then(res => res.json().then(parsed => parsed))
+    .then(res => res.json().then(parsed => parsed))
 }
 
 export const forgotPassword = (email, navigate) => {
