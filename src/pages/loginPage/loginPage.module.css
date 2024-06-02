@@ -7,6 +7,11 @@
     justify-content: center;
 }
 
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
 .header {
     composes: text text_type_main-medium mb-6 from global;
 }
@@ -24,7 +29,8 @@
 }
 
 .enter {
-    composes: mb-20 from global
+    composes: mb-20 from global;
+    align-self: center;
 }
 
 .register {

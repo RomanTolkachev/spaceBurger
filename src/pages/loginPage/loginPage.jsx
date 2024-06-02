@@ -15,10 +15,15 @@ export const LoginPage = () => {
         password: password
     }
 
+    const handleSubmit = (e, form) => {
+        e.preventDefault();
+        return login(form);
+    }
+
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>вход</h1>
-            <div style={{display: 'flex', flexDirection: 'column'}}>
+            <form method='post' className={styles.form} style={{display: 'flex', flexDirection: 'column'}} onSubmit={async(e) => dispatch(await handleSubmit(e, form))}>
                 <div className={styles.login}>
                     <Input
                         onChange={(e) => setEmail(e.target.value)}
@@ -36,12 +41,12 @@ export const LoginPage = () => {
                         icon="ShowIcon"
                     />
                 </div>
-            </div>
             <div className={styles.enter}>
-                <Button htmlType="button" type="primary" size="medium" onClick={async() =>  dispatch(await login(form))}> // TODO: переписть на onSubmit
+                <Button htmlType="submit" type="primary" size="medium">
                     войти
                 </Button>
             </div>
+            </form>
             <div className={styles.register}>
                 <span>вы - новый пользователь?</span>
                 <Link className={styles.link} to="/register">Зарегистрироваться</Link>
