@@ -171,8 +171,8 @@ export const loginRequest = (form) => {
     })
 }
 
-export const logOut = () => {
-    fetch('https://norma.nomoreparties.space/api/auth/logout',{
+export const logOutRequest = () => {
+    return fetch('https://norma.nomoreparties.space/api/auth/logout',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -181,5 +181,13 @@ export const logOut = () => {
             token: `Bearer ${localStorage.getItem('refreshToken')}`,
         })
     })
-        .then(res => res.json().then(parsed => parsed))
+    .then(checkResponse)
+    .then(res => {
+        console.log("срабоатал then в logOut",res); return res
+    }) // undefined из checkResponse
+    .catch(err => {
+        console.log(err)
+        return Promise.reject(err)
+    })
+
 }

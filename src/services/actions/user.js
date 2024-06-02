@@ -1,4 +1,4 @@
-import {fetchWithRefresh, getUserData, loginRequest, refreshToken, registerUser} from "../../utils/api";
+import { getUserData, loginRequest, logOutRequest, registerUser} from "../../utils/api";
 
 export const SET_USER =  "SET_USER";
 export const CLEAR_USER = "CLEAR_USER"
@@ -31,7 +31,6 @@ export const checkUserAuth = () => {
 
 export const login = async (form) => {
     const loginData = await loginRequest(form)
-    console.log(loginData.user)
     return (dispatch) => {
          dispatch({
             type: SET_USER,
@@ -54,6 +53,20 @@ export const register = (form) => {
         })
         .catch((res) => {
             console.log('сработал кэтч в register', res)
+        })
+    }
+}
+
+export const logOut = () => {
+    return (dispatch) => {
+        logOutRequest()
+        .then(() => {
+            dispatch({
+                type: CLEAR_USER,
+            });
+        })
+        .catch((res) => {
+            console.log('сработал кэтч в logOut', res)
         })
     }
 }
