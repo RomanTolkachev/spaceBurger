@@ -8,30 +8,33 @@ export const AUTH_STATUS_CHECKED = "AUTH_STATUS_CHECKED"
 
 export const checkUserAuth = () => {
     return (dispatch) => {
-        if (localStorage.getItem('accessToken')) {
-            getUserData()
-            .then((res) => {
-                dispatch({
-                    type: SET_USER,
-                    data: res.user
-                });
-                dispatch({
-                    type: AUTH_STATUS_CHECKED,
-                })
-                console.log('стработал then в checkUserAuth', res)
+        getUserData()
+        .then((res) => {
+            dispatch({
+                type: SET_USER,
+                data: res.user
+            });
+            // dispatch({
+            //     type: AUTH_STATUS_CHECKED,
+            // })
+            console.log('стработал then в checkUserAuth', res)
+        })
+        .catch(() => {
+            console.log('сработал кэтч в checkUserAuth')
+            // dispatch({
+            //     type: CLEAR_USER
+            // })
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+            // dispatch({
+            //     type: AUTH_STATUS_CHECKED
+            // })
+        })
+        .finally(() => {
+            dispatch({
+                type: AUTH_STATUS_CHECKED,
             })
-            .catch(() => {
-                console.log('сработал кэтч в checkUserAuth')
-                dispatch({
-                    type: CLEAR_USER
-                })
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-                dispatch({
-                    type: AUTH_STATUS_CHECKED
-                })
-            })
-        }
+        })
     }
 }
 

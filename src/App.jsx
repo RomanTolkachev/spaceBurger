@@ -14,7 +14,7 @@ import {ResetPasswordPage} from "./pages/resetPasswordPage/resetPasswordPage";
 import {ProfilePage} from "./pages/profilePage/profilePage";
 import {NotFoundPage} from "./pages/404Page/404Page";
 import {checkUserAuth} from "./services/actions/user";
-import {ProtectedRoute} from "./components/ProtectedRoute/ProtectedRoute";
+import {OnlyAuth, OnlyUnAuth,} from "./components/ProtectedRoute/ProtectedRoute";
 const url = "https://norma.nomoreparties.space/api/ingredients"
 
 function App() {
@@ -42,14 +42,13 @@ function App() {
             {dataIsLoaded && <Routes location={background || location}>
                 <Route path="/" element={<HomePage />} />
                 <Route path="ingredients/:anyIdNumber" element={<IngredientPage />} />
-                <Route path="/login" element={<LoginPage />} />
+                <Route path="/login" element={<OnlyUnAuth component={<LoginPage />} />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/reset-password" element={<ResetPasswordPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/profile" element={<OnlyAuth component={<ProfilePage />} />} />
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>}
-            <ProtectedRoute />
 
             {
                 dataIsLoaded && background && (
