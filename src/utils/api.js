@@ -178,13 +178,17 @@ export const logOutRequest = () => {
             'Content-Type': 'application/json;charset=utf-8',
         },
         body: JSON.stringify({
-            token: `Bearer ${localStorage.getItem('refreshToken')}`,
+            token: localStorage.getItem('refreshToken'),
         })
     })
     .then(checkResponse)
     .then(res => {
-        console.log("срабоатал then в logOut",res); return res
-    }) // undefined из checkResponse
+        if (res.success) {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+        }
+        console.log("срабоатал then в logOut, токены удалены",res); return res
+    })
     .catch(err => {
         console.log(err)
         return Promise.reject(err)

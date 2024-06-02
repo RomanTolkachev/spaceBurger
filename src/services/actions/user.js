@@ -68,6 +68,11 @@ export const logOut = () => {
         .catch((res) => {
             console.log('сработал кэтч в logOut', res)
         })
+        .finally(() => {
+            dispatch({
+                type: AUTH_STATUS_CHECKED,
+            });
+        })
     }
 }
 

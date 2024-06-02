@@ -50,7 +50,6 @@ function App() {
                 <Route path="/profile">
                     <Route path="" element={<OnlyAuth component={<ProfilePage component={<ProfileChange/>} />} />}></Route>
                     <Route path="history" element={<OnlyAuth component={<ProfilePage component={null} />} />}></Route>
-                    <Route path="logout" element={<OnlyAuth component={<ProfilePage component={null} />} />}></Route>
                 </Route>
                 <Route path="*" element={<NotFoundPage />} />
                 <Route path="*/*" element={<NotFoundPage />} />
