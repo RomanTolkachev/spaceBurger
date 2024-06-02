@@ -56,7 +56,7 @@ export const forgotPassword = (email, navigate) => {
 }
 
 export const resetPassword = (form, navigate) => {
-    fetch('https://norma.nomoreparties.space/api/password-reset/reset',{
+    return fetch('https://norma.nomoreparties.space/api/password-reset/reset',{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -66,13 +66,17 @@ export const resetPassword = (form, navigate) => {
             'token': form.code
         })
     })
-    .then(res => res.json().then(parsed => {
-        if (parsed.success) {
-            localStorage.removeItem('resetPasswordTokenSent')
-            console.log(parsed);
-            navigate('/login')
+    .then(checkResponse)
+    .then(parsed => {
+        localStorage.removeItem('resetPasswordTokenSent')
+        console.log(parsed);
+        navigate('/login')
+    })
+    .catch ((err) => {
+        if (err.message === "Incorrect reset token") {
+            alert("неверный код из письма")
         }
-    }))
+    })
 }
 
 export const refreshToken = () => {

@@ -21,6 +21,7 @@
 
 .button {
     composes: mb-20 from global;
+    align-self: center;
 }
 
 .remember {
