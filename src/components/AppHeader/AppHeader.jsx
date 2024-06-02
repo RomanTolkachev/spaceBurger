@@ -2,8 +2,11 @@ import styles from './AppHeader.module.css'
 import NavButton from './NavButton/NavButton.jsx'
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink, useMatch,} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const AppHeader = () => {
+
+    const userdata = useSelector(state => state.userInfo.name)
 
     return (
         <header className={styles.header}>
@@ -19,7 +22,7 @@ const AppHeader = () => {
                     </li>
                     <li className={styles.logo}><a href="#"><Logo/></a></li>
                     <NavLink to="/profile" className={({isActive}) => isActive ? styles.active : styles.link}>
-                        <li><NavButton icon={<ProfileIcon type={useMatch('/profile') ? "primary" : "secondary"}/>}>личный кабинет</NavButton></li>
+                        <li><NavButton icon={<ProfileIcon type={useMatch('/profile') ? "primary" : "secondary"}/>}>{userdata ? userdata : "личный кабинет"}</NavButton></li>
                     </NavLink>
                 </ul>
             </nav>

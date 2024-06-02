@@ -14,6 +14,7 @@ import {ResetPasswordPage} from "./pages/resetPasswordPage/resetPasswordPage";
 import {ProfilePage} from "./pages/profilePage/profilePage";
 import {NotFoundPage} from "./pages/404Page/404Page";
 import {checkUserAuth} from "./services/actions/user";
+import {ProtectedRoute} from "./components/ProtectedRoute/ProtectedRoute";
 const url = "https://norma.nomoreparties.space/api/ingredients"
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>}
+            <ProtectedRoute />
 
             {
                 dataIsLoaded && background && (

@@ -1,4 +1,4 @@
-import {getUserData, loginRequest} from "../../utils/api";
+import {fetchWithRefresh, getUserData, loginRequest, refreshToken} from "../../utils/api";
 
 export const SET_USER =  "SET_USER";
 export const CLEAR_USER = "CLEAR_USER"
@@ -10,7 +10,16 @@ export const checkUserAuth = () => {
     return (dispatch) => {
         if (localStorage.getItem('accessToken')) {
             getUserData()
-            .then((res) => console.log('стработал then в checkUserAuth', res))
+            .then((res) => {
+                dispatch({
+                    type: SET_USER,
+                    data: res.user
+                });
+                dispatch({
+                    type: AUTH_STATUS_CHECKED,
+                })
+                console.log('стработал then в checkUserAuth', res)
+            })
             .catch(() => {
                 console.log('сработал кэтч в checkUserAuth')
                 dispatch({
