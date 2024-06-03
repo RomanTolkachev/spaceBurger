@@ -2,7 +2,6 @@ import styles from "./forgotPassworgPage.module.css"
 import {Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import {Link, useNavigate} from "react-router-dom";
-import {forgotPassword} from "../../utils/api";
 import {useDispatch, useSelector} from "react-redux";
 import {requestCode} from "../../services/actions/user";
 
@@ -22,7 +21,6 @@ export const ForgotPasswordPage = () => {
     const form = {
         email: email
     }
-
 
     return (
         <section className={styles.frame}>

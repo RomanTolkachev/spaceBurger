@@ -7,7 +7,7 @@ import {resetPassword} from "../../utils/api";
 export const ResetPasswordPage = () => {
 
     const [password, setPassword] = React.useState('password');
-    const [code, setCode] = React.useState('password')
+    const [code, setCode] = React.useState('code')
 
     const navigate = useNavigate();
 
