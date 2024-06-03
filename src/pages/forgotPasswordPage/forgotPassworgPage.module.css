@@ -15,12 +15,18 @@
     composes: text text_type_main-medium mb-6 from global;
 }
 
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
 .input {
     composes: mb-6 from global;
 }
 
 .button {
     composes: mb-20 from global;
+    align-self: center;
 }
 
 .remember {

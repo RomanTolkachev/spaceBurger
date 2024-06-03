@@ -27,32 +27,28 @@ export const registerUser = (form) => {
 }
 
 
-export const forgotPassword = (email, navigate) => {
-    return function (dispatch) {
-        dispatch({
-            type: SEND_EMAIL_START
+export const forgotPassword = (form, navigate) => {
+    return fetch('https://norma.nomoreparties.space/api/password-reset', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify({
+            email: form.email,
         })
-        fetch('https://norma.nomoreparties.space/api/password-reset', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8',
-            },
-            body: JSON.stringify({
-                email: email,
-            })
-        })
-        .then(res => res.json().then(parsed => {
-            if (parsed.message === 'Reset email sent') {
-                localStorage.setItem('resetPasswordTokenSent', "yes")
-                navigate('/reset-password')
-            }
-        }))
-        .finally(() => {
-            dispatch({
-                type: SEND_EMAIL_FINISHED
-            });
-        })
-    }
+    })
+    .then(checkResponse)
+    .then(parsed => {
+        if (parsed.message === 'Reset email sent') {
+            localStorage.setItem('resetPasswordTokenSent', "yes")
+            alert('код отправлен на указанный email')
+        }
+        navigate("/reset-password")
+        return parsed;
+    })
+    .catch(() => {
+        console.log('сработал кэтч в api.forgotPassword')
+    })
 }
 
 export const resetPassword = (form, navigate) => {

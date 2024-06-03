@@ -1,9 +1,10 @@
 import styles from "./forgotPassworgPage.module.css"
-import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {forgotPassword} from "../../utils/api";
 import {useDispatch, useSelector} from "react-redux";
+import {requestCode} from "../../services/actions/user";
 
 export const ForgotPasswordPage = () => {
 
@@ -13,11 +14,20 @@ export const ForgotPasswordPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
+    const handleSubmit = (e, form) => {
+        e.preventDefault();
+        return requestCode(form, navigate)
+    }
+
+    const form = {
+        email: email
+    }
+
 
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>восстановление пароля</h1>
-            <div className={styles.input} style={{display: 'flex', flexDirection: 'column'}}>
+            <form method='post' className={styles.form} style={{display: 'flex', flexDirection: 'column'}} onSubmit={async(e) => dispatch(handleSubmit(e,form))}>
                 <Input
                     type={'text'}
                     placeholder={'email'}
@@ -29,14 +39,14 @@ export const ForgotPasswordPage = () => {
                     ref={inputRef}
                     errorText={'укажите e-mail'}
                     size={'default'}
-                    extraClass="ml-1"
+                    extraClass="mb-6"
                 />
-            </div>
-            <div className={styles.button}>
-                <Button disabled={isRequestButtonLocked} htmlType="button" type="primary" size="medium" extraClass="ml-2" onClick={() => dispatch(forgotPassword(email, navigate))}>
-                    восстановить
-                </Button>
-            </div>
+                <div className={styles.button}>
+                    <Button disabled={isRequestButtonLocked} htmlType="submit" type="primary" size="medium" extraClass="ml-2">
+                        восстановить
+                    </Button>
+                </div>
+            </form>
             <div className={styles.register}>
                 <span>вспомнили пароль?</span>
                 <Link className={styles.link} to="/login">Войти</Link>
