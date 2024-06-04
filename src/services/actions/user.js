@@ -1,4 +1,4 @@
-import {forgotPassword, getUserData, loginRequest, logOutRequest, registerUser} from "../../utils/api";
+import {amendUserData, forgotPassword, getUserData, loginRequest, logOutRequest, registerUser} from "../../utils/api";
 
 export const SET_USER =  "SET_USER";
 export const CLEAR_USER = "CLEAR_USER"
@@ -91,5 +91,17 @@ export const requestCode = (form, navigate) => {
             });
         })
     };
+}
+
+export const requestAmendment = (form) => {
+    return amendUserData(form)
+        .then(res => {
+            return dispatch => {
+                dispatch({
+                    type: SET_USER,
+                    data: res
+                })
+            }
+        })
 }
 

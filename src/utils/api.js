@@ -1,4 +1,3 @@
-import {SEND_EMAIL_FINISHED, SEND_EMAIL_START} from "../services/actions/user";
 
 export const registerUser = (form) => {
     return fetch('https://norma.nomoreparties.space/api/auth/register',{
@@ -135,20 +134,29 @@ export const getUserData = () => {
     .catch((res) =>  Promise.reject(res))
 }
 
-export const amendUserData = () => {
-    fetchWithRefresh('https://norma.nomoreparties.space/api/auth/user', {
+export const amendUserData = (form) => {
+    return fetchWithRefresh('https://norma.nomoreparties.space/api/auth/user', {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
             'authorization': `Bearer ${localStorage.getItem('accessToken')}`
         },
         body: JSON.stringify({
-            email: 'tolkachevroman@bk.ru',
-            password: '123',
-            name: 'RomaInitial',
+            email: form.email,
+            password: form.password,
+            name: form.name,
         })
     })
-    .then(res => console.log(res))
+    .then((res) => {
+        if (res.success) {
+            alert('данные успешно обновлены')
+            return res.user
+        }
+    })
+    .catch((err) => {
+        console.log("ошибка в запросе")
+        return Promise.reject(err)
+    })
 }
 
 export const loginRequest = (form) => {

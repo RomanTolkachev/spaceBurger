@@ -20,6 +20,7 @@ export const LoginPage = () => {
         return login(form);
     }
 
+    // TODO: изменить диспатч, если неправильный пароль
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>вход</h1>
