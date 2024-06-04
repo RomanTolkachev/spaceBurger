@@ -29,7 +29,6 @@ const IngredientCard = (props) => {
         return total;
     }, [commonCart, props])
 
-    const dispatch = useDispatch();
     return (
         <>
             <Link to={`/ingredients/${props.burgerData._id}`} state={{ background: location }} className={styles.link}>

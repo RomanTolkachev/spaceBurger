@@ -2,7 +2,6 @@ import styles from "./ProfileChange.module.css";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useEffect, useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {amendUserData} from "../../utils/api";
 import {requestAmendment} from "../../services/actions/user";
 
 export const ProfileChange = () => {

@@ -7,7 +7,6 @@ import {useNavigate} from "react-router-dom";
 import {clearOrderNumber} from "../../services/actions/order";
 import {useDispatch, useSelector} from "react-redux";
 import {clearDetailedInfo} from "../../services/actions/ingredientDetailedInfo";
-import {handleClearCart} from "../../services/actions/burgerCounstructor";
 
 
 const Modal = (props) => {
@@ -28,7 +27,6 @@ const Modal = (props) => {
     const closeModal = () => {
         if (modalContent) {
             dispatch(clearOrderNumber());
-            // dispatch(handleClearCart());
         } else {
             dispatch(clearDetailedInfo()) ;
             return navigate(-1)

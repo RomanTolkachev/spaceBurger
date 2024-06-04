@@ -125,7 +125,7 @@ export const getUserData = () => {
             'authorization': `Bearer ${localStorage.getItem('accessToken')}`
         }
     })
-    .then(res => {console.log("срабоатал then в getUserData",res); return res}) // undefined из checkResponse
+    .then(res => res)
     .catch((res) =>  Promise.reject(res))
 }
 
@@ -195,7 +195,7 @@ export const logOutRequest = () => {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
         }
-        console.log("срабоатал then в logOut, токены удалены",res); return res
+        return res
     })
     .catch(err => {
         console.log(err)

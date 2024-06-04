@@ -1,6 +1,6 @@
 import styles from "./profilePage.module.css"
 import React from "react";
-import {NavLink, useNavigate} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import PropTypes from "prop-types";
 import Modal from "../../components/Modal/Modal";
 import {useDispatch} from "react-redux";
@@ -8,8 +8,6 @@ import {logOut} from "../../services/actions/user";
 
 export const ProfilePage = ({component}) => {
     const dispatch = useDispatch()
-    const navigate = useNavigate()
-
 
     return (
         <section className={styles.frame}>

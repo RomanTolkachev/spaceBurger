@@ -14,10 +14,8 @@ export const checkUserAuth = () => {
                 type: SET_USER,
                 data: res.user
             });
-            console.log('стработал then в checkUserAuth', res)
         })
         .catch(() => {
-            console.log('сработал кэтч в checkUserAuth')
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
         })
