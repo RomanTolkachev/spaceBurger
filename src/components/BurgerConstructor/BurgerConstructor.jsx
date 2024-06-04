@@ -1,25 +1,25 @@
 import styles from './BurgerConstructor.module.css'
 import {YaLibraryCard} from "./ConstructorCard/YaLIbraryCard";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from '../Modal/Modal.jsx'
 import React, { useMemo } from "react";
-import OrderModal from "../Modal/OrderModal/OrderModal";
 import {useSelector, useDispatch} from "react-redux";
 import { useDrop } from "react-dnd";
 import { handleDrop } from "../../services/actions/burgerCounstructor";
 import { EmptyCard } from './ConstructorCard/EmptyCard'
 import { sendOrder } from "../../services/actions/order";
+import {useNavigate} from "react-router-dom";
 const url = 'https://norma.nomoreparties.space/api/orders'
 
 
 const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
-
     const commonCart = useSelector(state => state.burgerConstructor)
     const currentFilling = useSelector(state => state.burgerConstructor.filling)
     const currentBun = useSelector(state => state.burgerConstructor.bun)
     const isOrderLocked = useSelector(state => state.orderStore.isOrderButtonLocked);
+    const user = useSelector(state => state.userInfo.name);
+    const navigate = useNavigate()
 
     const [{isDragging}, dropRef] = useDrop({
         accept: ['main', 'sauce'],
@@ -68,6 +68,12 @@ const BurgerConstructor = () => {
         }
         return ids;
     }, [commonCart])
+
+    const handleSendOrder = () => {
+        if (!user) {
+            return navigate('/login')
+        } else dispatch(sendOrder(url,ids))
+    }
 
     return (
         <>
@@ -119,7 +125,7 @@ const BurgerConstructor = () => {
                         htmlType="button"
                         type="primary"
                         size="large"
-                        onClick={() => dispatch(sendOrder(url,ids))}>
+                        onClick={handleSendOrder}>
                         Оформить заказ
                     </Button>
                 </div>
