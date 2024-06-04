@@ -2,8 +2,8 @@ import styles from "./loginPage.module.css"
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import {Link} from "react-router-dom";
-import {login} from "../../services/actions/user";
 import {useDispatch} from "react-redux";
+import {loginRequest} from "../../utils/api";
 export const LoginPage = () => {
 
     const [email, setEmail] = React.useState('tolkachevroman@bk.ru')
@@ -15,16 +15,15 @@ export const LoginPage = () => {
         password: password
     }
 
-    const handleSubmit = (e, form) => {
+    const handleSubmit = async (e, form) => {
         e.preventDefault();
-        return login(form);
+        await loginRequest(form, dispatch)
     }
 
-    // TODO: изменить диспатч, если неправильный пароль
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>вход</h1>
-            <form method='post' className={styles.form} style={{display: 'flex', flexDirection: 'column'}} onSubmit={async(e) => dispatch(await handleSubmit(e, form))}>
+            <form method='post' className={styles.form} style={{display: 'flex', flexDirection: 'column'}} onSubmit={e => handleSubmit(e, form)}>
                 <div className={styles.login}>
                     <Input
                         onChange={(e) => setEmail(e.target.value)}

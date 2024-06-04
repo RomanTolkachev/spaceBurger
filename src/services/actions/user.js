@@ -29,12 +29,11 @@ export const checkUserAuth = () => {
     }
 }
 
-export const login = async (form) => {
-    const loginData = await loginRequest(form)
+export const login = (res) => {
     return (dispatch) => {
-         dispatch({
+        dispatch({
             type: SET_USER,
-            data: loginData.user
+            data: res
         });
         dispatch({
             type: AUTH_STATUS_CHECKED

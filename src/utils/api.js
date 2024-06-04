@@ -1,3 +1,4 @@
+import {login} from "../services/actions/user";
 
 export const registerUser = (form) => {
     return fetch('https://norma.nomoreparties.space/api/auth/register',{
@@ -89,7 +90,6 @@ export const refreshToken = () => {
         if (parsed.success) {
             localStorage.setItem("refreshToken", parsed.refreshToken);
             localStorage.setItem("accessToken", parsed.accessToken.split('Bearer ')[1]);
-            console.log('token refreshed')
             return parsed;
         } else {
             return Promise.reject(parsed)
@@ -104,20 +104,15 @@ export const checkResponse = async (res) =>  {
 export const fetchWithRefresh = async (url, options) => {
     try {
         const res = await fetch(url, options);
-        console.log('сработал try в fetchWithRefresh')
         return await checkResponse(res);
     } catch (error) {
-        console.log('сработал catch в fetchWithRefresh')
         if (error.message === "jwt expired") {
-            console.log('сработал if в fetchWithRefresh')
             const refreshedTokens = await refreshToken();
-            console.log(refreshedTokens)
             options.headers.authorization = refreshedTokens.accessToken;
             const res = await fetch(url, options);
-            console.log(res)
             return await checkResponse(res)
         } else {
-            return () => {Promise.reject(error); console.log('стработал else в fetchWithRefresh')}
+            return Promise.reject(error)
         }
     }
 }
@@ -154,13 +149,12 @@ export const amendUserData = (form) => {
         }
     })
     .catch((err) => {
-        console.log("ошибка в запросе")
         return Promise.reject(err)
     })
 }
 
-export const loginRequest = (form) => {
-    return fetchWithRefresh('https://norma.nomoreparties.space/api/auth/login', {
+export const loginRequest = (form, dispatch) => {
+    return fetch('https://norma.nomoreparties.space/api/auth/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -170,12 +164,18 @@ export const loginRequest = (form) => {
             password: form.password
         })
     })
-    .then((res) => {
-        if (res.success) {
-            localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
-            localStorage.setItem('refreshToken', res.refreshToken)
-            return res
+    .then(res => res.json())
+    .then((parsed) => {
+        if (parsed.success) {
+            localStorage.setItem('accessToken', parsed.accessToken.split('Bearer ')[1]);
+            localStorage.setItem('refreshToken', parsed.refreshToken)
+            return dispatch(login(parsed.user));
+        } else {
+            alert(parsed.message)
         }
+    })
+    .catch((err) => {
+        console.log(err)
     })
 }
 
@@ -201,5 +201,4 @@ export const logOutRequest = () => {
         console.log(err)
         return Promise.reject(err)
     })
-
 }
