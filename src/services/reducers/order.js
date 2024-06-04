@@ -37,10 +37,7 @@ export const orderStore = (state = initialState, action) => {
             }
         }
         case CLEAR_ORDER_NUMBER: {
-            return {
-                ...state,
-                modalContent: null,
-            }
+            return initialState
         }
         default: {
             return state

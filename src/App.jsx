@@ -1,6 +1,6 @@
 import {Route, Routes, useLocation, useNavigate, useParams} from "react-router-dom";
 import {HomePage} from "./pages/homePage";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {fetchIngredients} from "./services/actions/burgerIngredients";
 import {useDispatch, useSelector} from "react-redux";
 import AppHeader from "./components/AppHeader/AppHeader";
@@ -16,6 +16,7 @@ import {NotFoundPage} from "./pages/404Page/404Page";
 import {checkUserAuth} from "./services/actions/user";
 import {OnlyAuth, OnlyUnAuth,} from "./components/ProtectedRoute/ProtectedRoute";
 import {ProfileChange} from "./components/ProfileChange/ProfileChange";
+import OrderModal from "./components/Modal/OrderModal/OrderModal";
 const url = "https://norma.nomoreparties.space/api/ingredients"
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
     const background = location.state && location.state.background;
 
     const dataIsLoaded = useSelector(state => state.burgerIngredients.ingredients)
+    const orderNumber = useSelector(state => state.orderStore.modalContent);
 
     useEffect(() => {
         dispatch(fetchIngredients(url))
@@ -52,8 +54,10 @@ function App() {
                     <Route path="history" element={<OnlyAuth component={<ProfilePage component={null} />} />}></Route>
                 </Route>
                 <Route path="*" element={<NotFoundPage />} />
-                <Route path="*/*" element={<NotFoundPage />} />
             </Routes>}
+            {orderNumber && <Modal>
+                <OrderModal>{orderNumber}</OrderModal>
+            </Modal>}
 
             {
                 dataIsLoaded && background && (

@@ -1,4 +1,4 @@
-import {HANDLE_CLEAR_CART} from "./burgerCounstructor";
+import {handleClearCart} from "./burgerCounstructor";
 
 
 export const ORDER_SENT = 'ORDER_SENT';
@@ -8,20 +8,18 @@ export const ORDER_PROCESSING_FINISHED = 'ORDER_PROCESSING_FINISHED';
 export const CLEAR_ORDER_NUMBER = 'CLEAR_ORDER_NUMBER';
 
 
-
-
 export function sendOrder(url, arrayOfIds) {
     return function (dispatch) {
         dispatch({
             type: ORDER_SENT
         })
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ingredients: arrayOfIds})
-    })
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ingredients: arrayOfIds})
+        })
         .then(res => {
             if (res.ok) {
                  return res.json()
@@ -34,6 +32,7 @@ export function sendOrder(url, arrayOfIds) {
                     orderInfo: parsed,
                     orderNumber: parsed.order.number
                 })
+                dispatch(handleClearCart());
             } else {
                 dispatch({
                     type: ORDER_SENT_FAILED,
@@ -46,10 +45,18 @@ export function sendOrder(url, arrayOfIds) {
                 type: ORDER_SENT_FAILED,
             })
         })
-        .finally(() =>
+        .finally(() => {
             dispatch({
                 type: ORDER_PROCESSING_FINISHED,
-            })
-        )
+            });
+        })
+    }
+}
+
+export function clearOrderNumber() {
+    return dispatch => {
+        dispatch({
+            type: CLEAR_ORDER_NUMBER
+        })
     }
 }

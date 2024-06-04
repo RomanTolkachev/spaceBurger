@@ -51,13 +51,12 @@ export const burgerConstructor = (state = initialState, action) => {
         }
         case HANDLE_CLEAR_CART: {
             return {
-                initialState
+                ...initialState
             }
         }
         default:
             {
                 return state
             }
-
     }
 }

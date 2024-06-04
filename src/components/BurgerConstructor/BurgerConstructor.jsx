@@ -20,7 +20,6 @@ const BurgerConstructor = () => {
     const currentFilling = useSelector(state => state.burgerConstructor.filling)
     const currentBun = useSelector(state => state.burgerConstructor.bun)
     const isOrderLocked = useSelector(state => state.orderStore.isOrderButtonLocked);
-    const orderNumber = useSelector(state => state.orderStore.modalContent);
 
     const [{isDragging}, dropRef] = useDrop({
         accept: ['main', 'sauce'],
@@ -69,13 +68,6 @@ const BurgerConstructor = () => {
         }
         return ids;
     }, [commonCart])
-
-    const [isModalOpen, setModalOpen] = React.useState(false);
-
-    function toggleModal() {
-        setModalOpen(!isModalOpen)
-    }
-
 
     return (
         <>
@@ -131,9 +123,6 @@ const BurgerConstructor = () => {
                         Оформить заказ
                     </Button>
                 </div>
-                {orderNumber && <Modal toggleModal={toggleModal}>
-                    <OrderModal>{orderNumber}</OrderModal>
-                </Modal>}
             </div>}
         </>
     )

@@ -4,11 +4,17 @@ import React, {useEffect} from "react";
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import {useNavigate} from "react-router-dom";
+import {clearOrderNumber} from "../../services/actions/order";
+import {useDispatch, useSelector} from "react-redux";
+import {clearDetailedInfo} from "../../services/actions/ingredientDetailedInfo";
+import {handleClearCart} from "../../services/actions/burgerCounstructor";
 
 
 const Modal = (props) => {
-    const innerRef = React.useRef(null)
-    const navigate = useNavigate()
+    const innerRef = React.useRef(null);
+    const navigate = useNavigate();
+    const {modalContent} = useSelector(state => state.orderStore);
+    const dispatch = useDispatch()
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside, true);
@@ -17,17 +23,27 @@ const Modal = (props) => {
             document.removeEventListener('click', handleClickOutside, true);
             document.removeEventListener('keydown', handleClickEscape, true)
         }
-    },[])
+    },[]);
+
+    const closeModal = () => {
+        if (modalContent) {
+            dispatch(clearOrderNumber());
+            // dispatch(handleClearCart());
+        } else {
+            dispatch(clearDetailedInfo()) ;
+            return navigate(-1)
+        }
+    }
 
     function handleClickOutside(e) {
         if (!innerRef.current.contains(e.target)) {
-            navigate(-1)
+            closeModal()
         }
     }
 
     function handleClickEscape(e) {
         if (e.key === 'Escape') {
-            navigate(-1)
+            closeModal()
         }
     }
 
@@ -36,7 +52,7 @@ const Modal = (props) => {
             <div className={styles.overlay}>
                 <div className={styles.inner} ref={innerRef}>
                     {props.children}
-                    <div className={styles.close} onClick={() => navigate(-1)}>
+                    <div className={styles.close} onClick={closeModal}>
                         <CloseIcon type="primary" />
                     </div>
                 </div>
