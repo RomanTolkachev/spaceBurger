@@ -4,6 +4,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {register} from "../../services/actions/user";
 import {useDispatch} from "react-redux";
+import {registerUser} from "../../utils/api";
 
 
 export const RegisterPage = () => {
@@ -20,15 +21,18 @@ export const RegisterPage = () => {
     }
 
 
-    const handleSubmit = (e, form) => {
+    const handleSubmit = async (e, form) => {
         e.preventDefault();
-        return register(form)
+        return registerUser(form)
+        .then(res => {dispatch(register(res))})
+        .catch(err => err.message === "User already exists" ? alert('пользователь с таким email уже существует') : undefined)
     }
+
 
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>регистрация</h1>
-            <form method='post' className={styles.input} style={{display: 'flex', flexDirection: 'column'}} onSubmit={async(e) => dispatch(handleSubmit(e, form))}>
+            <form method='post' className={styles.input} style={{display: 'flex', flexDirection: 'column'}} onSubmit={async e => handleSubmit(e, form)}>
                 <Input
                     onChange={(e) => setName(e.target.value)}
                     value={name}

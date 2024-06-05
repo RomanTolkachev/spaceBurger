@@ -17,10 +17,10 @@ import {checkUserAuth} from "./services/actions/user";
 import {OnlyAuth, OnlyUnAuth,} from "./components/ProtectedRoute/ProtectedRoute";
 import {ProfileChange} from "./components/ProfileChange/ProfileChange";
 import OrderModal from "./components/Modal/OrderModal/OrderModal";
-const url = "https://norma.nomoreparties.space/api/ingredients"
+import {BASE_URL} from "./utils/api";
+const url = `${BASE_URL}/ingredients`
 
 function App() {
-
 
     const dispatch = useDispatch();
 

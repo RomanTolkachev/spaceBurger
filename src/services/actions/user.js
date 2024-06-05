@@ -39,18 +39,12 @@ export const login = (res) => {
     }
 }
 
-export const register = (form) => {
+export const register = (resp) => {
     return (dispatch) => {
-        registerUser(form)
-        .then(res => {
-            dispatch({
-                type: SET_USER,
-                data: res.user
-            });
-        })
-        .catch((res) => {
-            console.log('сработал кэтч в register', res)
-        })
+        dispatch({
+            type: SET_USER,
+            data: resp.user
+        });
     }
 }
 
