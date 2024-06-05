@@ -5,11 +5,14 @@ import PropTypes from "prop-types";
 export const EmptyCard = (props) => {
     return(
         <li className={styles.wrapper} >
-        <p>
-            <DragIcon style={{display: 'none'}} type="secondary" />
-        </p>
-        <div className={styles.content}
-             style={{borderRadius: props.type === "top"
+            { !props.type &&
+                <p>
+                    <DragIcon style={{display: 'none'}} type="secondary"/>
+                </p>
+            }
+            <div className={styles.content}
+                 style={{
+                     borderRadius: props.type === "top"
                 ? "88px 88px 40px 40px"
                 : props.type === "bottom"
                 ? "40px 40px 88px 88px"
