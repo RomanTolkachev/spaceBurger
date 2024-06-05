@@ -1,31 +1,42 @@
 import styles from "./forgotPassworgPage.module.css"
-import {Button, EmailInput} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {requestCode} from "../../services/actions/user";
+import {blockButton, unBlockButton} from "../../services/actions/user";
+import {requestForgotPassCode} from "../../utils/api";
 
 export const ForgotPasswordPage = () => {
 
     const [email, setEmail] = React.useState('email')
     const isRequestButtonLocked = useSelector(state => state.userInfo.isRequestButtonLocked);
     const dispatch = useDispatch();
-    const navigate = useNavigate()
-
-    const handleSubmit = (e, form) => {
-        e.preventDefault();
-        return requestCode(form, navigate)
-    }
+    const navigate = useNavigate();
 
     const form = {
         email: email
     }
 
+    const handlePassCodeSuccess = (message) => {
+        localStorage.setItem('resetPasswordTokenSent', "yes");
+        alert(message)
+        navigate("/reset-password")
+    }
+
+    const handleSubmit = (e, form) => {
+        e.preventDefault();
+        dispatch(blockButton());
+        requestForgotPassCode(form)
+        .then(res => res.message === 'Reset email sent' ? handlePassCodeSuccess(res.message) : undefined)
+        .catch(err => alert(err))
+        .finally(() => dispatch(unBlockButton()))
+    }
+
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>восстановление пароля</h1>
-            <form method='post' className={styles.form} style={{display: 'flex', flexDirection: 'column'}} onSubmit={async(e) => dispatch(handleSubmit(e,form))}>
-                <EmailInput
+            <form method='post' className={styles.form} style={{display: 'flex', flexDirection: 'column'}} onSubmit={e => handleSubmit(e, form)}>
+                <Input
                     type={'text'}
                     placeholder={'email'}
                     onChange={e => setEmail(e.target.value)}

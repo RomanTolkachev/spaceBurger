@@ -26,7 +26,7 @@ export const checkResponse = async (res) =>  {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export const forgotPassword = (form, navigate) => {
+export const requestForgotPassCode = (form) => {
     return fetch(`${BASE_URL}/password-reset`, {
         method: 'POST',
         headers: {
@@ -37,20 +37,9 @@ export const forgotPassword = (form, navigate) => {
         })
     })
     .then(checkResponse)
-    .then(parsed => {
-        if (parsed.message === 'Reset email sent') {
-            localStorage.setItem('resetPasswordTokenSent', "yes")
-            alert('код отправлен на указанный email')
-        }
-        navigate("/reset-password")
-        return parsed;
-    })
-    .catch(() => {
-        console.log('сработал кэтч в api.forgotPassword')
-    })
 }
 
-export const resetPassword = (form, navigate) => {
+export const resetPassword = (form) => {
     return fetch(`${BASE_URL}/password-reset/reset`,{
         method: 'POST',
         headers: {
@@ -62,16 +51,16 @@ export const resetPassword = (form, navigate) => {
         })
     })
     .then(checkResponse)
-    .then(parsed => {
-        localStorage.removeItem('resetPasswordTokenSent')
-        console.log(parsed);
-        navigate('/login')
-    })
-    .catch ((err) => {
-        if (err.message === "Incorrect reset token") {
-            alert("неверный код из письма")
-        }
-    })
+    // .then(parsed => {
+    //     localStorage.removeItem('resetPasswordTokenSent')
+    //     console.log(parsed);
+    //     navigate('/login')
+    // })
+    // .catch ((err) => {
+    //     if (err.message === "Incorrect reset token") {
+    //         alert("неверный код из письма")
+    //     }
+    // })
 }
 
 export const refreshToken = () => {

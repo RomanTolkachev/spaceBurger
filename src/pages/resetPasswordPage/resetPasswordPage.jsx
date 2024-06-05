@@ -1,6 +1,6 @@
 import styles from "./resetPassworgPage.module.css"
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {resetPassword} from "../../utils/api";
 
@@ -11,24 +11,31 @@ export const ResetPasswordPage = () => {
 
     const navigate = useNavigate();
 
-    if (localStorage.getItem('resetPasswordTokenSent') !== 'yes') {
-        navigate('/forgot-password')
-    }
+    useEffect(() => {
+        if (localStorage.getItem('resetPasswordTokenSent') !== 'yes') {
+            navigate('/forgot-password')
+        }
+    }, []);
 
     const form = {
         password: password,
         code: code
     }
 
-    const handleSubmit = (e, form, navigate) => {
+    const handleSubmit = (e, form) => {
         e.preventDefault();
-        return resetPassword(form, navigate)
+        resetPassword(form)
+        .then(() => {
+                localStorage.removeItem('resetPasswordTokenSent')
+                navigate('/login')
+        })
+        .catch(err => err.message === "Incorrect reset token" ? alert("неверный код из письма") : undefined)
     }
 
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>восстановление пароля</h1>
-            <form method='post' className={styles.input} style={{display: 'flex', flexDirection: 'column'}} onSubmit={async(e) => await handleSubmit(e, form, navigate)}>
+            <form method='post' className={styles.input} style={{display: 'flex', flexDirection: 'column'}} onSubmit={e =>handleSubmit(e, form)}>
                 <PasswordInput
                     onChange={e => {
                         setPassword(e.target.value)

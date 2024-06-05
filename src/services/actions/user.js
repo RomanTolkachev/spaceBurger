@@ -1,4 +1,4 @@
-import {amendUserData, forgotPassword, getUserData, loginRequest, logOutRequest, registerUser} from "../../utils/api";
+import {amendUserData, getUserData,  logOutRequest} from "../../utils/api";
 
 export const SET_USER =  "SET_USER";
 export const CLEAR_USER = "CLEAR_USER"
@@ -67,21 +67,20 @@ export const logOut = () => {
     }
 }
 
-export const requestCode = (form, navigate) => {
+export const blockButton = () => {
     return (dispatch) => {
         dispatch({
-            type:SEND_EMAIL_START
+            type: SEND_EMAIL_START
         })
-        forgotPassword(form, navigate)
-        .then((res) => {
-            return res
+    }
+}
+
+export const unBlockButton = () => {
+    return (dispatch) => {
+        dispatch({
+            type: SEND_EMAIL_FINISHED
         })
-        .finally(() => {
-            dispatch({
-                type:SEND_EMAIL_FINISHED
-            });
-        })
-    };
+    }
 }
 
 export const requestAmendment = (form) => {
