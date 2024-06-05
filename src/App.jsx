@@ -1,6 +1,6 @@
-import {Route, Routes, useLocation, useNavigate, useParams} from "react-router-dom";
+import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {HomePage} from "./pages/homePage";
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {fetchIngredients} from "./services/actions/burgerIngredients";
 import {useDispatch, useSelector} from "react-redux";
 import AppHeader from "./components/AppHeader/AppHeader";
@@ -13,17 +13,20 @@ import {ForgotPasswordPage} from "./pages/forgotPasswordPage/forgotPasswordPage"
 import {ResetPasswordPage} from "./pages/resetPasswordPage/resetPasswordPage";
 import {ProfilePage} from "./pages/profilePage/profilePage";
 import {NotFoundPage} from "./pages/404Page/404Page";
-import {checkUserAuth, finishAuthStatus, putUserDataInStorage, setUser} from "./services/actions/user";
+import {finishAuthStatus,setUser} from "./services/actions/user";
 import {OnlyAuth, OnlyUnAuth,} from "./components/ProtectedRoute/ProtectedRoute";
 import {ProfileChange} from "./components/ProfileChange/ProfileChange";
 import OrderModal from "./components/Modal/OrderModal/OrderModal";
 import {BASE_URL, getUserData} from "./utils/api";
+import {clearOrderNumber} from "./services/actions/order";
+import {clearDetailedInfo} from "./services/actions/ingredientDetailedInfo";
 const url = `${BASE_URL}/ingredients`
 
 function App() {
 
     const dispatch = useDispatch();
 
+    const navigate = useNavigate()
     const location = useLocation();
     const background = location.state && location.state.background;
 
@@ -46,6 +49,17 @@ function App() {
         })
     }, [dispatch])
 
+    const {modalContent} = useSelector(state => state.orderStore);
+
+
+    const closeModal = useCallback(() => {
+        if (modalContent) {
+            dispatch(clearOrderNumber());
+        } else {
+            dispatch(clearDetailedInfo());
+            return navigate(-1)
+        }
+    },[dispatch, modalContent, navigate])
 
     return (
         <>
@@ -63,7 +77,7 @@ function App() {
                 </Route>
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>}
-            {orderNumber && <Modal>
+            {orderNumber && <Modal closeModal={closeModal}>
                 <OrderModal>{orderNumber}</OrderModal>
             </Modal>}
 
@@ -72,7 +86,7 @@ function App() {
                     <Routes>
                         <Route path="/ingredients/:anyIdNumber"
                                element={
-                            <Modal>
+                            <Modal closeModal={closeModal}>
                                 <DetailedIngredientInfo/>
                             </Modal>} />
                     </Routes>
