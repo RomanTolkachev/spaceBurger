@@ -1,4 +1,3 @@
-import {login} from "../services/actions/user";
 
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 
@@ -142,15 +141,4 @@ export const logOutRequest = () => {
         })
     })
     .then(checkResponse)
-    .then(res => {
-        if (res.success) {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-        }
-        return res
-    })
-    .catch(err => {
-        console.log(err)
-        return Promise.reject(err)
-    })
 }

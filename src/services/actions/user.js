@@ -1,4 +1,3 @@
-import {logOutRequest} from "../../utils/api";
 
 export const SET_USER =  "SET_USER";
 export const CLEAR_USER = "CLEAR_USER"
@@ -36,22 +35,11 @@ export const setUser = (res) => {
     }
 }
 
-export const logOut = () => {
-    return (dispatch) => {
-        logOutRequest()
-        .then(() => {
-            dispatch({
-                type: CLEAR_USER,
-            });
-        })
-        .catch((res) => {
-            console.log('сработал кэтч в logOut', res)
-        })
-        .finally(() => {
-            dispatch({
-                type: AUTH_STATUS_CHECKED,
-            });
-        })
+export const clearUser = () => {
+    return dispatch => {
+        dispatch({
+            type: CLEAR_USER,
+        });
     }
 }
 
