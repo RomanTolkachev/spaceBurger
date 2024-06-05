@@ -81,11 +81,8 @@ const BurgerConstructor = () => {
                 <div className={`${styles.item} ${isBunDragging || isBottomBunDragging ? styles.dragging : ""}`} ref={bunRef}>
                     {currentBun.length > 0 ? (
                             <div className={styles.top_bun}>
-                                {/*<p className={styles.drag_icon}>*/}
-                                {/*    <DragIcon type="primary"/>*/}
-                                {/*</p>*/}
                                 <ConstructorElement
-                                    text={currentBun[0].name}
+                                    text={`${currentBun[0].name} (Верх)`}
                                     price={currentBun[0].price}
                                     thumbnail={currentBun[0].image_mobile}
                                     type={'top'}
@@ -102,11 +99,8 @@ const BurgerConstructor = () => {
                 <div className={`${styles.item} ${isBunDragging || isBottomBunDragging ? styles.dragging : ""}`} ref={bottomBunRef}>
                     {currentBun.length > 0 ? (
                             <div className={styles.top_bun}>
-                                {/*<p className={styles.drag_icon}>*/}
-                                {/*    <DragIcon type="primary"/>*/}
-                                {/*</p>*/}
                                 <ConstructorElement
-                                    text={currentBun[0].name}
+                                    text={`${currentBun[0].name} (Низ)`}
                                     price={currentBun[0].price}
                                     thumbnail={currentBun[0].image_mobile}
                                     type={'bottom'}
