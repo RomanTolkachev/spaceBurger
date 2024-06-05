@@ -7,7 +7,7 @@ export const EmptyCard = (props) => {
         <li className={styles.wrapper} >
             { !props.type &&
                 <p>
-                    <DragIcon style={{display: 'none'}} type="secondary"/>
+                    <DragIcon type="secondary"/>
                 </p>
             }
             <div className={styles.content}

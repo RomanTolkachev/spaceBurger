@@ -47,7 +47,7 @@ export const ProfileChange = () => {
 
     return (
         <form method='post' className={styles.form} onSubmit={e => handleSubmit(e,form)}>
-            <div className={styles.input} style={{display: 'flex', flexDirection: 'column'}}>
+            <div className={styles.input}>
                 <Input
                     onChange={(e) => setName(e.target.value)}
                     value={name}

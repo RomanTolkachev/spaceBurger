@@ -58,7 +58,7 @@ const BurgerIngredients = () => {
             <section className={styles.section}>
                 <h1 className={`${styles.section_header}`}>соберите бургер</h1>
                 <nav>
-                    <nav style={{display: 'flex', marginBottom: '40px'}}>
+                    <nav className={styles.nav}>
                         <Tab value="buns" active={currentTab === 'buns'} onClick={() => dispatch(setCurrentTab('buns'))}>
                             булки
                         </Tab>

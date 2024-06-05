@@ -33,7 +33,7 @@ export const LoginPage = () => {
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>вход</h1>
-            <form method='post' className={styles.form} style={{display: 'flex', flexDirection: 'column'}} onSubmit={e => handleSubmit(e, form)}>
+            <form method='post' className={styles.form} onSubmit={e => handleSubmit(e, form)}>
                 <div className={styles.login}>
                     <Input
                         onChange={(e) => setEmail(e.target.value)}

@@ -32,7 +32,7 @@ export const RegisterPage = () => {
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>регистрация</h1>
-            <form method='post' className={styles.input} style={{display: 'flex', flexDirection: 'column'}} onSubmit={async e => handleSubmit(e, form)}>
+            <form method='post' className={styles.input} onSubmit={async e => handleSubmit(e, form)}>
                 <Input
                     onChange={(e) => setName(e.target.value)}
                     value={name}
