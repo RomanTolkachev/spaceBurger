@@ -117,7 +117,7 @@ export const amendUserData = (form) => {
     })
 }
 
-export const loginRequest = (form, dispatch) => {
+export const loginRequest = (form) => {
     return fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
@@ -128,19 +128,7 @@ export const loginRequest = (form, dispatch) => {
             password: form.password
         })
     })
-    .then(res => res.json())
-    .then((parsed) => {
-        if (parsed.success) {
-            localStorage.setItem('accessToken', parsed.accessToken.split('Bearer ')[1]);
-            localStorage.setItem('refreshToken', parsed.refreshToken)
-            return dispatch(login(parsed.user));
-        } else {
-            alert(parsed.message)
-        }
-    })
-    .catch((err) => {
-        console.log(err)
-    })
+    .then(checkResponse)
 }
 
 export const logOutRequest = () => {

@@ -4,6 +4,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {loginRequest} from "../../utils/api";
+import {login} from "../../services/actions/user";
 
 export const LoginPage = () => {
 
@@ -16,9 +17,17 @@ export const LoginPage = () => {
         password: password
     }
 
+    const handleLoginSuccess = (res) => {
+        localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
+        localStorage.setItem('refreshToken', res.refreshToken)
+        return dispatch(login(res.user))
+    }
+
     const handleSubmit = async (e, form) => {
         e.preventDefault();
-        await loginRequest(form, dispatch)
+        loginRequest(form)
+        .then(res => res.success ? handleLoginSuccess(res) : alert(res.message))
+        .catch(err => alert(err))
     }
 
     return (
