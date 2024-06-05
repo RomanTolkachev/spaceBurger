@@ -2,7 +2,7 @@ import styles from './registerPage.module.css'
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import {Link} from "react-router-dom";
-import {register} from "../../services/actions/user";
+import {setUser} from "../../services/actions/user";
 import {useDispatch} from "react-redux";
 import {registerUser} from "../../utils/api";
 
@@ -24,7 +24,7 @@ export const RegisterPage = () => {
     const handleSubmit = async (e, form) => {
         e.preventDefault();
         return registerUser(form)
-        .then(res => {dispatch(register(res))})
+        .then(res => {dispatch(setUser(res))})
         .catch(err => err.message === "User already exists" ? alert('пользователь с таким email уже существует') : undefined)
     }
 

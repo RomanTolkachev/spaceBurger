@@ -6,23 +6,11 @@ export const SEND_EMAIL_START = "SEND_EMAIL_START"
 export const SEND_EMAIL_FINISHED = "SEND_EMAIL_FINISHED"
 export const AUTH_STATUS_CHECKED = "AUTH_STATUS_CHECKED"
 
-export const checkUserAuth = () => {
+
+export const finishAuthStatus = () => {
     return (dispatch) => {
-        getUserData()
-        .then((res) => {
-            dispatch({
-                type: SET_USER,
-                data: res.user
-            });
-        })
-        .catch(() => {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-        })
-        .finally(() => {
-            dispatch({
-                type: AUTH_STATUS_CHECKED,
-            })
+        dispatch({
+            type: AUTH_STATUS_CHECKED,
         })
     }
 }
@@ -39,11 +27,11 @@ export const login = (res) => {
     }
 }
 
-export const register = (resp) => {
+export const setUser = (res) => {
     return (dispatch) => {
         dispatch({
             type: SET_USER,
-            data: resp.user
+            data: res.user
         });
     }
 }
@@ -83,15 +71,4 @@ export const unBlockButton = () => {
     }
 }
 
-export const requestAmendment = (form) => {
-    return amendUserData(form)
-        .then(res => {
-            return dispatch => {
-                dispatch({
-                    type: SET_USER,
-                    data: res
-                })
-            }
-        })
-}
 

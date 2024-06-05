@@ -13,11 +13,11 @@ import {ForgotPasswordPage} from "./pages/forgotPasswordPage/forgotPasswordPage"
 import {ResetPasswordPage} from "./pages/resetPasswordPage/resetPasswordPage";
 import {ProfilePage} from "./pages/profilePage/profilePage";
 import {NotFoundPage} from "./pages/404Page/404Page";
-import {checkUserAuth} from "./services/actions/user";
+import {checkUserAuth, finishAuthStatus, putUserDataInStorage, setUser} from "./services/actions/user";
 import {OnlyAuth, OnlyUnAuth,} from "./components/ProtectedRoute/ProtectedRoute";
 import {ProfileChange} from "./components/ProfileChange/ProfileChange";
 import OrderModal from "./components/Modal/OrderModal/OrderModal";
-import {BASE_URL} from "./utils/api";
+import {BASE_URL, getUserData} from "./utils/api";
 const url = `${BASE_URL}/ingredients`
 
 function App() {
@@ -35,8 +35,16 @@ function App() {
     },[]);
 
     useEffect(() => {
-        dispatch(checkUserAuth());
-    }, [])
+        getUserData()
+        .then(res => dispatch(setUser(res)))
+        .catch(() => {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('refreshToken');
+        })
+        .finally(() => {
+            dispatch(finishAuthStatus())
+        })
+    }, [dispatch])
 
 
     return (

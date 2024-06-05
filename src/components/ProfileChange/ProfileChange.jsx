@@ -2,7 +2,8 @@ import styles from "./ProfileChange.module.css";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useEffect, useMemo} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {requestAmendment} from "../../services/actions/user";
+import {setUser} from "../../services/actions/user";
+import {amendUserData} from "../../utils/api";
 
 export const ProfileChange = () => {
 
@@ -32,14 +33,20 @@ export const ProfileChange = () => {
         formString !== initialStateString ? setHasFormChanged(false) : setHasFormChanged(true)
     }, [form, storageUser, storageEmail, password, hasFormChanged]);
 
+    const handleSuccessAmendUser = (res) => {
+        alert('данные успешно обновлены');
+        return dispatch(setUser(res))
+    }
 
     const handleSubmit = (e, form) => {
-            e.preventDefault()
-            return requestAmendment(form)
+            e.preventDefault();
+            return amendUserData(form)
+            .then(res => res.success ? handleSuccessAmendUser(res) : undefined)
+            .catch(err => alert(err))
     }
 
     return (
-        <form method='post' className={styles.form} onSubmit={async(e) => dispatch(await handleSubmit(e,form))}>
+        <form method='post' className={styles.form} onSubmit={e => handleSubmit(e,form)}>
             <div className={styles.input} style={{display: 'flex', flexDirection: 'column'}}>
                 <Input
                     onChange={(e) => setName(e.target.value)}
