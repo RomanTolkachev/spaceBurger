@@ -1,0 +1,60 @@
+.frame {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-top: 300px;
+    height: calc(100svh - 386px);
+    display: flex;
+    align-items: start;
+    justify-content: start;
+}
+
+*::first-letter {
+    text-transform: capitalize;
+}
+
+.header {
+    composes: text text_type_main-medium mb-6 from global;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    composes: mr-15 from global;
+}
+
+.nav_item {
+    width: 100%;
+    composes: text text_type_main-medium text_color_inactive from global;
+    height: 60px;
+    vertical-align: center;
+    text-decoration: none;
+}
+
+.nav_item_active {
+    width: 100%;
+    composes: text text_type_main-medium from global;
+    text-decoration: none;
+    height: 60px;
+    vertical-align: center;
+}
+
+div.nav_item {
+    margin-bottom: 80px;
+}
+
+.nav_info {
+    composes: text text_type_main-default text_color_inactive from global;
+}
+
+.input {
+    composes: mb-6 from global;
+}
+
+.button {
+    composes: mb-20 from global;
+}
+
+.remember {
+    composes: text text_type_main-default text_color_inactive from global;
+}

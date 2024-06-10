@@ -1,26 +1,25 @@
 import styles from './BurgerConstructor.module.css'
 import {YaLibraryCard} from "./ConstructorCard/YaLIbraryCard";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from '../Modal/Modal.jsx'
 import React, { useMemo } from "react";
-import OrderModal from "../Modal/OrderModal/OrderModal";
 import {useSelector, useDispatch} from "react-redux";
 import { useDrop } from "react-dnd";
 import { handleDrop } from "../../services/actions/burgerCounstructor";
 import { EmptyCard } from './ConstructorCard/EmptyCard'
 import { sendOrder } from "../../services/actions/order";
+import {useNavigate} from "react-router-dom";
 const url = 'https://norma.nomoreparties.space/api/orders'
 
 
 const BurgerConstructor = () => {
 
     const dispatch = useDispatch();
-
     const commonCart = useSelector(state => state.burgerConstructor)
     const currentFilling = useSelector(state => state.burgerConstructor.filling)
     const currentBun = useSelector(state => state.burgerConstructor.bun)
     const isOrderLocked = useSelector(state => state.orderStore.isOrderButtonLocked);
-    const orderNumber = useSelector(state => state.orderStore.modalContent);
+    const user = useSelector(state => state.userInfo.name);
+    const navigate = useNavigate()
 
     const [{isDragging}, dropRef] = useDrop({
         accept: ['main', 'sauce'],
@@ -70,12 +69,11 @@ const BurgerConstructor = () => {
         return ids;
     }, [commonCart])
 
-    const [isModalOpen, setModalOpen] = React.useState(false);
-
-    function toggleModal() {
-        setModalOpen(!isModalOpen)
+    const handleSendOrder = () => {
+        if (!user) {
+            return navigate('/login')
+        } else dispatch(sendOrder(url,ids))
     }
-
 
     return (
         <>
@@ -83,11 +81,8 @@ const BurgerConstructor = () => {
                 <div className={`${styles.item} ${isBunDragging || isBottomBunDragging ? styles.dragging : ""}`} ref={bunRef}>
                     {currentBun.length > 0 ? (
                             <div className={styles.top_bun}>
-                                <p className={styles.drag_icon}>
-                                    <DragIcon type="primary"/>
-                                </p>
                                 <ConstructorElement
-                                    text={currentBun[0].name}
+                                    text={`${currentBun[0].name} (Верх)`}
                                     price={currentBun[0].price}
                                     thumbnail={currentBun[0].image_mobile}
                                     type={'top'}
@@ -104,11 +99,8 @@ const BurgerConstructor = () => {
                 <div className={`${styles.item} ${isBunDragging || isBottomBunDragging ? styles.dragging : ""}`} ref={bottomBunRef}>
                     {currentBun.length > 0 ? (
                             <div className={styles.top_bun}>
-                                <p className={styles.drag_icon}>
-                                    <DragIcon type="primary"/>
-                                </p>
                                 <ConstructorElement
-                                    text={currentBun[0].name}
+                                    text={`${currentBun[0].name} (Низ)`}
                                     price={currentBun[0].price}
                                     thumbnail={currentBun[0].image_mobile}
                                     type={'bottom'}
@@ -127,13 +119,10 @@ const BurgerConstructor = () => {
                         htmlType="button"
                         type="primary"
                         size="large"
-                        onClick={() => dispatch(sendOrder(url,ids))}>
+                        onClick={handleSendOrder}>
                         Оформить заказ
                     </Button>
                 </div>
-                {orderNumber && <Modal toggleModal={toggleModal}>
-                    <OrderModal>{orderNumber}</OrderModal>
-                </Modal>}
             </div>}
         </>
     )

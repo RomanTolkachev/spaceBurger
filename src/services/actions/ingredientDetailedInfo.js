@@ -9,3 +9,11 @@ export const configureDetailedInfo = (info) => {
         })
     }
 }
+
+export const clearDetailedInfo = () => {
+    return function(dispatch) {
+        return dispatch({
+            type: CLEAR_DETAILED_INGREDIENT_INFO,
+        })
+    }
+}

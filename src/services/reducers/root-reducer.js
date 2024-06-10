@@ -3,6 +3,7 @@ import { burgerIngredients } from "./burgerIngredients";
 import { burgerConstructor } from "./burgerCounstructor";
 import { ingredientDetailedInfo } from "./ingredientDetailedInfo";
 import { orderStore } from "./order";
+import { userInfo } from "./user"
 import { TOGGLE_MODAL } from "../actions/root-reducer";
 
 const initialState = {
@@ -27,5 +28,6 @@ export const rootReducer = combineReducers({
     burgerIngredients: burgerIngredients,
     ingredientDetailedInfo: ingredientDetailedInfo,
     orderStore: orderStore,
+    userInfo: userInfo,
     common: common,
 });

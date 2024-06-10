@@ -8,6 +8,7 @@ import { thunk } from "redux-thunk";
 import { createStore, compose, applyMiddleware } from "redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { BrowserRouter } from 'react-router-dom'
 
 
 const composeEnhancers =
@@ -24,12 +25,16 @@ const store = createStore(rootReducer, enhancer);
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+
 root.render(
-  <React.StrictMode>
-    <Provider store = {store}>
-        <DndProvider backend={HTML5Backend}>
-            <App />
-        </DndProvider>
-    </Provider>
-  </React.StrictMode>
+    // <React.StrictMode>
+        <BrowserRouter>
+            <Provider store={store}>
+                <DndProvider backend={HTML5Backend}>
+                    <App/>
+                </DndProvider>
+            </Provider>
+        </BrowserRouter>
+    // </React.StrictMode>
 );

@@ -1,0 +1,45 @@
+.frame {
+    padding-top: 86px;
+    height: calc(100svh - 86px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+*::first-letter {
+    text-transform: capitalize;
+}
+
+.header {
+    composes: text text_type_main-medium mb-6 from global;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
+    composes: mb-6 from global;
+}
+
+.button {
+    composes: mb-20 from global;
+    align-self: center;
+}
+
+.remember {
+    composes: text text_type_main-default text_color_inactive from global;
+}
+
+.register {
+    composes: text text_type_main-default text_color_inactive mb-4 from global;
+    display: flex;
+    gap: 20px;
+}
+
+.link {
+    text-decoration: none;
+    color: #4c4cff;
+}

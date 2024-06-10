@@ -7,6 +7,11 @@
     composes:  text text_type_main-large pt-10 pb-5 from global;
 }
 
+.nav {
+    display: flex;
+    margin-bottom: 40px;
+}
+
 .section_header::first-letter {
     text-transform: capitalize;
 }

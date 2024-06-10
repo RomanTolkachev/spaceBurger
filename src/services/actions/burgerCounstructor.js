@@ -2,7 +2,7 @@
 import uuid from "react-uuid";
 export const HANDLE_DROP = 'HANDLE_DROP';
 export const HANDLE_DELETE = 'HANDLE_DELETE';
-export const HANDLE_SWAP_CARD = 'HANDLE_CLEAR_CART';
+export const HANDLE_SWAP_CARD = 'HANDLE_SWAP_CARD';
 export const HANDLE_CLEAR_CART = 'HANDLE_CLEAR_CART';
 
 
@@ -34,6 +34,14 @@ export function handleSwap(dragIndex, hoverIndex) {
             type: HANDLE_SWAP_CARD,
             dragIndex: dragIndex,
             hoverIndex: hoverIndex
+        })
+    }
+}
+
+export function handleClearCart() {
+    return function(dispatch) {
+        dispatch({
+            type: HANDLE_CLEAR_CART,
         })
     }
 }

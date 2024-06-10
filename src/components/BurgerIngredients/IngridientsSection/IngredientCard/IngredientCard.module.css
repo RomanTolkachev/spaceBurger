@@ -15,6 +15,10 @@
     margin: 0 auto;
 }
 
+.counter {
+    position: absolute;
+}
+
 .price {
     width: fit-content;
     margin-left: auto;
@@ -29,4 +33,9 @@
 
 .name {
     text-align: center;
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
 }
