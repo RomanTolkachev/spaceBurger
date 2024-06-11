@@ -14,8 +14,8 @@ const BurgerIngredients = () => {
     const hasError = useSelector(state => state.burgerIngredients.hasError);
     const ingredients = useSelector(state => state.burgerIngredients.ingredients);
 
-    const filterIngredientTypeBy = (type) => ingredients.filter(item => item.type === type);
     const {buns, sauce, main} = useMemo(() => {
+    const filterIngredientTypeBy = (type) => ingredients.filter(item => item.type === type);
         if (ingredients) {
             return {
                 buns: filterIngredientTypeBy('bun'),
