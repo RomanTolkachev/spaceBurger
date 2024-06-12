@@ -8,8 +8,8 @@ import { handleDrop } from "../../services/actions/burgerCounstructor";
 import { EmptyCard } from './ConstructorCard/EmptyCard'
 import { sendOrder } from "../../services/actions/order";
 import {useNavigate} from "react-router-dom";
-const url = 'https://norma.nomoreparties.space/api/orders'
 
+const url = 'https://norma.nomoreparties.space/api/orders'
 
 const BurgerConstructor = () => {
 

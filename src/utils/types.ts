@@ -1,6 +1,5 @@
 import {HANDLE_CLEAR_CART, HANDLE_DELETE, HANDLE_DROP, HANDLE_SWAP_CARD} from "../services/actions/burgerCounstructor";
 
-
 export interface IIngredient {
     _id: string,
     name: string,
@@ -16,11 +15,11 @@ export interface IIngredient {
     __v: number,
 }
 
-// Типизация экшенов для BurgerConstructor
-
 export interface IConstructorIngredient extends IIngredient {
     dynamicId: string
 }
+
+// Типизация экшенов для BurgerConstructor
 
 interface IHandleDrop {
     type: typeof HANDLE_DROP,

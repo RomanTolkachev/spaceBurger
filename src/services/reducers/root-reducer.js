@@ -4,24 +4,6 @@ import { burgerConstructor } from "./burgerCounstructor";
 import { ingredientDetailedInfo } from "./ingredientDetailedInfo";
 import { orderStore } from "./order";
 import { userInfo } from "./user"
-import { TOGGLE_MODAL } from "../actions/root-reducer";
-
-const initialState = {
-    isModalOpen: false,
-}
-const common = (state = initialState, action) => {
-    switch (action.type) {
-        case TOGGLE_MODAL: {
-            return {
-                ...state,
-                isModalOpen: !state.isModalOpen
-            }
-        }
-        default: {
-            return state
-        }
-    }
-}
 
 export const rootReducer = combineReducers({
     burgerConstructor: burgerConstructor,
@@ -29,5 +11,4 @@ export const rootReducer = combineReducers({
     ingredientDetailedInfo: ingredientDetailedInfo,
     orderStore: orderStore,
     userInfo: userInfo,
-    common: common,
 });
