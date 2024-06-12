@@ -1,7 +1,7 @@
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {HomePage} from "./pages/homePage";
 import React, {useCallback, useEffect} from "react";
-import {fetchIngredients} from "./services/actions/burgerIngredients";
+import {handleFailedFetch, setIngredients, startFetch} from "./services/actions/burgerIngredients";
 import {useDispatch, useSelector} from "react-redux";
 import AppHeader from "./components/AppHeader/AppHeader";
 import Modal from "./components/Modal/Modal";
@@ -17,10 +17,9 @@ import {finishAuthStatus,setUser} from "./services/actions/user";
 import {OnlyAuth, OnlyUnAuth,} from "./components/ProtectedRoute/ProtectedRoute";
 import {ProfileChange} from "./components/ProfileChange/ProfileChange";
 import OrderModal from "./components/Modal/OrderModal/OrderModal";
-import {BASE_URL, getUserData} from "./utils/api";
+import {getUserData, fetchIngredients} from "./utils/api";
 import {clearOrderNumber} from "./services/actions/order";
 import {clearDetailedInfo} from "./services/actions/ingredientDetailedInfo";
-const url = `${BASE_URL}/ingredients`
 
 function App() {
 
@@ -34,8 +33,11 @@ function App() {
     const orderNumber = useSelector(state => state.orderStore.modalContent);
 
     useEffect(() => {
-        dispatch(fetchIngredients(url))
-    },[]);
+        dispatch(startFetch())
+        fetchIngredients()
+        .then(res => {dispatch(setIngredients(res))})
+        .catch(() => dispatch(handleFailedFetch()))
+    },[dispatch]);
 
     useEffect(() => {
         getUserData()

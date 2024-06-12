@@ -1,17 +1,21 @@
-import {
-    FETCH_INGREDIENTS,
-    FETCH_INGREDIENTS_SUCCESS,
-    FETCH_INGREDIENTS_FAILED,
-    SWITCH_TAB } from "../actions/burgerIngredients";
+import {FETCH_INGREDIENTS, FETCH_INGREDIENTS_SUCCESS, FETCH_INGREDIENTS_FAILED, SWITCH_TAB } from "../actions/burgerIngredients";
+import {IConstructorIngredient, TBurgerConstructor} from "../../utils/types";
 
-const initialState = {
-    hello: "i am burgerIngredients store",
+const initialState: IBurgerIngredientsState = {
     ingredients: null,
     isLoading: false,
     hasError: false,
     currentTab: "buns",
 }
-export const burgerIngredients = (state = initialState, action) => {
+
+interface IBurgerIngredientsState {
+    ingredients: IConstructorIngredient[] | null,
+    isLoading: boolean,
+    hasError: boolean,
+    currentTab: string
+}
+
+export const burgerIngredients = (state: IBurgerIngredientsState = initialState, action: TBurgerConstructor) => {
 
     switch (action.type) {
         case FETCH_INGREDIENTS: {

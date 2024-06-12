@@ -1,4 +1,9 @@
 import {HANDLE_CLEAR_CART, HANDLE_DELETE, HANDLE_DROP, HANDLE_SWAP_CARD} from "../services/actions/burgerCounstructor";
+import {
+    FETCH_INGREDIENTS,
+    FETCH_INGREDIENTS_FAILED,
+    FETCH_INGREDIENTS_SUCCESS, SWITCH_TAB
+} from "../services/actions/burgerIngredients";
 
 export interface IIngredient {
     _id: string,
@@ -20,7 +25,6 @@ export interface IConstructorIngredient extends IIngredient {
 }
 
 // Типизация экшенов для BurgerConstructor
-
 interface IHandleDrop {
     type: typeof HANDLE_DROP,
     droppableItem: IConstructorIngredient
@@ -42,3 +46,27 @@ interface IHandleClearCart {
 }
 
 export type TConstructorActionType = IHandleClearCart | IHandleSwap | IHandleDelete | IHandleDrop
+
+
+
+// Типы для BurgerIngredients
+interface IStartFetch {
+    type: typeof FETCH_INGREDIENTS
+}
+
+interface IFailedFetch {
+    type: typeof FETCH_INGREDIENTS_FAILED,
+    error: string
+}
+
+interface ISetIngredients {
+    type: typeof FETCH_INGREDIENTS_SUCCESS,
+    fetched: Object
+}
+
+interface ISetCurrentTab {
+    type: typeof SWITCH_TAB
+    current: string | undefined
+}
+
+export type TBurgerConstructor = IStartFetch | IFailedFetch | ISetIngredients | ISetCurrentTab

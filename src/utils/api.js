@@ -1,6 +1,11 @@
 
 export const BASE_URL = "https://norma.nomoreparties.space/api";
 
+export const fetchIngredients = () => {
+    return fetch(`${BASE_URL}/ingredients`)
+    .then(checkResponse)
+}
+
 export const registerUser = (form) => {
     return fetch(`${BASE_URL}/auth/register`,{
         method: 'POST',
