@@ -1,6 +1,6 @@
 import styles from './BurgerConstructor.module.css'
 import {YaLibraryCard} from "./ConstructorCard/YaLIbraryCard";
-import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useMemo } from "react";
 import {useSelector, useDispatch} from "react-redux";
 import { useDrop } from "react-dnd";
