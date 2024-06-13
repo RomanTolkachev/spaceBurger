@@ -19,10 +19,10 @@ export function startFetch(): TBurgerConstructor {
     }
 }
 
-export function setIngredients(parsed: {data: IIngredient[]}): TBurgerConstructor {
+export function setIngredients(parsed: IIngredient[]): TBurgerConstructor {
     return {
         type: FETCH_INGREDIENTS_SUCCESS,
-        fetched: parsed.data
+        data: parsed
     }
 }
 

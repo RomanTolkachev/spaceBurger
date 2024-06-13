@@ -59,14 +59,15 @@ interface IFailedFetch {
     error: string
 }
 
-interface ISetIngredients {
-    type: typeof FETCH_INGREDIENTS_SUCCESS,
-    fetched: Object
-}
-
 interface ISetCurrentTab {
     type: typeof SWITCH_TAB
     current: string | undefined
+}
+
+interface ISetIngredients {
+    type: typeof FETCH_INGREDIENTS_SUCCESS,
+    data: IIngredient[]
+
 }
 
 export type TBurgerConstructor = IStartFetch | IFailedFetch | ISetIngredients | ISetCurrentTab

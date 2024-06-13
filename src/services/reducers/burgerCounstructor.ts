@@ -2,17 +2,17 @@
 import {HANDLE_DROP, HANDLE_DELETE, HANDLE_CLEAR_CART, HANDLE_SWAP_CARD} from "../actions/burgerCounstructor";
 import {IConstructorIngredient, TConstructorActionType} from "../../utils/types";
 
-interface IBurgerConstructorState {
+interface IBurgerConstructorStore {
     bun: IConstructorIngredient[] | [],
     filling: IConstructorIngredient[] | [],
 }
 
-const initialState: IBurgerConstructorState = {
+const initialState: IBurgerConstructorStore = {
     bun: [],
     filling: [],
 };
 
-export const burgerConstructor = (state: IBurgerConstructorState = initialState, action: TConstructorActionType ) => {
+export const burgerConstructor = (state: IBurgerConstructorStore = initialState, action: TConstructorActionType ):IBurgerConstructorStore => {
     switch (action.type) {
         case HANDLE_DROP: {
             if (action.droppableItem.type !== 'bun') {
