@@ -35,7 +35,7 @@ function App() {
     useEffect(() => {
         dispatch(startFetch())
         fetchIngredients()
-        .then(res => {dispatch(setIngredients(res)); console.log(res)})
+        .then(res => {dispatch(setIngredients(res))})
         .catch(() => dispatch(handleFailedFetch()))
     },[dispatch]);
 

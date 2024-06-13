@@ -10,13 +10,10 @@ import {
     handleOrderSuccess,
     orderSentFiled,
     orderSentFinished,
-    sendOrder,
     startSendOrder
 } from "../../services/actions/order";
 import {useNavigate} from "react-router-dom";
 import {sendOrderRequest} from "../../utils/api";
-
-const url = 'https://norma.nomoreparties.space/api/orders'
 
 const BurgerConstructor = () => {
 
@@ -82,7 +79,7 @@ const BurgerConstructor = () => {
         } else {
             dispatch(startSendOrder());
             sendOrderRequest(ids)
-            .then(res => dispatch(handleOrderSuccess(res)).then(dispatch(handleClearCart())))
+            .then(res => {dispatch(handleOrderSuccess(res)); dispatch(handleClearCart())})
             .catch(() => orderSentFiled())
             .finally(() => dispatch(orderSentFinished()))
         }

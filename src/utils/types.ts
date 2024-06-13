@@ -1,6 +1,13 @@
 import {HANDLE_CLEAR_CART, HANDLE_DELETE, HANDLE_DROP, HANDLE_SWAP_CARD} from "../services/actions/burgerCounstructor";
 import {FETCH_INGREDIENTS, FETCH_INGREDIENTS_FAILED, FETCH_INGREDIENTS_SUCCESS, SWITCH_TAB} from "../services/actions/burgerIngredients";
 import {CLEAR_DETAILED_INGREDIENT_INFO, GET_DETAILED_INGREDIENT_INFO} from "../services/actions/ingredientDetailedInfo";
+import {
+    CLEAR_ORDER_NUMBER,
+    ORDER_PROCESSING_FINISHED,
+    ORDER_SENT,
+    ORDER_SENT_FAILED,
+    ORDER_SENT_SUCCESS
+} from "../services/actions/order";
 
 export interface IIngredient {
     _id: string,
@@ -82,3 +89,30 @@ interface IClearDetailedInfo {
 }
 
 export type TDetailedInfo = IDetailedIngredientInfo | IClearDetailedInfo
+
+
+// Типы обработки отправки заказа
+
+interface IOrderSent {
+    type: typeof ORDER_SENT
+}
+
+interface IOrderSuccess {
+    type: typeof ORDER_SENT_SUCCESS,
+    orderInfo: any,
+    orderNumber: number
+}
+
+interface IOrderSentFailed {
+    type: typeof ORDER_SENT_FAILED
+}
+
+interface IOrderSentFinished {
+    type: typeof ORDER_PROCESSING_FINISHED
+}
+
+interface IClearOrderNumber {
+    type: typeof CLEAR_ORDER_NUMBER
+}
+
+export type TOrderProcessing = IOrderSent | IOrderSuccess | IOrderSentFailed | IOrderSentFinished | IClearOrderNumber;
