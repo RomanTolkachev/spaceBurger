@@ -1,9 +1,6 @@
 import {HANDLE_CLEAR_CART, HANDLE_DELETE, HANDLE_DROP, HANDLE_SWAP_CARD} from "../services/actions/burgerCounstructor";
-import {
-    FETCH_INGREDIENTS,
-    FETCH_INGREDIENTS_FAILED,
-    FETCH_INGREDIENTS_SUCCESS, SWITCH_TAB
-} from "../services/actions/burgerIngredients";
+import {FETCH_INGREDIENTS, FETCH_INGREDIENTS_FAILED, FETCH_INGREDIENTS_SUCCESS, SWITCH_TAB} from "../services/actions/burgerIngredients";
+import {CLEAR_DETAILED_INGREDIENT_INFO, GET_DETAILED_INGREDIENT_INFO} from "../services/actions/ingredientDetailedInfo";
 
 export interface IIngredient {
     _id: string,
@@ -70,4 +67,18 @@ interface ISetIngredients {
 
 }
 
-export type TBurgerConstructor = IStartFetch | IFailedFetch | ISetIngredients | ISetCurrentTab
+export type TBurgerConstructor = IStartFetch | IFailedFetch | ISetIngredients | ISetCurrentTab;
+
+
+
+// Детальная информация об ингредиенте
+interface IDetailedIngredientInfo {
+    type: typeof GET_DETAILED_INGREDIENT_INFO,
+    info: IIngredient
+}
+
+interface IClearDetailedInfo {
+    type: typeof CLEAR_DETAILED_INGREDIENT_INFO
+}
+
+export type TDetailedInfo = IDetailedIngredientInfo | IClearDetailedInfo

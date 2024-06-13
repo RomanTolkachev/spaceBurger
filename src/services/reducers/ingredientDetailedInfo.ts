@@ -2,10 +2,15 @@ import {
     GET_DETAILED_INGREDIENT_INFO,
     CLEAR_DETAILED_INGREDIENT_INFO
 } from "../actions/ingredientDetailedInfo";
+import {IIngredient, TDetailedInfo} from "../../utils/types";
 
-const initialState = {};
+interface IDetailedIngredientStore {
+    info?: IIngredient | null
+}
 
-export const ingredientDetailedInfo = (state = initialState, action) => {
+const initialState: IDetailedIngredientStore= {};
+
+export const ingredientDetailedInfo = (state: IDetailedIngredientStore = initialState, action: TDetailedInfo): IDetailedIngredientStore => {
     switch (action.type) {
         case GET_DETAILED_INGREDIENT_INFO: {
             return {
@@ -14,9 +19,7 @@ export const ingredientDetailedInfo = (state = initialState, action) => {
             }
         }
         case CLEAR_DETAILED_INGREDIENT_INFO: {
-            return {
-                initialState
-            }
+            return initialState
         }
         default: {
             return state
