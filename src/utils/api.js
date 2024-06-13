@@ -6,6 +6,17 @@ export const fetchIngredients = () => {
     .then(checkResponse)
 }
 
+export const sendOrderRequest = (arrayOfIds) => {
+    return fetch(`${BASE_URL}/orders`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ingredients: arrayOfIds})
+    })
+    .then(checkResponse)
+}
+
 export const registerUser = (form) => {
     return fetch(`${BASE_URL}/auth/register`,{
         method: 'POST',

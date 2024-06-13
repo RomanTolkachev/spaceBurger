@@ -4,10 +4,17 @@ import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-deve
 import React, { useMemo } from "react";
 import {useSelector, useDispatch} from "react-redux";
 import { useDrop } from "react-dnd";
-import { handleDrop } from "../../services/actions/burgerCounstructor";
+import {handleClearCart, handleDrop} from "../../services/actions/burgerCounstructor";
 import { EmptyCard } from './ConstructorCard/EmptyCard'
-import { sendOrder } from "../../services/actions/order";
+import {
+    handleOrderSuccess,
+    orderSentFiled,
+    orderSentFinished,
+    sendOrder,
+    startSendOrder
+} from "../../services/actions/order";
 import {useNavigate} from "react-router-dom";
+import {sendOrderRequest} from "../../utils/api";
 
 const url = 'https://norma.nomoreparties.space/api/orders'
 
@@ -72,7 +79,13 @@ const BurgerConstructor = () => {
     const handleSendOrder = () => {
         if (!user) {
             return navigate('/login')
-        } else dispatch(sendOrder(url,ids))
+        } else {
+            dispatch(startSendOrder());
+            sendOrderRequest(ids)
+            .then(res => dispatch(handleOrderSuccess(res)).then(dispatch(handleClearCart())))
+            .catch(() => orderSentFiled())
+            .finally(() => dispatch(orderSentFinished()))
+        }
     }
 
     return (
