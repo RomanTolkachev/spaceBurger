@@ -1,13 +1,21 @@
 import {ORDER_SENT, ORDER_SENT_SUCCESS, ORDER_SENT_FAILED, ORDER_PROCESSING_FINISHED, CLEAR_ORDER_NUMBER} from "../actions/order";
+import {TOrderProcessing} from "../../utils/types";
 
-const initialState = {
+const initialState: IOrderStore = {
     isOrderButtonLocked: false,
     isOrderSuccess: null,
     orders: [],
     modalContent: null,
 }
 
-export const orderStore = (state = initialState, action) => {
+interface IOrderStore {
+    isOrderButtonLocked: boolean,
+    isOrderSuccess: null | boolean,
+    orders: [] | any,
+    modalContent: null | number,
+}
+
+export const orderStore = (state: IOrderStore = initialState, action: TOrderProcessing): IOrderStore => {
     switch (action.type) {
         case ORDER_SENT: {
             return {

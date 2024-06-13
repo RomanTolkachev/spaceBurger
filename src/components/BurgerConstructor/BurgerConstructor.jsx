@@ -79,7 +79,12 @@ const BurgerConstructor = () => {
         } else {
             dispatch(startSendOrder());
             sendOrderRequest(ids)
-            .then(res => {dispatch(handleOrderSuccess(res)); dispatch(handleClearCart())})
+            .then(res => {
+                if (res.success) {
+                    dispatch(handleOrderSuccess(res));
+                    dispatch(handleClearCart())
+                } else alert('заказ не создан')
+            })
             .catch(() => orderSentFiled())
             .finally(() => dispatch(orderSentFinished()))
         }
