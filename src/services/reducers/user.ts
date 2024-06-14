@@ -1,4 +1,5 @@
 import { SET_USER, CLEAR_USER, SEND_EMAIL_START, SEND_EMAIL_FINISHED, AUTH_STATUS_CHECKED} from "../actions/user";
+import {TUser} from "../../utils/types";
 
 const initialState = {
     isAuthChecked: false,
@@ -7,7 +8,14 @@ const initialState = {
     isRequestButtonLocked: false,
 };
 
-export const userInfo = (state = initialState, action) => {
+interface IUserState {
+    isAuthChecked: boolean,
+    email: null | string,
+    name: null | string,
+    isRequestButtonLocked: boolean,
+}
+
+export const userInfo = (state: IUserState = initialState, action: TUser):  IUserState => {
     switch (action.type) {
         case SET_USER: {
             return {

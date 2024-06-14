@@ -8,6 +8,13 @@ import {
     ORDER_SENT_FAILED,
     ORDER_SENT_SUCCESS
 } from "../services/actions/order";
+import {
+    AUTH_STATUS_CHECKED,
+    CLEAR_USER,
+    SEND_EMAIL_FINISHED,
+    SEND_EMAIL_START,
+    SET_USER
+} from "../services/actions/user";
 
 export interface IIngredient {
     _id: string,
@@ -116,3 +123,41 @@ interface IClearOrderNumber {
 }
 
 export type TOrderProcessing = IOrderSent | IOrderSuccess | IOrderSentFailed | IOrderSentFinished | IClearOrderNumber;
+
+// Типизация операций с личным кабинетом и логином
+
+interface IFinishAuth {
+    type: typeof AUTH_STATUS_CHECKED
+}
+interface IClearUser {
+    type: typeof CLEAR_USER
+}
+
+interface IBlockButton {
+    type: typeof SEND_EMAIL_START
+}
+
+interface IUnBlockButton {
+    type: typeof SEND_EMAIL_FINISHED
+}
+
+interface ISetUser {
+    type: typeof SET_USER,
+    data: {
+        email: string,
+        name: string
+    }
+}
+
+// interface ILogin {
+//     type: typeof SET_USER,
+//     data: {
+//         success: boolean,
+//         user: {
+//             email: string,
+//             name: string
+//         }
+//     }
+// }
+
+export type TUser = IFinishAuth | IClearUser | IBlockButton | IUnBlockButton | ISetUser

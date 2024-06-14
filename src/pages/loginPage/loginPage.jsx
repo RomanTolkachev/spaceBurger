@@ -20,7 +20,7 @@ export const LoginPage = () => {
     const handleLoginSuccess = (res) => {
         localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
         localStorage.setItem('refreshToken', res.refreshToken)
-        return dispatch(login(res.user))
+        return dispatch(login(res))
     }
 
     const handleSubmit = async (e, form) => {
