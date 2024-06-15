@@ -1,35 +1,41 @@
 import styles from "./forgotPassworgPage.module.css"
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React, {FormEvent} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {blockButton, unBlockButton} from "../../services/actions/user";
 import {requestForgotPassCode} from "../../utils/api";
+import { IRootState } from "../../services/reducers/root-reducer";
 
-export const ForgotPasswordPage = () => {
+export const ForgotPasswordPage: React.FC = () => {
 
-    const [email, setEmail] = React.useState('email')
-    const isRequestButtonLocked = useSelector(state => state.userInfo.isRequestButtonLocked);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const [email, setEmail] = React.useState<string>('email')
+    const isRequestButtonLocked = useSelector((state: IRootState) => state.userInfo.isRequestButtonLocked);
+    const dispatch = useDispatch(); // TODO: разобраться на 5 спринте
 
-    const form = {
+    type TNavigate = ReturnType<typeof useNavigate>
+    const navigate: TNavigate = useNavigate();
+
+    interface IForm {
+        email: string
+    }
+    const form: IForm = {
         email: email
     }
 
-    const handlePassCodeSuccess = (message) => {
+    const handlePassCodeSuccess = (message: string): void => {
         localStorage.setItem('resetPasswordTokenSent', "yes");
         alert(message)
         navigate("/reset-password")
     }
 
-    const handleSubmit = (e, form) => {
-        e.preventDefault();
-        dispatch(blockButton());
+    const handleSubmit = (e: FormEvent, form: IForm) => {
+        e.preventDefault(); //@ts-ignore
+        dispatch(blockButton()); //TODO: диспатч для 5 спринта
         requestForgotPassCode(form)
         .then(res => res.message === 'Reset email sent' ? handlePassCodeSuccess(res.message) : undefined)
-        .catch(err => alert(err))
-        .finally(() => dispatch(unBlockButton()))
+        .catch(err => alert(err)) //@ts-ignore
+        .finally(() => dispatch(unBlockButton())) //TODO: диспатч для 5 спринта
     }
 
     return (
@@ -37,6 +43,8 @@ export const ForgotPasswordPage = () => {
             <h1 className={styles.header}>восстановление пароля</h1>
             <form method='post' className={styles.form} onSubmit={e => handleSubmit(e, form)}>
                 <Input
+                    onPointerEnterCapture={((event: PointerEvent): void => {})}
+                    onPointerLeaveCapture={((event: PointerEvent): void => {})}
                     type={'text'}
                     placeholder={'email'}
                     onChange={e => setEmail(e.target.value)}
@@ -44,7 +52,7 @@ export const ForgotPasswordPage = () => {
                     error={false}
                     errorText={'укажите e-mail'}
                     extraClass="mb-6"
-                    isIcon={true}
+                    icon={undefined}
                 />
                 <div className={styles.button}>
                     <Button disabled={isRequestButtonLocked} htmlType="submit" type="primary" size="medium" extraClass="ml-2">

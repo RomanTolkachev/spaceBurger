@@ -1,29 +1,39 @@
 import styles from "./loginPage.module.css"
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React, {FormEvent} from "react";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {loginRequest} from "../../utils/api";
 import {login} from "../../services/actions/user";
 
-export const LoginPage = () => {
+export const LoginPage: React.FC = () => {
 
-    const [email, setEmail] = React.useState('tolkachevroman@bk.ru')
-    const [password, setPassword] = React.useState('RomA1992')
-    const dispatch = useDispatch()
+    const [email, setEmail] = React.useState<string>('tolkachevroman@bk.ru')
+    const [password, setPassword] = React.useState<string>('RomA1992')
+    const dispatch = useDispatch() // TODO: для 5 спринта
 
-    const form = {
+    interface IForm {
+        email: string
+        password: string
+    }
+    const form: IForm = {
         email: email,
         password: password
     }
 
-    const handleLoginSuccess = (res) => {
+    interface ILoginRes {
+        accessToken: string
+        refreshToken: string
+        success: boolean
+        user: IForm
+    }
+    const handleLoginSuccess = (res: ILoginRes) => {
         localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
-        localStorage.setItem('refreshToken', res.refreshToken)
+        localStorage.setItem('refreshToken', res.refreshToken) //@ts-ignore
         return dispatch(login(res))
     }
 
-    const handleSubmit = async (e, form) => {
+    const handleSubmit = async (e: FormEvent, form: IForm): Promise<void> => {
         e.preventDefault();
         loginRequest(form)
         .then(res => res.success ? handleLoginSuccess(res) : alert(res.message))
@@ -36,7 +46,9 @@ export const LoginPage = () => {
             <form method='post' className={styles.form} onSubmit={e => handleSubmit(e, form)}>
                 <div className={styles.login}>
                     <Input
-                        onChange={(e) => setEmail(e.target.value)}
+                        onPointerEnterCapture={((event: PointerEvent): void => {})}
+                        onPointerLeaveCapture={((event: PointerEvent): void => {})}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                         value={email}
                         name={'email'}
                         icon="EditIcon"
@@ -45,7 +57,7 @@ export const LoginPage = () => {
                 </div>
                 <div className={styles.password}>
                     <PasswordInput
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                         value={password}
                         name={'password'}
                         icon="ShowIcon"
