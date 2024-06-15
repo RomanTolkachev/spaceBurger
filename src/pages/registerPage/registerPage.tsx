@@ -7,23 +7,29 @@ import {useDispatch} from "react-redux";
 import {registerUser} from "../../utils/api";
 
 
-export const RegisterPage = () => {
+export const RegisterPage: React.FC = () => {
 
-    const [name, setName] = React.useState('name');
-    const [email, setEmail] = React.useState('mail@blabla.ru');
-    const [password, setPassword] = React.useState('123456');
-    const dispatch = useDispatch()
+    const [name, setName] = React.useState<string>('name');
+    const [email, setEmail] = React.useState<string>('mail@blabla.ru');
+    const [password, setPassword] = React.useState<string>('123456');
+    const dispatch = useDispatch() // TODO: доработать на 5 спринте
 
-    const form = {
+    interface IForm {
+        name: string,
+        email: string,
+        password: string,
+    }
+
+    const form: IForm = {
         name: name,
         email: email,
         password: password,
     }
 
 
-    const handleSubmit = async (e, form) => {
+    const handleSubmit = async (e: React.FormEvent, form: IForm) => {
         e.preventDefault();
-        return registerUser(form)
+        return registerUser(form) //@ts-ignore
         .then(res => {dispatch(setUser(res))})
         .catch(err => err.message === "User already exists" ? alert('пользователь с таким email уже существует') : undefined)
     }
@@ -34,6 +40,8 @@ export const RegisterPage = () => {
             <h1 className={styles.header}>регистрация</h1>
             <form method='post' className={styles.input} onSubmit={async e => handleSubmit(e, form)}>
                 <Input
+                    onPointerEnterCapture={((event: PointerEvent): void => {})}
+                    onPointerLeaveCapture={((event: PointerEvent): void => {})}
                     onChange={(e) => setName(e.target.value)}
                     value={name}
                     name={'name'}
@@ -42,6 +50,8 @@ export const RegisterPage = () => {
                     type={'text'}
                 />
                 <Input
+                    onPointerEnterCapture={((event: PointerEvent): void => {})}
+                    onPointerLeaveCapture={((event: PointerEvent): void => {})}
                     onChange={(e) => setEmail(e.target.value)}
                     value={email}
                     name={'email'}

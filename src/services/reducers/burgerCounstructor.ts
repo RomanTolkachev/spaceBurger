@@ -2,9 +2,10 @@
 import {HANDLE_DROP, HANDLE_DELETE, HANDLE_CLEAR_CART, HANDLE_SWAP_CARD} from "../actions/burgerCounstructor";
 import {IConstructorIngredient, TConstructorActionType} from "../../utils/types";
 
-interface IBurgerConstructorStore {
+export interface IBurgerConstructorStore {
     bun: IConstructorIngredient[] | [],
     filling: IConstructorIngredient[] | [],
+    [key: string]: IConstructorIngredient[] | []; // это костыль, чтобы можно было сделать итерацию для подсчета стоимости корзины
 }
 
 const initialState: IBurgerConstructorStore = {

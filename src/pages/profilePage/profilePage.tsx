@@ -1,26 +1,33 @@
 import styles from "./profilePage.module.css"
 import React from "react";
 import {NavLink} from "react-router-dom";
-import PropTypes from "prop-types";
-import Modal from "../../components/Modal/Modal";
 import {useDispatch} from "react-redux";
 import {clearUser, finishAuthStatus} from "../../services/actions/user";
 import {logOutRequest} from "../../utils/api";
 
-export const ProfilePage = ({component}) => {
-    const dispatch = useDispatch()
+interface IProfilePage {
+    component?: React.ReactElement | null
+}
 
-    const handleLaveSuccess = (res) => {
+export const ProfilePage: React.FC<IProfilePage> = ({component}) => {
+    const dispatch = useDispatch() // TODO: исправить на 5 спринте
+
+    interface IResponse {
+        message: string
+        success: boolean
+    }
+
+    const handleLaveSuccess = (res: IResponse) => {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
-            alert(res.message)
+            alert(res.message) //@ts-ignore
             return dispatch(clearUser())
     }
 
     const leave = () => {
         return logOutRequest()
         .then(res => res.success ? handleLaveSuccess(res) : undefined )
-        .catch(err => alert(err))
+        .catch(err => alert(err)) //@ts-ignore
         .finally(() => dispatch(finishAuthStatus()))
     }
 
@@ -35,8 +42,4 @@ export const ProfilePage = ({component}) => {
             {component}
         </section>
     )
-}
-
-Modal.propTypes = {
-    component: PropTypes.element
 }

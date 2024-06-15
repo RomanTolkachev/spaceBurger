@@ -6,28 +6,27 @@ import {useSelector, useDispatch} from "react-redux";
 import { useDrop } from "react-dnd";
 import {handleClearCart, handleDrop} from "../../services/actions/burgerCounstructor";
 import { EmptyCard } from './ConstructorCard/EmptyCard'
-import {
-    handleOrderSuccess,
-    orderSentFiled,
-    orderSentFinished,
-    startSendOrder
-} from "../../services/actions/order";
+import {handleOrderSuccess, orderSentFiled, orderSentFinished, startSendOrder} from "../../services/actions/order";
 import {useNavigate} from "react-router-dom";
 import {sendOrderRequest} from "../../utils/api";
+import {IRootState} from "../../services/reducers/root-reducer";
+import {IBurgerConstructorStore} from "../../services/reducers/burgerCounstructor";
 
-const BurgerConstructor = () => {
+const BurgerConstructor: React.FC = () => {
 
     const dispatch = useDispatch();
-    const commonCart = useSelector(state => state.burgerConstructor)
-    const currentFilling = useSelector(state => state.burgerConstructor.filling)
-    const currentBun = useSelector(state => state.burgerConstructor.bun)
-    const isOrderLocked = useSelector(state => state.orderStore.isOrderButtonLocked);
-    const user = useSelector(state => state.userInfo.name);
-    const navigate = useNavigate()
+    const commonCart: IBurgerConstructorStore = useSelector((state: IRootState) => state.burgerConstructor)
+    const currentFilling = useSelector((state: IRootState) => state.burgerConstructor.filling)
+    const currentBun = useSelector((state: IRootState) => state.burgerConstructor.bun)
+    const isOrderLocked: boolean = useSelector((state: IRootState) => state.orderStore.isOrderButtonLocked);
+    const user: string | null = useSelector((state: IRootState) => state.userInfo.name);
+
+    type TNavigate = ReturnType<typeof useNavigate>
+    const navigate: TNavigate = useNavigate()
 
     const [{isDragging}, dropRef] = useDrop({
         accept: ['main', 'sauce'],
-        drop(droppableItem) {
+        drop(droppableItem): void { //@ts-ignore
             dispatch(handleDrop(droppableItem))
         },
         collect: (monitor) => ({
@@ -37,7 +36,7 @@ const BurgerConstructor = () => {
 
     const [{isBunDragging} , bunRef] = useDrop({
         accept: 'bun',
-        drop(droppableItem) {
+        drop(droppableItem): void { //@ts-ignore
             dispatch(handleDrop(droppableItem))
         },
         collect: (monitor) => ({
@@ -47,7 +46,7 @@ const BurgerConstructor = () => {
 
     const [{isBottomBunDragging} , bottomBunRef] = useDrop({
         accept: 'bun',
-        drop(droppableItem) {
+        drop(droppableItem): void { //@ts-ignore
             dispatch(handleDrop(droppableItem))
         },
         collect: (monitor) => ({
@@ -55,16 +54,16 @@ const BurgerConstructor = () => {
         })
     })
 
-    const totalPrice = useMemo(() => {
-        let total = 0;
+    const totalPrice: number = useMemo<number>(() => {
+        let total: number = 0;
         for (let key in commonCart) {
             commonCart[key].forEach(item => total+=item.price)
         }
         return total;
     }, [commonCart])
 
-    const ids = useMemo(() => {
-        const ids = [];
+    const ids: string[] = useMemo(() => {
+        const ids: string[] = [];
         for (let key in commonCart) {
             commonCart[key].forEach(item => {
                 ids.push(item._id)
@@ -76,16 +75,16 @@ const BurgerConstructor = () => {
     const handleSendOrder = () => {
         if (!user) {
             return navigate('/login')
-        } else {
+        } else { //@ts-ignore
             dispatch(startSendOrder());
             sendOrderRequest(ids)
             .then(res => {
-                if (res.success) {
-                    dispatch(handleOrderSuccess(res));
+                if (res.success) { //@ts-ignore
+                    dispatch(handleOrderSuccess(res)); //@ts-ignore
                     dispatch(handleClearCart())
                 } else alert('заказ не создан')
             })
-            .catch(() => orderSentFiled())
+            .catch(() => orderSentFiled()) //@ts-ignore
             .finally(() => dispatch(orderSentFinished()))
         }
     }

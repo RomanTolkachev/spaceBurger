@@ -4,25 +4,31 @@ import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {resetPassword} from "../../utils/api";
 
-export const ResetPasswordPage = () => {
+export const ResetPasswordPage: React.FC = () => {
 
-    const [password, setPassword] = React.useState('password');
-    const [code, setCode] = React.useState('code')
+    const [password, setPassword] = React.useState<string>('password');
+    const [code, setCode] = React.useState<string>('code')
 
-    const navigate = useNavigate();
+    type TNavigate = ReturnType<typeof useNavigate>
+    const navigate: TNavigate = useNavigate();
 
-    useEffect(() => {
+    useEffect((): void => {
         if (localStorage.getItem('resetPasswordTokenSent') !== 'yes') {
             navigate('/forgot-password')
         }
     }, []);
 
-    const form = {
+
+    interface Iform {
+        password: string,
+        code: string
+    }
+    const form: Iform = {
         password: password,
         code: code
     }
 
-    const handleSubmit = (e, form) => {
+    const handleSubmit = (e: React.FormEvent, form: Iform) => {
         e.preventDefault();
         resetPassword(form)
         .then(() => {
@@ -46,6 +52,8 @@ export const ResetPasswordPage = () => {
                     placeholder="Введите новый пароль"
                 />
                 <Input
+                    onPointerEnterCapture={((event: PointerEvent): void => {})}
+                    onPointerLeaveCapture={((event: PointerEvent): void => {})}
                     onChange={e => {
                         setCode(e.target.value)
                     }}

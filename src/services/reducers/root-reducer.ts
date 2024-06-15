@@ -1,13 +1,13 @@
 import { combineReducers } from "redux";
 import {burgerIngredients, IBurgerIngredientsState} from "./burgerIngredients";
-import { burgerConstructor } from "./burgerCounstructor";
+import {burgerConstructor, IBurgerConstructorStore} from "./burgerCounstructor";
 import {IDetailedIngredientStore, ingredientDetailedInfo} from "./ingredientDetailedInfo";
 import {IOrderStore, orderStore} from "./order";
 import {IUserState, userInfo} from "./user"
 import {TBurgerConstructor} from "../../utils/types";
 
 export interface IRootState {
-    burgerConstructor: TBurgerConstructor ,
+    burgerConstructor: IBurgerConstructorStore,
     burgerIngredients: IBurgerIngredientsState,
     ingredientDetailedInfo: IDetailedIngredientStore,
     orderStore: IOrderStore,
