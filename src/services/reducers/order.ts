@@ -8,7 +8,7 @@ const initialState: IOrderStore = {
     modalContent: null,
 }
 
-interface IOrderStore {
+export interface IOrderStore {
     isOrderButtonLocked: boolean,
     isOrderSuccess: null | boolean,
     orders: [] | any,

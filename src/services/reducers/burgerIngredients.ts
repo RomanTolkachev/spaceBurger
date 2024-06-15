@@ -9,7 +9,7 @@ const initialState: IBurgerIngredientsState = {
     errorMessage: null,
 }
 
-interface IBurgerIngredientsState {
+export interface IBurgerIngredientsState {
     ingredients: IIngredient[] | null,
     isLoading: boolean,
     hasError: boolean,

@@ -1,14 +1,14 @@
 import { SET_USER, CLEAR_USER, SEND_EMAIL_START, SEND_EMAIL_FINISHED, AUTH_STATUS_CHECKED} from "../actions/user";
 import {TUser} from "../../utils/types";
 
-const initialState = {
+const initialState: IUserState = {
     isAuthChecked: false,
     email: null,
     name: null,
     isRequestButtonLocked: false,
 };
 
-interface IUserState {
+export interface IUserState {
     isAuthChecked: boolean,
     email: null | string,
     name: null | string,

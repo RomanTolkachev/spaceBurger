@@ -4,7 +4,7 @@ import {
 } from "../actions/ingredientDetailedInfo";
 import {IIngredient, TDetailedInfo} from "../../utils/types";
 
-interface IDetailedIngredientStore {
+export interface IDetailedIngredientStore {
     info?: IIngredient | null
 }
 

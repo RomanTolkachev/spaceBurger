@@ -20,44 +20,46 @@ import OrderModal from "./components/Modal/OrderModal/OrderModal";
 import {getUserData, fetchIngredients} from "./utils/api";
 import {clearOrderNumber} from "./services/actions/order";
 import {clearDetailedInfo} from "./services/actions/ingredientDetailedInfo";
+import {IRootState} from "./services/reducers/root-reducer";
 
-function App() {
+function App():React.JSX.Element {
 
     const dispatch = useDispatch();
 
-    const navigate = useNavigate()
-    const location = useLocation();
-    const background = location.state && location.state.background;
+    type TNavigate = ReturnType<typeof useNavigate> // TODO: разобраться в этом на 5 спринте
+    const navigate: TNavigate = useNavigate()
+    const location: {state: { background: string }} = useLocation();
+    const background: string = location.state && location.state.background;
 
-    const dataIsLoaded = useSelector(state => state.burgerIngredients.ingredients)
-    const orderNumber = useSelector(state => state.orderStore.modalContent);
+    const dataIsLoaded = useSelector((state: IRootState) => state.burgerIngredients.ingredients) // TODO: set useSelector types
+    const orderNumber = useSelector((state: IRootState) => state.orderStore.modalContent); // TODO: set useSelector types
 
-    useEffect(() => {
-        dispatch(startFetch())
-        fetchIngredients()
-        .then(res => {dispatch(setIngredients(res))})
+    useEffect(() => { //@ts-ignore
+        dispatch(startFetch());
+        fetchIngredients() //@ts-ignore
+        .then(res => dispatch(setIngredients(res))) //@ts-ignore
         .catch(() => dispatch(handleFailedFetch()))
     },[dispatch]);
 
     useEffect(() => {
-        getUserData()
+        getUserData()//@ts-ignore
         .then(res => dispatch(setUser(res)))
         .catch(() => {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
         })
-        .finally(() => {
+        .finally(() => { //@ts-ignore
             dispatch(finishAuthStatus())
         })
     }, [dispatch])
 
-    const {modalContent} = useSelector(state => state.orderStore);
+    const {modalContent} = useSelector((state: IRootState) => state.orderStore);
 
 
     const closeModal = useCallback(() => {
-        if (modalContent) {
+        if (modalContent) { //@ts-ignore
             dispatch(clearOrderNumber());
-        } else {
+        } else { //@ts-ignore
             dispatch(clearDetailedInfo());
             return navigate(-1)
         }

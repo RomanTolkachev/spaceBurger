@@ -1,20 +1,8 @@
 import {HANDLE_CLEAR_CART, HANDLE_DELETE, HANDLE_DROP, HANDLE_SWAP_CARD} from "../services/actions/burgerCounstructor";
 import {FETCH_INGREDIENTS, FETCH_INGREDIENTS_FAILED, FETCH_INGREDIENTS_SUCCESS, SWITCH_TAB} from "../services/actions/burgerIngredients";
 import {CLEAR_DETAILED_INGREDIENT_INFO, GET_DETAILED_INGREDIENT_INFO} from "../services/actions/ingredientDetailedInfo";
-import {
-    CLEAR_ORDER_NUMBER,
-    ORDER_PROCESSING_FINISHED,
-    ORDER_SENT,
-    ORDER_SENT_FAILED,
-    ORDER_SENT_SUCCESS
-} from "../services/actions/order";
-import {
-    AUTH_STATUS_CHECKED,
-    CLEAR_USER,
-    SEND_EMAIL_FINISHED,
-    SEND_EMAIL_START,
-    SET_USER
-} from "../services/actions/user";
+import {CLEAR_ORDER_NUMBER, ORDER_PROCESSING_FINISHED, ORDER_SENT, ORDER_SENT_FAILED, ORDER_SENT_SUCCESS} from "../services/actions/order";
+import {AUTH_STATUS_CHECKED, CLEAR_USER, SEND_EMAIL_FINISHED, SEND_EMAIL_START, SET_USER} from "../services/actions/user";
 
 export interface IIngredient {
     _id: string,
@@ -34,6 +22,7 @@ export interface IIngredient {
 export interface IConstructorIngredient extends IIngredient {
     dynamicId: string
 }
+
 
 // Типизация экшенов для BurgerConstructor
 interface IHandleDrop {
@@ -61,7 +50,7 @@ export type TConstructorActionType = IHandleClearCart | IHandleSwap | IHandleDel
 
 
 // Типы для BurgerIngredients
-interface IStartFetch {
+export interface IStartFetch {
     type: typeof FETCH_INGREDIENTS
 }
 
@@ -99,7 +88,6 @@ export type TDetailedInfo = IDetailedIngredientInfo | IClearDetailedInfo
 
 
 // Типы обработки отправки заказа
-
 interface IOrderSent {
     type: typeof ORDER_SENT
 }
@@ -124,8 +112,8 @@ interface IClearOrderNumber {
 
 export type TOrderProcessing = IOrderSent | IOrderSuccess | IOrderSentFailed | IOrderSentFinished | IClearOrderNumber;
 
-// Типизация операций с личным кабинетом и логином
 
+// Типизация операций с личным кабинетом и логином
 interface IFinishAuth {
     type: typeof AUTH_STATUS_CHECKED
 }
@@ -148,16 +136,5 @@ interface ISetUser {
         name: string
     }
 }
-
-// interface ILogin {
-//     type: typeof SET_USER,
-//     data: {
-//         success: boolean,
-//         user: {
-//             email: string,
-//             name: string
-//         }
-//     }
-// }
 
 export type TUser = IFinishAuth | IClearUser | IBlockButton | IUnBlockButton | ISetUser
