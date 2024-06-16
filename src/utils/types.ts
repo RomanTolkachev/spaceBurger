@@ -149,6 +149,11 @@ export type TUser = IFinishAuth | IClearUser | IBlockButton | IUnBlockButton | I
 
 // Формы
 
+export interface ILoginForm {
+    email: string
+    password: string
+}
+
 export interface IForgotPassForm {
     email: string
 }
@@ -185,4 +190,8 @@ export interface IRegisterUserResponse extends IGetUserResponse{
 export interface IRequestForgotPassCode {
     message: string
     success: boolean
+}
+
+export interface ILogOut extends IRequestForgotPassCode {
+
 }

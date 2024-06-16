@@ -25,7 +25,7 @@ export const ResetPasswordPage: React.FC = () => {
         code: code
     }
 
-    const handleSubmit = (e: React.FormEvent, form: IResetPassForm) => {
+    const handleSubmit = (e: React.FormEvent, form: IResetPassForm): void => {
         e.preventDefault();
         resetPassword(form)
         .then(() => {

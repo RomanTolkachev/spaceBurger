@@ -1,31 +1,31 @@
 import styles from './EmptyCard.module.css'
 import {DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
+import React, {PropsWithChildren} from "react";
 
-export const EmptyCard = (props) => {
+interface IEmptyCardProps {
+    type: 'top' | 'bottom' | 'middle'
+}
+
+
+export const EmptyCard: React.FunctionComponent<PropsWithChildren<IEmptyCardProps>> = ({children, type}) => {
     return(
         <li className={styles.wrapper} >
-            { !props.type &&
+            { !type &&
                 <p>
                     <DragIcon type="secondary"/>
                 </p>
             }
             <div className={styles.content}
                  style={{
-                     borderRadius: props.type === "top"
+                     borderRadius: type === "top"
                 ? "88px 88px 40px 40px"
-                : props.type === "bottom"
+                : type === "bottom"
                 ? "40px 40px 88px 88px"
                 : ""}}>
             <div className={styles.text}>
-                <span>{props.children}</span>
+                <span>{children}</span>
             </div>
         </div>
         </li>
     )
-}
-
-EmptyCard.propTypes = {
-    children: PropTypes.node.isRequired,
-    type: PropTypes.string,
 }

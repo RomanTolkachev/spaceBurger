@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {loginRequest} from "../../utils/api";
 import {login} from "../../services/actions/user";
+import {ILoginForm} from "../../utils/types";
 
 export const LoginPage: React.FC = () => {
 
@@ -12,11 +13,8 @@ export const LoginPage: React.FC = () => {
     const [password, setPassword] = React.useState<string>('RomA1992')
     const dispatch = useDispatch() // TODO: для 5 спринта
 
-    interface IForm {
-        email: string
-        password: string
-    }
-    const form: IForm = {
+
+    const form: ILoginForm = {
         email: email,
         password: password
     }
@@ -25,7 +23,7 @@ export const LoginPage: React.FC = () => {
         accessToken: string
         refreshToken: string
         success: boolean
-        user: IForm
+        user: ILoginForm
     }
     const handleLoginSuccess = (res: ILoginRes) => {
         localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
@@ -33,7 +31,7 @@ export const LoginPage: React.FC = () => {
         return dispatch(login(res))
     }
 
-    const handleSubmit = async (e: FormEvent, form: IForm): Promise<void> => {
+    const handleSubmit = async (e: FormEvent, form: ILoginForm): Promise<void> => {
         e.preventDefault();
         loginRequest(form) //@ts-ignore // TODO: переделать сейчас
         .then(res => res.success ? handleLoginSuccess(res) : alert(res.message))

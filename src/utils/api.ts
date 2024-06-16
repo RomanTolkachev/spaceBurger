@@ -1,7 +1,6 @@
 import {
     IForgotPassForm,
-    IGetUserResponse,
-    IIngredient,
+    IIngredient, ILoginForm, ILogOut,
     IOrderResponse,
     IRegisterForm,
     IRegisterUserResponse,
@@ -78,7 +77,7 @@ export const resetPassword = (form: IResetPassForm): Promise<IResetPassResponse>
     .then(checkResponse<IResetPassResponse>)
 }
 
-export const refreshToken = () => {
+export const refreshToken = (): Promise<IRegisterUserResponse | never>  => {
     return fetch(`${BASE_URL}/auth/token`, {
         method: 'POST',
         headers: {
@@ -100,16 +99,21 @@ export const refreshToken = () => {
     })
 }
 
-//@ts-ignore
-export const fetchWithRefresh = async (url, options) => {
+interface IOptions {
+    method: string,
+    headers?: { ["Content-Type"]: string, authorization: string } | undefined,
+    body?: string
+}
+
+export const fetchWithRefresh = async <T>(url: string, options: IOptions): Promise<T> => {
     try {
-        const res = await fetch(url, options);
+        const res: Response = await fetch(url, options);
         return await checkResponse(res);
-    } catch (error) { //@ts-ignore
+    } catch (error: any) {
         if (error.message === "jwt expired") {
-            const refreshedTokens = await refreshToken(); //@ts-ignore
-            options.headers.authorization = refreshedTokens.accessToken;
-            const res = await fetch(url, options);
+            const refreshedTokens: IRegisterUserResponse = await refreshToken();
+            if (options.headers) {options.headers.authorization = refreshedTokens.accessToken}
+            const res: Response = await fetch(url, options);
             return await checkResponse(res)
         } else {
             return Promise.reject(error)
@@ -117,17 +121,17 @@ export const fetchWithRefresh = async (url, options) => {
     }
 }
 
-export const getUserData = () => {
+export const getUserData = <T>(): Promise<T> => {
     return fetchWithRefresh(`${BASE_URL}/auth/user`, {
         method: 'GET',
-            headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            'authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'authorization': `Bearer ${localStorage.getItem('accessToken')}`
         }
     })
 }
-//@ts-ignore
-export const amendUserData = (form) => {
+
+export const amendUserData = (form: IRegisterForm) => {
     return fetchWithRefresh(`${BASE_URL}/auth/user`, {
         method: 'PATCH',
         headers: {
@@ -141,8 +145,9 @@ export const amendUserData = (form) => {
         })
     })
 }
-//@ts-ignore
-export const loginRequest = (form) => {
+
+
+export const loginRequest = (form: ILoginForm): Promise<ILoginForm> => {
     return fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
@@ -153,10 +158,10 @@ export const loginRequest = (form) => {
             password: form.password
         })
     })
-    .then(checkResponse)
+    .then(checkResponse<ILoginForm>)
 }
 
-export const logOutRequest = () => {
+export const logOutRequest = (): Promise<ILogOut> => {
     return fetch(`${BASE_URL}/auth/logout`,{
         method: 'POST',
         headers: {
@@ -166,5 +171,5 @@ export const logOutRequest = () => {
             token: localStorage.getItem('refreshToken'),
         })
     })
-    .then(checkResponse)
+    .then(checkResponse<ILogOut>)
 }
