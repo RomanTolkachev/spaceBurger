@@ -4,18 +4,20 @@ import IngredientsSection from "./IngridientsSection/IngredientSection";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector, useDispatch} from "react-redux";
 import {setCurrentTab} from "../../services/actions/burgerIngredients";
+import {IRootState} from "../../services/reducers/root-reducer";
+import {IIngredient} from "../../utils/types";
 
-const BurgerIngredients = () => {
+const BurgerIngredients: React.FC = () => {
 
     const dispatch = useDispatch();
 
-    const isLoading = useSelector(state => state.burgerIngredients.isLoading);
-    const currentTab = useSelector(state => state.burgerIngredients.currentTab);
-    const hasError = useSelector(state => state.burgerIngredients.hasError);
-    const ingredients = useSelector(state => state.burgerIngredients.ingredients);
+    const isLoading: boolean = useSelector((state: IRootState) => state.burgerIngredients.isLoading);
+    const currentTab: string | undefined = useSelector((state: IRootState) => state.burgerIngredients.currentTab);
+    const hasError: boolean = useSelector((state: IRootState) => state.burgerIngredients.hasError);
+    const ingredients: IIngredient[] | null = useSelector((state: IRootState) => state.burgerIngredients.ingredients);
 
     const {buns, sauce, main} = useMemo(() => {
-    const filterIngredientTypeBy = (type) => ingredients.filter(item => item.type === type);
+    const filterIngredientTypeBy = (type: string) => ingredients!.filter(item => item.type === type);
         if (ingredients) {
             return {
                 buns: filterIngredientTypeBy('bun'),
@@ -31,16 +33,16 @@ const BurgerIngredients = () => {
     }, [ingredients]);
 
 
-    const burgerIngRef = useRef(null);
-    const bunsRef = useRef(null);
-    const sauceRef = useRef(null);
-    const mainRef = useRef(null);
+    const burgerIngRef: React.RefObject<HTMLDivElement> = useRef(null);
+    const bunsRef: React.RefObject<HTMLDivElement> = useRef(null);
+    const sauceRef: React.RefObject<HTMLDivElement> = useRef(null);
+    const mainRef: React.RefObject<HTMLDivElement> = useRef(null);
 
     const getCurrentTab = useCallback(() => {
-        const itemsWithDifference = {
-            buns: Math.abs(bunsRef.current.getBoundingClientRect().top - burgerIngRef.current.getBoundingClientRect().top),
-            sauce: Math.abs(sauceRef.current.getBoundingClientRect().top - burgerIngRef.current.getBoundingClientRect().top),
-            main: Math.abs(mainRef.current.getBoundingClientRect().top - burgerIngRef.current.getBoundingClientRect().top)
+        const itemsWithDifference: {buns: number, sauce: number, main: number, [key: string]: number} = {
+            buns: Math.abs(bunsRef.current!.getBoundingClientRect().top - burgerIngRef.current!.getBoundingClientRect().top),
+            sauce: Math.abs(sauceRef.current!.getBoundingClientRect().top - burgerIngRef.current!.getBoundingClientRect().top),
+            main: Math.abs(mainRef.current!.getBoundingClientRect().top - burgerIngRef.current!.getBoundingClientRect().top)
         }
         const minimalDifference = Math.min(...Object.values(itemsWithDifference));
         return Object.keys(itemsWithDifference).find(key => itemsWithDifference[key] === minimalDifference);
@@ -48,10 +50,16 @@ const BurgerIngredients = () => {
 
     const compareStoreAndScroll = useCallback(() => {
         const currentSection = getCurrentTab();
-        if (currentSection !== currentTab) {
+        if (currentSection !== currentTab) { //@ts-ignore
             dispatch(setCurrentTab(currentSection))
         }
-    }, [currentTab])
+    }, [currentTab, dispatch, getCurrentTab])
+
+    const handleSetTab = (type: string) => {
+        return () => { //@ts-ignore
+            dispatch(setCurrentTab(type))
+        }
+    }
 
     return (
         <>
@@ -59,13 +67,13 @@ const BurgerIngredients = () => {
                 <h1 className={`${styles.section_header}`}>соберите бургер</h1>
                 <nav>
                     <nav className={styles.nav}>
-                        <Tab value="buns" active={currentTab === 'buns'} onClick={() => dispatch(setCurrentTab('buns'))}>
+                        <Tab value="buns" active={currentTab === 'buns'} onClick={handleSetTab('buns')}>
                             булки
                         </Tab>
-                        <Tab value="sauce" active={currentTab === "sauce"} onClick={() => dispatch(setCurrentTab("sauce"))}>
+                        <Tab value="sauce" active={currentTab === "sauce"} onClick={handleSetTab("sauce")}>
                             соусы
                         </Tab>
-                        <Tab value="main" active={currentTab === "main"} onClick={() => dispatch(setCurrentTab("main"))}>
+                        <Tab value="main" active={currentTab === "main"} onClick={handleSetTab("main")}>
                             начинки
                         </Tab>
                     </nav>

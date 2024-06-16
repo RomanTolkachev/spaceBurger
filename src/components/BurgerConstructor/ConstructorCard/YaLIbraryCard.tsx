@@ -3,25 +3,32 @@ import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger
 import React, {useRef} from "react";
 import {handleDelete} from "../../../services/actions/burgerCounstructor";
 import {useDispatch} from "react-redux";
-import {useDrag, useDrop} from "react-dnd";
+import {useDrag, useDrop, XYCoord} from "react-dnd";
 import {handleSwap} from "../../../services/actions/burgerCounstructor";
+import {IConstructorIngredient} from "../../../utils/types";
 
-export function YaLibraryCard(props) {
+interface IYaLibraryCard {
+    id: number
+    index: number
+    listItem: IConstructorIngredient
+}
 
-    const dispatch = useDispatch();
-    const ref = useRef(null);
+export const YaLibraryCard: React.FunctionComponent<IYaLibraryCard> = (props ) =>  {
+
+    const dispatch = useDispatch(); //TODO: поправить на 5 спринте
+    const ref: React.RefObject<HTMLLIElement> = useRef<HTMLLIElement>(null);
 
     const [ ,drop] = useDrop({
         accept: 'card',
-        hover: (item,  monitor) => {
+        hover: (item: {id: number},  monitor): void => {
             if (item.id === props.id || !ref.current) {
                 return;
             }
 
-            const hoverBoundingRect = ref.current?.getBoundingClientRect();
-            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-            const clientOffset = monitor.getClientOffset();
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+            const hoverBoundingRect: DOMRect = ref.current?.getBoundingClientRect();
+            const hoverMiddleY: number = (hoverBoundingRect!.bottom - hoverBoundingRect.top) / 2;
+            const clientOffset: XYCoord | null = monitor.getClientOffset();
+            const hoverClientY: number  =  clientOffset!.y - hoverBoundingRect.top;
 
             if (item.id < props.id && hoverClientY < hoverMiddleY) {
                 return;
@@ -29,7 +36,7 @@ export function YaLibraryCard(props) {
             if (item.id > props.id && hoverClientY > hoverMiddleY) {
                 return;
             }
-
+            //@ts-ignore
             dispatch(handleSwap(item.id, props.id));
             item.id = props.id;
         }
@@ -44,7 +51,7 @@ export function YaLibraryCard(props) {
             isDragging: monitor.isDragging()
         })
     });
-    const opacity = isDragging ? 0 : 1;
+    const opacity: 0 | 1 = isDragging ? 0 : 1;
     drag(drop(ref));
 
     return (

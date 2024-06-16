@@ -131,7 +131,7 @@ export const getUserData = <T>(): Promise<T> => {
     })
 }
 
-export const amendUserData = (form: IRegisterForm) => {
+export const amendUserData = (form: IRegisterForm): Promise<IRegisterUserResponse> => {
     return fetchWithRefresh(`${BASE_URL}/auth/user`, {
         method: 'PATCH',
         headers: {
