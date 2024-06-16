@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import {setUser} from "../../services/actions/user";
 import {useDispatch} from "react-redux";
 import {registerUser} from "../../utils/api";
+import {IRegisterForm} from "../../utils/types";
 
 
 export const RegisterPage: React.FC = () => {
@@ -14,23 +15,18 @@ export const RegisterPage: React.FC = () => {
     const [password, setPassword] = React.useState<string>('123456');
     const dispatch = useDispatch() // TODO: доработать на 5 спринте
 
-    interface IForm {
-        name: string,
-        email: string,
-        password: string,
-    }
 
-    const form: IForm = {
+   const form: IRegisterForm = {
         name: name,
         email: email,
         password: password,
     }
 
 
-    const handleSubmit = async (e: React.FormEvent, form: IForm) => {
+    const handleSubmit = async (e: React.FormEvent, form: IRegisterForm) => {
         e.preventDefault();
         return registerUser(form) //@ts-ignore
-        .then(res => {dispatch(setUser(res))})
+        .then(res => {dispatch(setUser(res))}) //@ts-ignore // TODO: исправить сейчас
         .catch(err => err.message === "User already exists" ? alert('пользователь с таким email уже существует') : undefined)
     }
 

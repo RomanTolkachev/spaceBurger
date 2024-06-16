@@ -3,6 +3,7 @@ import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger
 import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {resetPassword} from "../../utils/api";
+import {IResetPassForm} from "../../utils/types";
 
 export const ResetPasswordPage: React.FC = () => {
 
@@ -19,16 +20,12 @@ export const ResetPasswordPage: React.FC = () => {
     }, []);
 
 
-    interface Iform {
-        password: string,
-        code: string
-    }
-    const form: Iform = {
+    const form: IResetPassForm = {
         password: password,
         code: code
     }
 
-    const handleSubmit = (e: React.FormEvent, form: Iform) => {
+    const handleSubmit = (e: React.FormEvent, form: IResetPassForm) => {
         e.preventDefault();
         resetPassword(form)
         .then(() => {

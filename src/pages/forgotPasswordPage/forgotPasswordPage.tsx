@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {blockButton, unBlockButton} from "../../services/actions/user";
 import {requestForgotPassCode} from "../../utils/api";
 import { IRootState } from "../../services/reducers/root-reducer";
+import {IForgotPassForm} from "../../utils/types";
 
 export const ForgotPasswordPage: React.FC = () => {
 
@@ -16,10 +17,9 @@ export const ForgotPasswordPage: React.FC = () => {
     type TNavigate = ReturnType<typeof useNavigate>
     const navigate: TNavigate = useNavigate();
 
-    interface IForm {
-        email: string
-    }
-    const form: IForm = {
+
+
+    const form: IForgotPassForm = {
         email: email
     }
 
@@ -29,10 +29,10 @@ export const ForgotPasswordPage: React.FC = () => {
         navigate("/reset-password")
     }
 
-    const handleSubmit = (e: FormEvent, form: IForm) => {
+    const handleSubmit = (e: FormEvent, form: IForgotPassForm) => {
         e.preventDefault(); //@ts-ignore
         dispatch(blockButton()); //TODO: диспатч для 5 спринта
-        requestForgotPassCode(form)
+        requestForgotPassCode(form)//@ts-ignore // TODO: переделать сейчас //@ts-ignore
         .then(res => res.message === 'Reset email sent' ? handlePassCodeSuccess(res.message) : undefined)
         .catch(err => alert(err)) //@ts-ignore
         .finally(() => dispatch(unBlockButton())) //TODO: диспатч для 5 спринта

@@ -78,7 +78,7 @@ const BurgerConstructor: React.FC = () => {
         } else { //@ts-ignore
             dispatch(startSendOrder());
             sendOrderRequest(ids)
-            .then(res => {
+            .then(res => { //@ts-ignore
                 if (res.success) { //@ts-ignore
                     dispatch(handleOrderSuccess(res)); //@ts-ignore
                     dispatch(handleClearCart())

@@ -35,7 +35,7 @@ export const LoginPage: React.FC = () => {
 
     const handleSubmit = async (e: FormEvent, form: IForm): Promise<void> => {
         e.preventDefault();
-        loginRequest(form)
+        loginRequest(form) //@ts-ignore // TODO: переделать сейчас
         .then(res => res.success ? handleLoginSuccess(res) : alert(res.message))
         .catch(err => alert(err))
     }

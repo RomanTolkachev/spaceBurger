@@ -25,7 +25,7 @@ export const ProfilePage: React.FC<IProfilePage> = ({component}) => {
     }
 
     const leave = () => {
-        return logOutRequest()
+        return logOutRequest() //@ts-ignore
         .then(res => res.success ? handleLaveSuccess(res) : undefined )
         .catch(err => alert(err)) //@ts-ignore
         .finally(() => dispatch(finishAuthStatus()))

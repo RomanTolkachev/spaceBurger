@@ -23,6 +23,13 @@ export interface IConstructorIngredient extends IIngredient {
     dynamicId: string
 }
 
+export interface IOrderResponse {
+    name: string
+    order: {
+        number: number
+    }
+    success: boolean
+}
 
 // Типизация экшенов для BurgerConstructor
 interface IHandleDrop {
@@ -138,3 +145,44 @@ interface ISetUser {
 }
 
 export type TUser = IFinishAuth | IClearUser | IBlockButton | IUnBlockButton | ISetUser
+
+
+// Формы
+
+export interface IForgotPassForm {
+    email: string
+}
+
+export interface IResetPassForm {
+    password: string,
+    code: string
+}
+
+export interface IResetPassResponse {
+    message: string
+    success: boolean
+}
+
+export interface IRegisterForm {
+    name: string,
+    email: string,
+    password: string,
+}
+
+export interface IGetUserResponse {
+    success: boolean
+    user: {
+        email: string
+        name: string
+    }
+}
+
+export interface IRegisterUserResponse extends IGetUserResponse{
+    accessToken: string
+    refreshToken: string
+}
+
+export interface IRequestForgotPassCode {
+    message: string
+    success: boolean
+}
