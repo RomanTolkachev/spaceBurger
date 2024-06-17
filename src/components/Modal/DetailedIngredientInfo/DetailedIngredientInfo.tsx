@@ -19,7 +19,7 @@ const DetailedIngredientInfo: React.FC<{}> = () => {
     }, [anyIdNumber, data, dispatch]);
 
 
-    const nutrientsInfo: React.ReactElement | null | undefined = (
+    const nutrientsInfo: React.ReactNode = (
         info && (<>
             <div className={styles.nutrients_item}>
                 <h4>калории,ккал</h4>

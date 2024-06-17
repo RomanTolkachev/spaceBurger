@@ -147,7 +147,7 @@ export const amendUserData = (form: IRegisterForm): Promise<IRegisterUserRespons
 }
 
 
-export const loginRequest = (form: ILoginForm): Promise<ILoginForm> => {
+export const loginRequest = (form: ILoginForm): Promise<IRegisterUserResponse> => {
     return fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
@@ -158,7 +158,7 @@ export const loginRequest = (form: ILoginForm): Promise<ILoginForm> => {
             password: form.password
         })
     })
-    .then(checkResponse<ILoginForm>)
+    .then(checkResponse<IRegisterUserResponse>)
 }
 
 export const logOutRequest = (): Promise<ILogOut> => {

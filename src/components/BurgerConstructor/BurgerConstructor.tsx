@@ -12,7 +12,7 @@ import {sendOrderRequest} from "../../utils/api";
 import {IRootState} from "../../services/reducers/root-reducer";
 import {IBurgerConstructorStore} from "../../services/reducers/burgerCounstructor";
 
-const BurgerConstructor: React.FC = () => {
+const BurgerConstructor: React.FunctionComponent = () => {
 
     const dispatch = useDispatch();
     const commonCart: IBurgerConstructorStore = useSelector((state: IRootState) => state.burgerConstructor)
@@ -72,7 +72,8 @@ const BurgerConstructor: React.FC = () => {
         return ids;
     }, [commonCart])
 
-    const handleSendOrder = () => {
+    const handleSendOrder = (e: React.SyntheticEvent<Element, Event>) => {
+        e.preventDefault()
         if (!user) {
             return navigate('/login')
         } else { //@ts-ignore
@@ -133,7 +134,7 @@ const BurgerConstructor: React.FC = () => {
                         htmlType="button"
                         type="primary"
                         size="large"
-                        onClick={handleSendOrder}>
+                        onClick={e => handleSendOrder(e)}>
                         Оформить заказ
                     </Button>
                 </div>

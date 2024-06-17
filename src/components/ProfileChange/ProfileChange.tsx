@@ -60,7 +60,7 @@ export const ProfileChange: React.FC = () => {
                     placeholder="имя"
                 />
                 <EmailInput
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                     value={email}
                     name={'email'}
                     extraClass="mb-6"
@@ -68,7 +68,7 @@ export const ProfileChange: React.FC = () => {
                     isIcon={true}
                 />
                 <PasswordInput
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                     value={password}
                     name={'password'}
                     extraClass="mb-6"

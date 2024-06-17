@@ -7,7 +7,7 @@ import {setCurrentTab} from "../../services/actions/burgerIngredients";
 import {IRootState} from "../../services/reducers/root-reducer";
 import {IIngredient} from "../../utils/types";
 
-const BurgerIngredients: React.FC = () => {
+const BurgerIngredients: React.FunctionComponent = () => {
 
     const dispatch = useDispatch();
 
@@ -51,14 +51,13 @@ const BurgerIngredients: React.FC = () => {
     const compareStoreAndScroll = useCallback(() => {
         const currentSection = getCurrentTab();
         if (currentSection !== currentTab) { //@ts-ignore
-            dispatch(setCurrentTab(currentSection))
+            dispatch(setCurrentTab( currentSection))
         }
     }, [currentTab, dispatch, getCurrentTab])
 
     const handleSetTab = (type: string) => {
-        return () => { //@ts-ignore
-            dispatch(setCurrentTab(type))
-        }
+        //@ts-ignore
+        return dispatch(setCurrentTab(type))
     }
 
     return (
@@ -67,13 +66,13 @@ const BurgerIngredients: React.FC = () => {
                 <h1 className={`${styles.section_header}`}>соберите бургер</h1>
                 <nav>
                     <nav className={styles.nav}>
-                        <Tab value="buns" active={currentTab === 'buns'} onClick={handleSetTab('buns')}>
+                        <Tab value="buns" active={currentTab === 'buns'} onClick={() => handleSetTab('buns', )}>
                             булки
                         </Tab>
-                        <Tab value="sauce" active={currentTab === "sauce"} onClick={handleSetTab("sauce")}>
+                        <Tab value="sauce" active={currentTab === "sauce"} onClick={() =>handleSetTab("sauce")}>
                             соусы
                         </Tab>
-                        <Tab value="main" active={currentTab === "main"} onClick={handleSetTab("main")}>
+                        <Tab value="main" active={currentTab === "main"} onClick={() =>handleSetTab("main")}>
                             начинки
                         </Tab>
                     </nav>

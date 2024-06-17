@@ -24,6 +24,7 @@ const Modal: React.FunctionComponent<IModalProps> = (props: IModalProps) => {
             props.closeModal()
         }
     }
+
         document.addEventListener('click', handleClickOutside, true);
         document.addEventListener('keydown', handleClickEscape, true);
         return () => {

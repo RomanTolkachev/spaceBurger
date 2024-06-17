@@ -5,10 +5,10 @@ import {Link} from "react-router-dom";
 import {setUser} from "../../services/actions/user";
 import {useDispatch} from "react-redux";
 import {registerUser} from "../../utils/api";
-import {IRegisterForm} from "../../utils/types";
+import {IRegisterForm, IRegisterUserResponse} from "../../utils/types";
 
 
-export const RegisterPage: React.FC = () => {
+export const RegisterPage: React.FunctionComponent = () => {
 
     const [name, setName] = React.useState<string>('name');
     const [email, setEmail] = React.useState<string>('mail@blabla.ru');
@@ -23,10 +23,10 @@ export const RegisterPage: React.FC = () => {
     }
 
 
-    const handleSubmit = async (e: React.FormEvent, form: IRegisterForm) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, form: IRegisterForm) => {
         e.preventDefault();
         return registerUser(form) //@ts-ignore
-        .then(res => {dispatch(setUser(res))}) //@ts-ignore // TODO: исправить сейчас
+        .then((res: IRegisterUserResponse): void => {dispatch(setUser(res))}) //@ts-ignore // TODO: исправить сейчас
         .catch(err => err.message === "User already exists" ? alert('пользователь с таким email уже существует') : undefined)
     }
 
@@ -34,11 +34,11 @@ export const RegisterPage: React.FC = () => {
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>регистрация</h1>
-            <form method='post' className={styles.input} onSubmit={async e => handleSubmit(e, form)}>
+            <form method='post' className={styles.input} onSubmit={async (e: React.FormEvent<HTMLFormElement>) => handleSubmit(e, form)}>
                 <Input
                     onPointerEnterCapture={((event: PointerEvent): void => {})}
                     onPointerLeaveCapture={((event: PointerEvent): void => {})}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                     value={name}
                     name={'name'}
                     extraClass="mb-6"
@@ -48,7 +48,7 @@ export const RegisterPage: React.FC = () => {
                 <Input
                     onPointerEnterCapture={((event: PointerEvent): void => {})}
                     onPointerLeaveCapture={((event: PointerEvent): void => {})}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                     value={email}
                     name={'email'}
                     extraClass="mb-6"
@@ -56,7 +56,7 @@ export const RegisterPage: React.FC = () => {
                     type={'email'}
                 />
                 <PasswordInput
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                     value={password}
                     name={'password'}
                     extraClass="mb-15"

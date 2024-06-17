@@ -4,12 +4,13 @@ import {NavLink} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {clearUser, finishAuthStatus} from "../../services/actions/user";
 import {logOutRequest} from "../../utils/api";
+import {ILogOut} from "../../utils/types";
 
 interface IProfilePage {
     component?: React.ReactElement | null
 }
 
-export const ProfilePage: React.FC<IProfilePage> = ({component}) => {
+export const ProfilePage: React.FunctionComponent<IProfilePage> = ({component}) => {
     const dispatch = useDispatch() // TODO: исправить на 5 спринте
 
     interface IResponse {
@@ -25,8 +26,8 @@ export const ProfilePage: React.FC<IProfilePage> = ({component}) => {
     }
 
     const leave = () => {
-        return logOutRequest() //@ts-ignore
-        .then(res => res.success ? handleLaveSuccess(res) : undefined )
+        return logOutRequest()
+        .then((res: ILogOut) => res.success ? handleLaveSuccess(res) : undefined )
         .catch(err => alert(err)) //@ts-ignore
         .finally(() => dispatch(finishAuthStatus()))
     }

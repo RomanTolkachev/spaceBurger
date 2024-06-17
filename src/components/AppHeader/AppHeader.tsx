@@ -4,11 +4,11 @@ import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-devel
 import {NavLink, useMatch,} from "react-router-dom";
 import {useSelector} from "react-redux";
 import React from "react";
+import {IRootState} from "../../services/reducers/root-reducer";
 
-const AppHeader: React.FC = () => {
+const AppHeader: React.FunctionComponent = () => {
 
-    // @ts-ignore
-    const userdata = useSelector(state => state.userInfo.name)
+    const userdata: string | null = useSelector((state: IRootState) => state.userInfo.name)
 
     return (
         <header className={styles.header}>

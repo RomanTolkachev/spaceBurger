@@ -5,9 +5,9 @@ import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {loginRequest} from "../../utils/api";
 import {login} from "../../services/actions/user";
-import {ILoginForm} from "../../utils/types";
+import {ILoginForm, IRegisterUserResponse} from "../../utils/types";
 
-export const LoginPage: React.FC = () => {
+export const LoginPage: React.FunctionComponent = () => {
 
     const [email, setEmail] = React.useState<string>('tolkachevroman@bk.ru')
     const [password, setPassword] = React.useState<string>('RomA1992')
@@ -19,29 +19,29 @@ export const LoginPage: React.FC = () => {
         password: password
     }
 
-    interface ILoginRes {
-        accessToken: string
-        refreshToken: string
-        success: boolean
-        user: ILoginForm
-    }
-    const handleLoginSuccess = (res: ILoginRes) => {
+    const handleLoginSuccess = (res: IRegisterUserResponse) => {
         localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
         localStorage.setItem('refreshToken', res.refreshToken) //@ts-ignore
         return dispatch(login(res))
     }
 
-    const handleSubmit = async (e: FormEvent, form: ILoginForm): Promise<void> => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>, form: ILoginForm): Promise<void> => {
         e.preventDefault();
-        loginRequest(form) //@ts-ignore // TODO: переделать сейчас
-        .then(res => res.success ? handleLoginSuccess(res) : alert(res.message))
+        loginRequest(form)
+        .then((res: IRegisterUserResponse) => {
+            if (res.success) {
+                return handleLoginSuccess(res);
+            } else {
+                return alert(res)
+            }
+        })
         .catch(err => alert(err))
     }
 
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>вход</h1>
-            <form method='post' className={styles.form} onSubmit={e => handleSubmit(e, form)}>
+            <form method='post' className={styles.form} onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e, form)}>
                 <div className={styles.login}>
                     <Input
                         onPointerEnterCapture={((event: PointerEvent): void => {})}

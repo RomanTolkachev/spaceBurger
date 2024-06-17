@@ -3,7 +3,7 @@ import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger
 import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {resetPassword} from "../../utils/api";
-import {IResetPassForm} from "../../utils/types";
+import {IRegisterUserResponse, IResetPassForm} from "../../utils/types";
 
 export const ResetPasswordPage: React.FC = () => {
 
@@ -25,7 +25,7 @@ export const ResetPasswordPage: React.FC = () => {
         code: code
     }
 
-    const handleSubmit = (e: React.FormEvent, form: IResetPassForm): void => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>, form: IResetPassForm): void => {
         e.preventDefault();
         resetPassword(form)
         .then(() => {
@@ -38,9 +38,9 @@ export const ResetPasswordPage: React.FC = () => {
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>восстановление пароля</h1>
-            <form method='post' className={styles.input} style={{display: 'flex', flexDirection: 'column'}} onSubmit={e =>handleSubmit(e, form)}>
+            <form method='post' className={styles.input} style={{display: 'flex', flexDirection: 'column'}} onSubmit={(e: React.FormEvent<HTMLFormElement>) =>handleSubmit(e, form)}>
                 <PasswordInput
-                    onChange={e => {
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                         setPassword(e.target.value)
                     }}
                     value={password}
@@ -51,7 +51,7 @@ export const ResetPasswordPage: React.FC = () => {
                 <Input
                     onPointerEnterCapture={((event: PointerEvent): void => {})}
                     onPointerLeaveCapture={((event: PointerEvent): void => {})}
-                    onChange={e => {
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
                         setCode(e.target.value)
                     }}
                     value={code}

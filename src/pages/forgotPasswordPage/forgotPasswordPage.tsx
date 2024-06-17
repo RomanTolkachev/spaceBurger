@@ -6,12 +6,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {blockButton, unBlockButton} from "../../services/actions/user";
 import {requestForgotPassCode} from "../../utils/api";
 import { IRootState } from "../../services/reducers/root-reducer";
-import {IForgotPassForm} from "../../utils/types";
+import {IForgotPassForm, IRequestForgotPassCode} from "../../utils/types";
 
-export const ForgotPasswordPage: React.FC = () => {
+export const ForgotPasswordPage: React.FunctionComponent = () => {
 
     const [email, setEmail] = React.useState<string>('email')
-    const isRequestButtonLocked = useSelector((state: IRootState) => state.userInfo.isRequestButtonLocked);
+    const isRequestButtonLocked: boolean = useSelector((state: IRootState) => state.userInfo.isRequestButtonLocked);
     const dispatch = useDispatch(); // TODO: разобраться на 5 спринте
 
     type TNavigate = ReturnType<typeof useNavigate>
@@ -29,11 +29,11 @@ export const ForgotPasswordPage: React.FC = () => {
         navigate("/reset-password")
     }
 
-    const handleSubmit = (e: FormEvent, form: IForgotPassForm) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>, form: IForgotPassForm): void => {
         e.preventDefault(); //@ts-ignore
         dispatch(blockButton()); //TODO: диспатч для 5 спринта
-        requestForgotPassCode(form)//@ts-ignore // TODO: переделать сейчас //@ts-ignore
-        .then(res => res.message === 'Reset email sent' ? handlePassCodeSuccess(res.message) : undefined)
+        requestForgotPassCode(form)
+        .then((res: IRequestForgotPassCode): void => res.message === 'Reset email sent' ? handlePassCodeSuccess(res.message) : undefined)
         .catch(err => alert(err)) //@ts-ignore
         .finally(() => dispatch(unBlockButton())) //TODO: диспатч для 5 спринта
     }
@@ -41,13 +41,13 @@ export const ForgotPasswordPage: React.FC = () => {
     return (
         <section className={styles.frame}>
             <h1 className={styles.header}>восстановление пароля</h1>
-            <form method='post' className={styles.form} onSubmit={e => handleSubmit(e, form)}>
+            <form method='post' className={styles.form} onSubmit={(e: FormEvent<HTMLFormElement>) => handleSubmit(e, form)}>
                 <Input
                     onPointerEnterCapture={((event: PointerEvent): void => {})}
                     onPointerLeaveCapture={((event: PointerEvent): void => {})}
                     type={'text'}
                     placeholder={'email'}
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                     value={email}
                     error={false}
                     errorText={'укажите e-mail'}
