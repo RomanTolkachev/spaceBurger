@@ -1,18 +1,12 @@
 import { combineReducers } from "redux";
-import {burgerIngredients, IBurgerIngredientsState} from "./burgerIngredients";
-import {burgerConstructor, IBurgerConstructorStore} from "./burgerCounstructor";
-import {IDetailedIngredientStore, ingredientDetailedInfo} from "./ingredientDetailedInfo";
-import {IOrderStore, orderStore} from "./order";
-import {IUserState, userInfo} from "./user"
-import {TBurgerConstructor} from "../../utils/types";
+import {burgerIngredients} from "./burgerIngredients";
+import {burgerConstructor} from "./burgerCounstructor";
+import {ingredientDetailedInfo} from "./ingredientDetailedInfo";
+import {orderStore} from "./order";
+import {userInfo} from "./user"
+import {store} from "../../index";
 
-export interface IRootState {
-    burgerConstructor: IBurgerConstructorStore,
-    burgerIngredients: IBurgerIngredientsState,
-    ingredientDetailedInfo: IDetailedIngredientStore,
-    orderStore: IOrderStore,
-    userInfo: IUserState,
-}
+export type IRootState = ReturnType<typeof store.getState>
 
 export const rootReducer = combineReducers({
     burgerConstructor: burgerConstructor,

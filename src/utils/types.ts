@@ -4,6 +4,11 @@ import {CLEAR_DETAILED_INGREDIENT_INFO, GET_DETAILED_INGREDIENT_INFO} from "../s
 import {CLEAR_ORDER_NUMBER, ORDER_PROCESSING_FINISHED, ORDER_SENT, ORDER_SENT_FAILED, ORDER_SENT_SUCCESS} from "../services/actions/order";
 import {AUTH_STATUS_CHECKED, CLEAR_USER, SEND_EMAIL_FINISHED, SEND_EMAIL_START, SET_USER} from "../services/actions/user";
 
+import { ThunkAction } from 'redux-thunk';
+import { Action, ActionCreator } from 'redux';
+import {IRootState} from "../services/reducers/root-reducer";
+import {store} from "../index";
+
 export interface IIngredient {
     _id: string,
     name: string,
@@ -192,6 +197,12 @@ export interface IRequestForgotPassCode {
     success: boolean
 }
 
-export interface ILogOut extends IRequestForgotPassCode {
+export interface ILogOut extends IRequestForgotPassCode {}
 
-}
+export type TApplicationActions = TConstructorActionType & TBurgerConstructor & TDetailedInfo & TOrderProcessing & TUser;
+
+export type AppThunk<TReturn = void> = ActionCreator<
+    ThunkAction<TReturn, Action, IRootState, TApplicationActions>
+>;
+
+export type AppDispatch = typeof store.dispatch;
