@@ -1,5 +1,5 @@
 import {
-    IForgotPassForm,
+    IForgotPassForm, IGetUserResponse,
     IIngredient, ILoginForm, ILogOut,
     IOrderResponse,
     IRegisterForm,
@@ -9,9 +9,9 @@ import {
 
 export const BASE_URL: "https://norma.nomoreparties.space/api" = "https://norma.nomoreparties.space/api";
 
-export const fetchIngredients = (): Promise<IIngredient[]> => {
+export const fetchIngredients = (): Promise<{data: IIngredient[]}> => {
     return fetch(`${BASE_URL}/ingredients`)
-    .then(checkResponse<IIngredient[]>)
+    .then(checkResponse<{data: IIngredient[]}>)
 }
 
 export const sendOrderRequest = (arrayOfIds: string[]): Promise<IOrderResponse> => {
@@ -121,7 +121,7 @@ export const fetchWithRefresh = async <T>(url: string, options: IOptions): Promi
     }
 }
 
-export const getUserData = <T>(): Promise<T> => {
+export const getUserData = (): Promise<IGetUserResponse> => {
     return fetchWithRefresh(`${BASE_URL}/auth/user`, {
         method: 'GET',
         headers: {

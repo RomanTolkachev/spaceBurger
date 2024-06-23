@@ -153,7 +153,6 @@ export type TUser = IFinishAuth | IClearUser | IBlockButton | IUnBlockButton | I
 
 
 // Формы
-
 export interface ILoginForm {
     email: string
     password: string
@@ -201,8 +200,8 @@ export interface ILogOut extends IRequestForgotPassCode {}
 
 export type TApplicationActions = TConstructorActionType & TBurgerConstructor & TDetailedInfo & TOrderProcessing & TUser;
 
-export type AppThunk<TReturn = void> = ActionCreator<
+export type TAppThunk<TReturn = void> = ActionCreator<
     ThunkAction<TReturn, Action, IRootState, TApplicationActions>
 >;
 
-export type AppDispatch = typeof store.dispatch;
+export type TAppDispatch = typeof store.dispatch;

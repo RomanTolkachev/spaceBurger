@@ -14,7 +14,7 @@ const DetailedIngredientInfo: React.FC<{}> = () => {
     const data = useSelector((state: IRootState) => state.burgerIngredients.ingredients);
 
     useEffect(() => {
-        const currentIngredientData = data!.find(item => item._id === anyIdNumber) //@ts-ignore
+        const currentIngredientData = data!.find((item: { _id: string | undefined; }) => item._id === anyIdNumber) //@ts-ignore
         dispatch(configureDetailedInfo(currentIngredientData));
     }, [anyIdNumber, data, dispatch]);
 

@@ -11,6 +11,7 @@ import {useNavigate} from "react-router-dom";
 import {sendOrderRequest} from "../../utils/api";
 import {IRootState} from "../../services/reducers/root-reducer";
 import {IBurgerConstructorStore} from "../../services/reducers/burgerCounstructor";
+import { IConstructorIngredient } from '../../utils/types';
 
 const BurgerConstructor: React.FunctionComponent = () => {
 
@@ -34,7 +35,7 @@ const BurgerConstructor: React.FunctionComponent = () => {
         })
     })
 
-    const [{isBunDragging} , bunRef] = useDrop({
+    const [{isBunDragging}, bunRef] = useDrop({
         accept: 'bun',
         drop(droppableItem): void { //@ts-ignore
             dispatch(handleDrop(droppableItem))
@@ -44,7 +45,7 @@ const BurgerConstructor: React.FunctionComponent = () => {
         })
     })
 
-    const [{isBottomBunDragging} , bottomBunRef] = useDrop({
+    const [{isBottomBunDragging}, bottomBunRef] = useDrop({
         accept: 'bun',
         drop(droppableItem): void { //@ts-ignore
             dispatch(handleDrop(droppableItem))
@@ -57,7 +58,7 @@ const BurgerConstructor: React.FunctionComponent = () => {
     const totalPrice: number = useMemo<number>(() => {
         let total: number = 0;
         for (let key in commonCart) {
-            commonCart[key].forEach(item => total+=item.price)
+            commonCart[key].forEach(item => total += item.price)
         }
         return total;
     }, [commonCart])
@@ -79,21 +80,22 @@ const BurgerConstructor: React.FunctionComponent = () => {
         } else { //@ts-ignore
             dispatch(startSendOrder());
             sendOrderRequest(ids)
-            .then(res => { //@ts-ignore
-                if (res.success) { //@ts-ignore
-                    dispatch(handleOrderSuccess(res)); //@ts-ignore
-                    dispatch(handleClearCart())
-                } else alert('заказ не создан')
-            })
-            .catch(() => orderSentFiled()) //@ts-ignore
-            .finally(() => dispatch(orderSentFinished()))
+                .then(res => { //@ts-ignore
+                    if (res.success) { //@ts-ignore
+                        dispatch(handleOrderSuccess(res)); //@ts-ignore
+                        dispatch(handleClearCart())
+                    } else alert('заказ не создан')
+                })
+                .catch(() => orderSentFiled()) //@ts-ignore
+                .finally(() => dispatch(orderSentFinished()))
         }
     }
 
     return (
         <>
             {<div className={styles.constructor_wrapper}>
-                <div className={`${styles.item} ${isBunDragging || isBottomBunDragging ? styles.dragging : ""}`} ref={bunRef}>
+                <div className={`${styles.item} ${isBunDragging || isBottomBunDragging ? styles.dragging : ""}`}
+                     ref={bunRef}>
                     {currentBun.length > 0 ? (
                             <div className={styles.top_bun}>
                                 <ConstructorElement
@@ -103,10 +105,11 @@ const BurgerConstructor: React.FunctionComponent = () => {
                                     type={'top'}
                                 />
                             </div>) :
-                        <EmptyCard type={'top'} >перетащите сюда булку</EmptyCard>}
+                        <EmptyCard type={'top'}>перетащите сюда булку</EmptyCard>}
                 </div>
-                <ul className={`${styles.chosen_items} custom-scroll ${isDragging ? styles.dragging : ""}` } ref={dropRef}>
-                    {currentFilling.length > 0 ? (currentFilling.map((listItem, index) => (
+                <ul className={`${styles.chosen_items} custom-scroll ${isDragging ? styles.dragging : ""}`}
+                    ref={dropRef}>
+                    {currentFilling.length > 0 ? (currentFilling.map((listItem: IConstructorIngredient, index: number) => (
                             <YaLibraryCard key={listItem.dynamicId} id={index} index={index} listItem={listItem}/>)))
                         : (<EmptyCard type={'middle'}>перетащите сюда ингредиенты</EmptyCard>)
                     }

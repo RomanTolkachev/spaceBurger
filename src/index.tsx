@@ -2,27 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { rootReducer } from "./services/reducers/root-reducer";
+import {rootReducer} from "./services/reducers/root-reducer";
 import { Provider } from "react-redux";
-import { thunk } from "redux-thunk";
-import { createStore, compose, applyMiddleware } from "redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { BrowserRouter } from 'react-router-dom'
+import {configureStore} from "@reduxjs/toolkit";
 
 
-const composeEnhancers =
-    typeof window === 'object' // @ts-ignore
-        && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ // @ts-ignore
-        ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) // @ts-ignore
-        : compose;
+export const store = configureStore({
+    reducer: rootReducer,
+});
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
-
-// @ts-ignore
-export const store = createStore(rootReducer, enhancer);
-
-const root = ReactDOM.createRoot(
+const root: ReactDOM.Root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
