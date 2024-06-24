@@ -90,7 +90,7 @@ export const refreshToken = (): Promise<IRegisterUserResponse | never>  => {
     .then(checkResponse<IRegisterUserResponse>)
     .then((parsed: IRegisterUserResponse): IRegisterUserResponse | Promise<never> => {
         if (parsed.success) {
-            localStorage.setItem("refreshToken", parsed.refreshToken); //@ts-ignore
+            localStorage.setItem("refreshToken", parsed.refreshToken);
             localStorage.setItem("accessToken", parsed.accessToken.split('Bearer ')[1]);
             return parsed;
         } else {

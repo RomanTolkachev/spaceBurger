@@ -56,7 +56,6 @@ const BurgerIngredients: React.FunctionComponent = () => {
     }, [currentTab, dispatch, getCurrentTab])
 
     const handleSetTab = (type: string) => {
-        //@ts-ignore
         return dispatch(setCurrentTab(type))
     }
 

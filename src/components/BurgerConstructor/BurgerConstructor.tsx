@@ -77,7 +77,7 @@ const BurgerConstructor: React.FunctionComponent = () => {
         e.preventDefault()
         if (!user) {
             return navigate('/login')
-        } else { //@ts-ignore
+        } else {
             dispatch(startSendOrder());
             sendOrderRequest(ids)
                 .then(res => {
