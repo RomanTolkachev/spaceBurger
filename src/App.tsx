@@ -20,11 +20,11 @@ import {getUserData, fetchIngredients} from "./utils/api";
 import {clearOrderNumber} from "./services/actions/order";
 import {clearDetailedInfo} from "./services/actions/ingredientDetailedInfo";
 import {IRootState} from "./services/reducers/root-reducer";
-import {useDispatchTyped, useSelectorTyped as useSelector} from "./services/hooks/hooks";
+import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "./services/hooks/hooks";
 
 function App():React.JSX.Element {
 
-    const dispatch = useDispatchTyped();
+    const dispatch = useDispatch();
 
     type TNavigate = ReturnType<typeof useNavigate>
     const navigate: TNavigate = useNavigate()
