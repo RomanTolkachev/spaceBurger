@@ -3,9 +3,9 @@ import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger
 import React from "react";
 import {Link} from "react-router-dom";
 import {setUser} from "../../services/actions/user";
-import {useDispatch} from "react-redux";
 import {registerUser} from "../../utils/api";
 import {IRegisterForm, IRegisterUserResponse} from "../../utils/types";
+import {useDispatchTyped as useDispatch} from "../../services/hooks/hooks";
 
 
 export const RegisterPage: React.FunctionComponent = () => {
@@ -13,8 +13,7 @@ export const RegisterPage: React.FunctionComponent = () => {
     const [name, setName] = React.useState<string>('name');
     const [email, setEmail] = React.useState<string>('mail@blabla.ru');
     const [password, setPassword] = React.useState<string>('123456');
-    const dispatch = useDispatch() // TODO: доработать на 5 спринте
-
+    const dispatch = useDispatch()
 
    const form: IRegisterForm = {
         name: name,
@@ -25,8 +24,8 @@ export const RegisterPage: React.FunctionComponent = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, form: IRegisterForm) => {
         e.preventDefault();
-        return registerUser(form) //@ts-ignore
-        .then((res: IRegisterUserResponse): void => {dispatch(setUser(res))}) //@ts-ignore // TODO: исправить сейчас
+        return registerUser(form)
+        .then((res: IRegisterUserResponse): void => {dispatch(setUser(res))})
         .catch(err => err.message === "User already exists" ? alert('пользователь с таким email уже существует') : undefined)
     }
 

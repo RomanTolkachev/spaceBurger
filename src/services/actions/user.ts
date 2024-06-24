@@ -20,12 +20,12 @@ interface IUserResponse {
     }
 }
 
-export const login = (res: IUserResponse): TUser => {
-    return {
-        type: SET_USER,
-        data: res.user
-    };
-}
+// export const login = (res: IUserResponse): TUser => {
+//     return {
+//         type: SET_USER,
+//         data: res.user
+//     };
+// }
 
 export const setUser = (res: IUserResponse): TUser => {
     return {

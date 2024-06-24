@@ -4,9 +4,6 @@ import {CLEAR_DETAILED_INGREDIENT_INFO, GET_DETAILED_INGREDIENT_INFO} from "../s
 import {CLEAR_ORDER_NUMBER, ORDER_PROCESSING_FINISHED, ORDER_SENT, ORDER_SENT_FAILED, ORDER_SENT_SUCCESS} from "../services/actions/order";
 import {AUTH_STATUS_CHECKED, CLEAR_USER, SEND_EMAIL_FINISHED, SEND_EMAIL_START, SET_USER} from "../services/actions/user";
 
-import { ThunkAction } from 'redux-thunk';
-import { Action, ActionCreator } from 'redux';
-import {IRootState} from "../services/reducers/root-reducer";
 import {store} from "../index";
 
 export interface IIngredient {
@@ -89,7 +86,7 @@ export type TBurgerConstructor = IStartFetch | IFailedFetch | ISetIngredients | 
 // Детальная информация об ингредиенте
 interface IDetailedIngredientInfo {
     type: typeof GET_DETAILED_INGREDIENT_INFO,
-    info: IIngredient
+    info: IIngredient | undefined
 }
 
 interface IClearDetailedInfo {
@@ -149,7 +146,7 @@ interface ISetUser {
     }
 }
 
-export type TUser = IFinishAuth | IClearUser | IBlockButton | IUnBlockButton | ISetUser
+export type TUser = ISetUser | IFinishAuth | IClearUser | IBlockButton | IUnBlockButton
 
 
 // Формы
@@ -197,11 +194,5 @@ export interface IRequestForgotPassCode {
 }
 
 export interface ILogOut extends IRequestForgotPassCode {}
-
-export type TApplicationActions = TConstructorActionType & TBurgerConstructor & TDetailedInfo & TOrderProcessing & TUser;
-
-export type TAppThunk<TReturn = void> = ActionCreator<
-    ThunkAction<TReturn, Action, IRootState, TApplicationActions>
->;
 
 export type TAppDispatch = typeof store.dispatch;

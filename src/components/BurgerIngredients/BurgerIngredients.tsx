@@ -2,10 +2,10 @@ import styles from './BurgerIngredients.module.css'
 import React, {useCallback, useMemo, useRef} from "react";
 import IngredientsSection from "./IngridientsSection/IngredientSection";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useSelector, useDispatch} from "react-redux";
 import {setCurrentTab} from "../../services/actions/burgerIngredients";
 import {IRootState} from "../../services/reducers/root-reducer";
 import {IIngredient} from "../../utils/types";
+import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "../../services/hooks/hooks";
 
 const BurgerIngredients: React.FunctionComponent = () => {
 
@@ -50,7 +50,7 @@ const BurgerIngredients: React.FunctionComponent = () => {
 
     const compareStoreAndScroll = useCallback(() => {
         const currentSection = getCurrentTab();
-        if (currentSection !== currentTab) { //@ts-ignore
+        if (currentSection !== currentTab) {
             dispatch(setCurrentTab( currentSection))
         }
     }, [currentTab, dispatch, getCurrentTab])

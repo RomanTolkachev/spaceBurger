@@ -2,7 +2,6 @@ import styles from './BurgerConstructor.module.css'
 import {YaLibraryCard} from "./ConstructorCard/YaLIbraryCard";
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useMemo } from "react";
-import {useSelector, useDispatch} from "react-redux";
 import { useDrop } from "react-dnd";
 import {handleClearCart, handleDrop} from "../../services/actions/burgerCounstructor";
 import { EmptyCard } from './ConstructorCard/EmptyCard'
@@ -11,7 +10,8 @@ import {useNavigate} from "react-router-dom";
 import {sendOrderRequest} from "../../utils/api";
 import {IRootState} from "../../services/reducers/root-reducer";
 import {IBurgerConstructorStore} from "../../services/reducers/burgerCounstructor";
-import { IConstructorIngredient } from '../../utils/types';
+import {IConstructorIngredient, IIngredient} from '../../utils/types';
+import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "../../services/hooks/hooks";
 
 const BurgerConstructor: React.FunctionComponent = () => {
 
@@ -27,7 +27,7 @@ const BurgerConstructor: React.FunctionComponent = () => {
 
     const [{isDragging}, dropRef] = useDrop({
         accept: ['main', 'sauce'],
-        drop(droppableItem): void { //@ts-ignore
+        drop(droppableItem: IIngredient): void {
             dispatch(handleDrop(droppableItem))
         },
         collect: (monitor) => ({
@@ -37,7 +37,7 @@ const BurgerConstructor: React.FunctionComponent = () => {
 
     const [{isBunDragging}, bunRef] = useDrop({
         accept: 'bun',
-        drop(droppableItem): void { //@ts-ignore
+        drop(droppableItem: IIngredient): void {
             dispatch(handleDrop(droppableItem))
         },
         collect: (monitor) => ({
@@ -47,7 +47,7 @@ const BurgerConstructor: React.FunctionComponent = () => {
 
     const [{isBottomBunDragging}, bottomBunRef] = useDrop({
         accept: 'bun',
-        drop(droppableItem): void { //@ts-ignore
+        drop(droppableItem: IIngredient): void {
             dispatch(handleDrop(droppableItem))
         },
         collect: (monitor) => ({
@@ -80,13 +80,13 @@ const BurgerConstructor: React.FunctionComponent = () => {
         } else { //@ts-ignore
             dispatch(startSendOrder());
             sendOrderRequest(ids)
-                .then(res => { //@ts-ignore
-                    if (res.success) { //@ts-ignore
-                        dispatch(handleOrderSuccess(res)); //@ts-ignore
+                .then(res => {
+                    if (res.success) {
+                        dispatch(handleOrderSuccess(res));
                         dispatch(handleClearCart())
                     } else alert('заказ не создан')
                 })
-                .catch(() => orderSentFiled()) //@ts-ignore
+                .catch(() => orderSentFiled())
                 .finally(() => dispatch(orderSentFinished()))
         }
     }

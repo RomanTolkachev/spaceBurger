@@ -2,16 +2,16 @@ import styles from "./loginPage.module.css"
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {FormEvent} from "react";
 import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
 import {loginRequest} from "../../utils/api";
-import {login} from "../../services/actions/user";
+import {setUser} from "../../services/actions/user";
 import {ILoginForm, IRegisterUserResponse} from "../../utils/types";
+import {useDispatchTyped as useDispatch} from "../../services/hooks/hooks";
 
 export const LoginPage: React.FunctionComponent = () => {
 
     const [email, setEmail] = React.useState<string>('tolkachevroman@bk.ru')
     const [password, setPassword] = React.useState<string>('RomA1992')
-    const dispatch = useDispatch() // TODO: для 5 спринта
+    const dispatch = useDispatch()
 
 
     const form: ILoginForm = {
@@ -21,8 +21,8 @@ export const LoginPage: React.FunctionComponent = () => {
 
     const handleLoginSuccess = (res: IRegisterUserResponse) => {
         localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
-        localStorage.setItem('refreshToken', res.refreshToken) //@ts-ignore
-        return dispatch(login(res))
+        localStorage.setItem('refreshToken', res.refreshToken)
+        return dispatch(setUser(res))
     }
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>, form: ILoginForm): Promise<void> => {

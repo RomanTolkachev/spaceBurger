@@ -1,13 +1,14 @@
 import styles from "./ProfileChange.module.css";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useEffect, useMemo} from "react";
-import {useDispatch, useSelector} from "react-redux";
 import {setUser} from "../../services/actions/user";
 import {amendUserData} from "../../utils/api";
 import {IRootState} from "../../services/reducers/root-reducer";
 import {IGetUserResponse, IRegisterForm} from "../../utils/types";
+import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "../../services/hooks/hooks";
 
 export const ProfileChange: React.FC = () => {
+
 
     const dispatch = useDispatch()
 
@@ -36,7 +37,7 @@ export const ProfileChange: React.FC = () => {
     }, [form, storageUser, storageEmail, password, hasFormChanged]);
 
     const handleSuccessAmendUser = (res: IGetUserResponse) => {
-        alert('данные успешно обновлены'); //@ts-ignore
+        alert('данные успешно обновлены');
         return dispatch(setUser(res))
     }
 

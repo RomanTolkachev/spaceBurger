@@ -2,10 +2,10 @@ import styles from "./YaLibraryCard.module.css";
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useRef} from "react";
 import {handleDelete} from "../../../services/actions/burgerCounstructor";
-import {useDispatch} from "react-redux";
 import {useDrag, useDrop, XYCoord} from "react-dnd";
 import {handleSwap} from "../../../services/actions/burgerCounstructor";
 import {IConstructorIngredient} from "../../../utils/types";
+import {useDispatchTyped as useDispatch} from "../../../services/hooks/hooks";
 
 interface IYaLibraryCard {
     id: number
@@ -15,7 +15,7 @@ interface IYaLibraryCard {
 
 export const YaLibraryCard: React.FunctionComponent<IYaLibraryCard> = (props ) =>  {
 
-    const dispatch = useDispatch(); //TODO: поправить на 5 спринте
+    const dispatch = useDispatch();
     const ref: React.RefObject<HTMLLIElement> = useRef<HTMLLIElement>(null);
 
     const [ ,drop] = useDrop({
@@ -36,7 +36,6 @@ export const YaLibraryCard: React.FunctionComponent<IYaLibraryCard> = (props ) =
             if (item.id > props.id && hoverClientY > hoverMiddleY) {
                 return;
             }
-            //@ts-ignore
             dispatch(handleSwap(item.id, props.id));
             item.id = props.id;
         }
@@ -62,7 +61,7 @@ export const YaLibraryCard: React.FunctionComponent<IYaLibraryCard> = (props ) =
             <ConstructorElement
                 text={props.listItem.name}
                 price={props.listItem.price}
-                thumbnail={props.listItem.image_mobile} //@ts-ignore
+                thumbnail={props.listItem.image_mobile}
                 handleClose={() => dispatch(handleDelete(props.listItem.dynamicId))}
             />
         </li>
