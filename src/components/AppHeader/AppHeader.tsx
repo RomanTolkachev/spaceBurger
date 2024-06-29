@@ -20,8 +20,8 @@ const AppHeader: React.FunctionComponent = () => {
                         <NavLink to="/" className={({isActive}): string => isActive ? styles.active : styles.link}>
                             <NavButton icon={<BurgerIcon type={useMatch('/') ? "primary" : "secondary"}/>}>Конструктор</NavButton>
                         </NavLink>
-                        <NavLink to="/orders" className={({isActive}): string => isActive ? styles.active : styles.link}>
-                            <NavButton icon={<ListIcon type={useMatch('/orders') ? "primary" : "secondary"}/>}>лента заказов</NavButton>
+                        <NavLink to="/feed" className={({isActive}): string => isActive ? styles.active : styles.link}>
+                            <NavButton icon={<ListIcon type={useMatch('/feed') ? "primary" : "secondary"}/>}>лента заказов</NavButton>
                         </NavLink>
                     </li>
                     <li className={styles.logo}><a href="#"><Logo/></a></li>

@@ -21,6 +21,8 @@ import {clearOrderNumber} from "./services/actions/order";
 import {clearDetailedInfo} from "./services/actions/ingredientDetailedInfo";
 import {IRootState} from "./services/reducers/root-reducer";
 import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "./services/hooks/hooks";
+import {FeedPage} from "./pages/feed/feedPage";
+import {OrdersQueue} from "./components/feed/OrdersQueue/OrdersQueue";
 
 function App():React.JSX.Element {
 
@@ -70,6 +72,9 @@ function App():React.JSX.Element {
             <AppHeader/>
             {dataIsLoaded && <Routes location={background || location}>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/feed" element={<FeedPage />} >
+                    path="/:orderNumber"
+                </Route>
                 <Route path="ingredients/:anyIdNumber" element={<IngredientPage />} />
                 <Route path="/login" element={<OnlyUnAuth component={<LoginPage />} />} />
                 <Route path="/register" element={<OnlyUnAuth component={<RegisterPage />} />} />
@@ -77,7 +82,7 @@ function App():React.JSX.Element {
                 <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
                 <Route path="/profile">
                     <Route path="" element={<OnlyAuth component={<ProfilePage component={<ProfileChange/>} />} />}></Route>
-                    <Route path="history" element={<OnlyAuth component={<ProfilePage component={null} />} />}></Route>
+                    <Route path="history" element={<OnlyAuth component={<ProfilePage component={<OrdersQueue/>} />} />}></Route>
                 </Route>
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>}

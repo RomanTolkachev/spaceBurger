@@ -1,0 +1,42 @@
+.statuses {
+    display: flex;
+    gap: 36px;
+    width: 100%;
+    composes: mb-15 from global;
+}
+
+.statuses > * {
+    flex-basis: 50%;
+}
+
+.list {
+    composes: text text text_type_digits-default from global;
+    display: flex;
+    flex-direction: column;
+    gap: 8px
+}
+
+.list_done {
+    composes: text text text_type_digits-default from global;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: rgb(0,204,204);
+}
+
+.list_header {
+    composes: mb-6 text text_type_main-medium from global;
+}
+
+.wrapper {
+
+}
+
+.done_header {
+    composes: text text_type_main-large from global;
+}
+
+.done_total {
+    composes: text text_type_digits-large mb-15 from global;
+    text-shadow: 4px 4px 25px rgba(51, 51, 255, .8);
+}

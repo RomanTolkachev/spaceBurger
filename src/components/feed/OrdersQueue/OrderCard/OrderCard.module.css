@@ -1,0 +1,42 @@
+.wrapper {
+    composes: p-6 from global;
+    background-color: #1C1C21;
+    width: calc(100% - 52px);
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    border-radius: 35px;
+}
+
+.wrapper > *:not(:last-child) {
+    padding-bottom: 24px;
+}
+
+.order_info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.number {
+    composes: text text_type_digits-default from global;
+}
+
+.time {
+    composes: text text_type_main-default text_color_inactive from global;
+}
+
+.order_name {
+    composes: text text_type_main-medium from global;
+}
+
+.order_ingredients_thumbnails {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.price {
+    display: flex;
+    gap: 12px
+}

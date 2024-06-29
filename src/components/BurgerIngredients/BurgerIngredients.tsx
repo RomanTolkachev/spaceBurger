@@ -62,7 +62,7 @@ const BurgerIngredients: React.FunctionComponent = () => {
     return (
         <>
             <section className={styles.section}>
-                <h1 className={`${styles.section_header}`}>соберите бургер</h1>
+                <h1 className={styles.section_header}>соберите бургер</h1>
                 <nav>
                     <nav className={styles.nav}>
                         <Tab value="buns" active={currentTab === 'buns'} onClick={() => handleSetTab('buns', )}>
