@@ -5,6 +5,7 @@ import {CLEAR_ORDER_NUMBER, ORDER_PROCESSING_FINISHED, ORDER_SENT, ORDER_SENT_FA
 import {AUTH_STATUS_CHECKED, CLEAR_USER, SEND_EMAIL_FINISHED, SEND_EMAIL_START, SET_USER} from "../services/actions/user";
 
 import {store} from "../index";
+import {TFeedAction} from "../services/reducers/socket";
 
 export interface IIngredient {
     _id: string,
@@ -195,4 +196,6 @@ export interface IRequestForgotPassCode {
 
 export interface ILogOut extends IRequestForgotPassCode {}
 
+
+export type TAppActions = TConstructorActionType & TBurgerConstructor & TDetailedInfo & TOrderProcessing & TUser & TFeedAction
 export type TAppDispatch = typeof store.dispatch;

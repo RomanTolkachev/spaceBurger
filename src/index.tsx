@@ -8,10 +8,13 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { BrowserRouter } from 'react-router-dom'
 import {configureStore} from "@reduxjs/toolkit";
+import {socketMiddleware} from "./services/middleware/socketMiddleware";
 
 
 export const store = configureStore({
     reducer: rootReducer,
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware().prepend(socketMiddleware('wss://norma.nomoreparties.space/orders/all')),
 });
 
 const root: ReactDOM.Root = ReactDOM.createRoot(

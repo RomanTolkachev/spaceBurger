@@ -23,6 +23,7 @@ import {IRootState} from "./services/reducers/root-reducer";
 import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "./services/hooks/hooks";
 import {FeedPage} from "./pages/feed/feedPage";
 import {OrdersQueue} from "./components/feed/OrdersQueue/OrdersQueue";
+import {WS_CONNECTION_START} from "./services/actions/socket";
 
 function App():React.JSX.Element {
 
@@ -44,6 +45,7 @@ function App():React.JSX.Element {
     },[dispatch]);
 
     useEffect((): void => {
+        dispatch({type: WS_CONNECTION_START})
         getUserData()
         .then(res => dispatch(setUser(res)))
         .catch((): void => {
