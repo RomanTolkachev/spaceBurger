@@ -1,5 +1,5 @@
 import styles from "./profilePage.module.css"
-import React, {ReactElement} from "react";
+import React from "react";
 import {NavLink, useMatch} from "react-router-dom";
 import {clearUser, finishAuthStatus} from "../../services/actions/user";
 import {logOutRequest} from "../../utils/api";

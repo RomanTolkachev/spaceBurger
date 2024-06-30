@@ -33,10 +33,21 @@
 .order_ingredients_thumbnails {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
 }
 
 .price {
     display: flex;
     gap: 12px
+}
+
+.list {
+    height: fit-content;
+    position: relative;
+    z-index: 0;
+}
+
+.list > li:first-child {
+    position: relative;
 }

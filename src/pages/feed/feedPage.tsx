@@ -2,6 +2,8 @@ import {FunctionComponent} from "react";
 import styles from './feedPage.module.css'
 import {OrdersQueue} from "../../components/feed/OrdersQueue/OrdersQueue";
 import {OrderStatus} from "../../components/feed/OrderStatus/OrderStatus";
+import {useSelector} from "react-redux";
+import {IRootState} from "../../services/reducers/root-reducer";
 
 export const FeedPage: FunctionComponent = () => {
 

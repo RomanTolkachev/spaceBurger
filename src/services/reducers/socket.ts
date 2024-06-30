@@ -27,7 +27,7 @@ interface ICloseConnection {
 
 export type TFeedAction = ICloseConnection | IGetMessage | ISendMessage | IConnectionFailed | IConnectionSuccess | IStartConnection
 
-interface IOrder {
+export interface IOrder {
     createdAt: string,
     ingredients: Array<string>,
     name: string,
