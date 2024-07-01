@@ -40,14 +40,18 @@ export interface IOrder {
 export interface ISocket {
     isLoading: boolean,
     ordersArray: null | IOrder[],
-
+    total?: null | number,
+    totalToday?: null | number
     error?: any
 }
 
 const initialState = {
     isLoading: false,
     ordersArray: null,
-    error: "i am state of feed"
+    error: "i am state of feed",
+    total: null,
+    totalToday: null
+
 }
 
 export const feedTableReducer = (state: ISocket = initialState, action: TFeedAction): ISocket => {
@@ -78,7 +82,9 @@ export const feedTableReducer = (state: ISocket = initialState, action: TFeedAct
         case WS_GET_MESSAGE: {
             return {
                 ...state,
-                ordersArray: JSON.parse(action.payload).orders
+                ordersArray: JSON.parse(action.payload).orders,
+                total: JSON.parse(action.payload).total,
+                totalToday: JSON.parse(action.payload).totalToday
             }
         }
         case WS_CONNECTION_CLOSED: {
