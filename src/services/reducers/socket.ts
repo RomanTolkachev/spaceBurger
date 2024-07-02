@@ -50,8 +50,7 @@ const initialState = {
     ordersArray: null,
     error: "i am state of feed",
     total: null,
-    totalToday: null
-
+    totalToday: null,
 }
 
 export const feedTableReducer = (state: ISocket = initialState, action: TFeedAction): ISocket => {

@@ -24,6 +24,7 @@ import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "
 import {FeedPage} from "./pages/feed/feedPage";
 import {OrdersQueue} from "./components/feed/OrdersQueue/OrdersQueue";
 import {WS_CONNECTION_START} from "./services/actions/socket";
+import {DetailedOrderInfo} from "./components/Modal/DetailedOrderInfo/DetailedOrderInfo";
 
 function App():React.JSX.Element {
 
@@ -74,9 +75,8 @@ function App():React.JSX.Element {
             <AppHeader/>
             {dataIsLoaded && <Routes location={background || location}>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/feed" element={<FeedPage />} >
-                    path="/:orderNumber"
-                </Route>
+                <Route path="/feed" element={<FeedPage />} />
+                <Route path="/feed/:detailedOrderNumber" element={<DetailedOrderInfo />} />
                 <Route path="ingredients/:anyIdNumber" element={<IngredientPage />} />
                 <Route path="/login" element={<OnlyUnAuth component={<LoginPage />} />} />
                 <Route path="/register" element={<OnlyUnAuth component={<RegisterPage />} />} />
@@ -100,6 +100,11 @@ function App():React.JSX.Element {
                             <Modal closeModal={closeModal}>
                                 <DetailedIngredientInfo/>
                             </Modal>} />
+                        <Route path="/feed/:detailedOrderNumber" element={
+                            <Modal closeModal={closeModal}>
+                                <DetailedOrderInfo />
+                            </Modal>
+                        }/>
                     </Routes>
                 )
             }
