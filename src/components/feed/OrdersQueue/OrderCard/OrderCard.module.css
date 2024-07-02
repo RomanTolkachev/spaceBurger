@@ -48,7 +48,7 @@
     z-index: 0;
 }
 
-.list > li:first-child {
+.list > div:first-child {
     position: relative;
 }
 

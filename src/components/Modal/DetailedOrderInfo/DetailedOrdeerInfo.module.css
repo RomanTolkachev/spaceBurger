@@ -1,0 +1,74 @@
+.wrapper {
+    composes: p-10 from global;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+.row > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.row_price {
+    composes: text text_type_digits-medium from global
+}
+
+.number {
+    composes: text text_type_digits-medium mb-10 from global;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header {
+    composes: text text_type_main-large mb-3 from global;
+}
+
+.nutrients {
+    composes: text text_type_main-large mb-6 from global;
+}
+
+.status {
+    composes: text text_type_main-small mb-15 from global;
+}
+
+.list {
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    composes: pr-6 mb-10 from global;
+    display: flex;
+    flex-direction: column;
+    gap: 5px
+}
+
+.row_header {
+    max-width: 400px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    composes: text text_type_main-default from global;
+    text-align: start;
+}
+
+.date {
+    composes: text text_type_main-default text_color_inactive from global;
+    display: flex;
+    justify-content: space-between;
+}
+
+.price {
+    composes: text text_type_main-small from global;
+    display: flex;
+    gap: 10px
+}
+
+.row_qty {
+    composes: text text_type_main-small from global;
+}

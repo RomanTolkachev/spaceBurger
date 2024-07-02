@@ -40,13 +40,13 @@ export const OrderCard: FunctionComponent<IOrderCardProps> = ({data}) => {
                             index={index}
                             url={ingredientsInfo!.filter(iterable => iterable._id === item)[0].image_mobile}
                         />
-                    })}</ul>
-                    <span className={styles.price}>
-                        <CurrencyIcon type="primary" />
+                                })}</ul>
+                            <span className={styles.price}>
+                        <CurrencyIcon type="primary"/>
                         <span>{totalPrice}</span>
                     </span>
-                </div>
-            </li>
+                        </div>
+                    </li>
         </Link>
     )
 }

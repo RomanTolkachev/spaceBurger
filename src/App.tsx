@@ -25,6 +25,7 @@ import {FeedPage} from "./pages/feed/feedPage";
 import {OrdersQueue} from "./components/feed/OrdersQueue/OrdersQueue";
 import {WS_CONNECTION_START} from "./services/actions/socket";
 import {DetailedOrderInfo} from "./components/Modal/DetailedOrderInfo/DetailedOrderInfo";
+import {clearOrderDetailedInfo} from "./services/actions/orderDetailedInfo";
 
 function App():React.JSX.Element {
 
@@ -59,16 +60,21 @@ function App():React.JSX.Element {
     }, [dispatch])
 
     const {modalContent} = useSelector((state: IRootState) => state.orderStore);
+    const {info}  = useSelector((state: IRootState) => state.detailedOrderInfo);
 
 
     const closeModal = useCallback(() => {
         if (modalContent) {
             dispatch(clearOrderNumber());
-        } else {
+        } else if (info) {
+            dispatch(clearOrderDetailedInfo())
+            return navigate(-1)
+        }
+        else {
             dispatch(clearDetailedInfo());
             return navigate(-1)
         }
-    },[dispatch, modalContent, navigate])
+    },[dispatch, info, modalContent, navigate])
 
     return (
         <>
