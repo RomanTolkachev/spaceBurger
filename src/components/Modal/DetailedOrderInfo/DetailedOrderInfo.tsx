@@ -8,6 +8,7 @@ import {IngredientThumbnail} from "../../feed/OrdersQueue/OrderCard/Ingredient_t
 import {IIngredient} from "../../../utils/types";
 import styles from './DetailedOrdeerInfo.module.css'
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
+import {getOrderInfo} from "../../../utils/api";
 
 
 export const DetailedOrderInfo: FunctionComponent = () => {
@@ -15,29 +16,49 @@ export const DetailedOrderInfo: FunctionComponent = () => {
     const dispatch = useDispatchTyped()
 
     const { detailedOrderNumber} = useParams();
-    const { info } = useSelector((state: IRootState) => state.detailedOrderInfo);
-    const data = useSelector((state: IRootState) => state.feedTableReducer.ordersArray);
-    const ingredientsInfo = useSelector((state: IRootState) => state.burgerIngredients.ingredients);
+    const detailedOrderInfo = useSelector((state: IRootState) => state.detailedOrderInfo.info);
+    const ordersData = useSelector((state: IRootState) => state.feedTableReducer.ordersArray);
+    const infoAboutIngredients = useSelector((state: IRootState) => state.burgerIngredients.ingredients);
+
+
+
+    let order: IOrder | undefined = useSelector((state: IRootState) => {
+        if (ordersData) {
+            let searchableOrder = state.feedTableReducer.ordersArray!.find(o => o._id === detailedOrderNumber!)
+            if (searchableOrder) {
+                return searchableOrder
+            }
+        }
+        // order = state.feedProfileReducer.ordersArray!.find(o => o.number === +detailedOrderNumber!)
+        // if (searchableOrder) {
+        //     return searchableOrder
+        // }
+    })
 
     useEffect(() => {
-        const currentOrderData = data!.filter((item: IOrder) => item._id === detailedOrderNumber)
-        dispatch(configureOrderDetailedInfo(currentOrderData[0]));
-    }, [detailedOrderNumber, data, dispatch]);
+        if (!order) {
+            getOrderInfo(detailedOrderNumber!)
+            .then(res => res.orders[0] === 0 ? dispatch(configureOrderDetailedInfo(res.orders[0])) : null)
+        }
+        dispatch(configureOrderDetailedInfo(order!))
+    }, []);
 
-    interface IngredientsRow {
-        ingredient: IIngredient | null
-    }
 
     let totalPrice = useMemo<number | undefined>(() => {
-        if (info) {
-            return info!.ingredients.reduce((acc, current) => {
-                const ingredient = ingredientsInfo!.find(ingredient => ingredient._id === current);
+        if (detailedOrderInfo) {
+            return detailedOrderInfo!.ingredients.reduce((acc, current) => {
+                const ingredient = infoAboutIngredients!.find(ingredient => ingredient._id === current);
                 return acc + (ingredient ? ingredient.price : 0);
             }, 0);
         }
-    }, [info, ingredientsInfo])
+    }, [detailedOrderInfo])
 
-    const Row: FunctionComponent<IngredientsRow> = ({ingredient}) => {
+    interface IngredientsRow {
+        ingredient: IIngredient | null
+        qty: number | null
+    }
+
+    const Row: FunctionComponent<IngredientsRow> = ({ingredient, qty}) => {
         return ingredient && (
             <div className={styles.row}>
                 <div>
@@ -45,40 +66,48 @@ export const DetailedOrderInfo: FunctionComponent = () => {
                     <h2 className={styles.row_header}>{ingredient.name}</h2>
                 </div>
                 <div>
-                    <span className={styles.row_qty}>x 6</span>
+                    <span className={styles.row_qty}>x{qty}</span>
                     <div>{ingredient.price}</div>
                 </div>
             </div>
         )
     }
 
-    const bla = ['bla', 'bla', 'bla', 'foo', 'bar', 'foo', 'bla',]
+    const ingredientsObject: {[key:string]:number} | null = useMemo(() => {
+        let getIngredientsQty = (arr: string[]): {[key:string]:number} | null => {
+            const res: { [key: string]: number } = {};
+            arr.forEach(item => {
+                res[item] = (res[item] || 0) + 1;
+            })
+            return res
+        }
+        if (detailedOrderInfo) {
+            return getIngredientsQty(detailedOrderInfo.ingredients)
+        } else return null
 
-    let getIngredientsQty = (arr: string[]): {[key:string]:number} | null => {
-        const res: { [key: string]: number } = {};
-        arr.forEach(item => {
-            res[item] = (res[item] || 0) + 1;
-        })
-        return res
-    }
+    }, [detailedOrderInfo])
 
-    console.log(info ? getIngredientsQty(info.ingredients): null)
-
-    return info && (
+    return (detailedOrderInfo ?
         <section className={styles.wrapper}>
-            <div className={styles.number}>#{info.number}</div>
-            <h2 className={styles.header}>{info.name}</h2>
-            <div className={styles.status} style={{color: info!.status === 'done' ? '#0cc' : 'red'}}>{info.status}</div>
+            <div className={styles.number}>#{detailedOrderInfo.number}</div>
+            <h2 className={styles.header}>{detailedOrderInfo.name}</h2>
+            <div className={styles.status} style={{color: detailedOrderInfo!.status === 'done' ? '#0cc' : 'red'}}>{detailedOrderInfo.status}</div>
             <h3 className={styles.nutrients}>состав:</h3>
             <ul className={styles.list}>
-                {info.ingredients.map(ingredientNumber => {
-                    return <li><Row ingredient={ingredientsInfo!.filter(item => item._id === ingredientNumber)[0]}/></li>
+                {Object.keys!(ingredientsObject!).map((ingredientNumber,index) => {
+                    return <li key={index}><Row
+                        key={index}
+                        ingredient={infoAboutIngredients!.filter(item => item._id === ingredientNumber)[0]}
+                        qty={ingredientsObject![ingredientNumber]}/></li>
                 })}
             </ul>
             <div className={styles.date}>
-                <FormattedDate date={new Date(info.createdAt)}/>
-                <span className={styles.price}><span>{totalPrice}</span><CurrencyIcon type="primary"/></span>
+                <FormattedDate date={new Date(detailedOrderInfo.createdAt)}/>
+                <span className={styles.price}>
+                    <span className={styles.total_price}>{totalPrice}</span>
+                    <CurrencyIcon type="primary"/>
+                </span>
             </div>
-        </section>
+        </section> : <div>Данные отсутствуют</div>
     )
 }

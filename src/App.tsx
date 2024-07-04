@@ -26,6 +26,7 @@ import {OrdersQueue} from "./components/feed/OrdersQueue/OrdersQueue";
 import {WS_CONNECTION_START} from "./services/actions/socket";
 import {DetailedOrderInfo} from "./components/Modal/DetailedOrderInfo/DetailedOrderInfo";
 import {clearOrderDetailedInfo} from "./services/actions/orderDetailedInfo";
+import {OrderPage} from "./pages/OrderPage/OrderPage";
 
 function App():React.JSX.Element {
 
@@ -47,7 +48,6 @@ function App():React.JSX.Element {
     },[dispatch]);
 
     useEffect((): void => {
-        dispatch({type: WS_CONNECTION_START})
         getUserData()
         .then(res => dispatch(setUser(res)))
         .catch((): void => {
@@ -82,7 +82,7 @@ function App():React.JSX.Element {
             {dataIsLoaded && <Routes location={background || location}>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/feed" element={<FeedPage />} />
-                <Route path="/feed/:detailedOrderNumber" element={<DetailedOrderInfo />} />
+                <Route path="/feed/:detailedOrderNumber" element={<OrderPage />} />
                 <Route path="ingredients/:anyIdNumber" element={<IngredientPage />} />
                 <Route path="/login" element={<OnlyUnAuth component={<LoginPage />} />} />
                 <Route path="/register" element={<OnlyUnAuth component={<RegisterPage />} />} />

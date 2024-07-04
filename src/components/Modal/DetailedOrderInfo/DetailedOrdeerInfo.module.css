@@ -1,5 +1,8 @@
 .wrapper {
     composes: p-10 from global;
+    max-width: 640px;
+    margin: auto auto;
+    align-items: center;
 }
 
 .row {
@@ -40,7 +43,6 @@
 }
 
 .list {
-    overflow-y: scroll;
     scrollbar-width: thin;
     composes: pr-6 mb-10 from global;
     display: flex;
@@ -58,7 +60,7 @@
 }
 
 .date {
-    composes: text text_type_main-default text_color_inactive from global;
+    composes: text text_type_main-default from global;
     display: flex;
     justify-content: space-between;
 }
@@ -67,6 +69,10 @@
     composes: text text_type_main-small from global;
     display: flex;
     gap: 10px
+}
+
+.total_price {
+    composes: text text_type_main-small from global;
 }
 
 .row_qty {

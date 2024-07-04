@@ -173,3 +173,8 @@ export const logOutRequest = (): Promise<ILogOut> => {
     })
     .then(checkResponse<ILogOut>)
 }
+
+export const getOrderInfo = (orderNumber: string): Promise<any> => {
+    return fetch(`${BASE_URL}/orders/${orderNumber}`)
+    .then(checkResponse)
+}

@@ -78,6 +78,7 @@ const BurgerConstructor: React.FunctionComponent = () => {
         if (!user) {
             return navigate('/login')
         } else {
+            dispatch({type: 'WS_SEND_MESSAGE', payload: ids})
             dispatch(startSendOrder());
             sendOrderRequest(ids)
                 .then(res => {
