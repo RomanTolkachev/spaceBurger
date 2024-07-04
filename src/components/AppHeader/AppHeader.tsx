@@ -20,7 +20,7 @@ const AppHeader: React.FunctionComponent = () => {
                         <NavLink to="/" className={({isActive}): string => isActive ? styles.active : styles.link}>
                             <NavButton icon={<BurgerIcon type={useMatch('/') ? "primary" : "secondary"}/>}>Конструктор</NavButton>
                         </NavLink>
-                        <NavLink to="/feed" className={({isActive}): string => isActive ? styles.active : styles.link}>
+                        <NavLink to="/feed" end className={({isActive}): string => isActive ? styles.active : styles.link}>
                             <NavButton icon={<ListIcon type={useMatch('/feed') ? "primary" : "secondary"}/>}>лента заказов</NavButton>
                         </NavLink>
                     </li>

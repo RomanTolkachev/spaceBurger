@@ -38,7 +38,7 @@ export const DetailedOrderInfo: FunctionComponent = () => {
     useEffect(() => {
         if (!order) {
             getOrderInfo(detailedOrderNumber!)
-            .then(res => res.orders[0] === 0 ? dispatch(configureOrderDetailedInfo(res.orders[0])) : null)
+            .then(res => res.orders[0] !== 0 ? dispatch(configureOrderDetailedInfo(res.orders[0])) : null)
         }
         dispatch(configureOrderDetailedInfo(order!))
     }, []);
