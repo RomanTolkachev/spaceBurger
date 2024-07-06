@@ -6,6 +6,7 @@
     display: flex;
     align-items: start;
     justify-content: start;
+    overflow: hidden;
 }
 
 *::first-letter {

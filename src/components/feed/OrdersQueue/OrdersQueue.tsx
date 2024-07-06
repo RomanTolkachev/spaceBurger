@@ -9,6 +9,7 @@ import {
     WS_OWN_ORDERS_CONNECTION_CLOSED,
     WS_OWN_ORDERS_CONNECTION_START
 } from "../../../services/actions/ownOrdersSocket";
+import {PreloaderComponent} from "../../Preloader/PreloaderComponent";
 
 
 export const OrdersQueue: FunctionComponent = () => {
@@ -27,11 +28,11 @@ export const OrdersQueue: FunctionComponent = () => {
         }
     },[dispatch, matchFeed])
 
-    return (matchFeed ?
+    return personalOrders || orders ? (
         <ul className={styles.main}>
-            {orders && orders.map((item, index: number) => (<OrderCard key={index} data={item}/>))}
-        </ul>
-     :      <ul className={styles.main}>
-            {personalOrders && personalOrders.map((item, index: number) => (<OrderCard key={index} data={item}/>))}
-        </ul>)
+            { matchFeed
+                ? orders && orders!.map((item, index: number) => (<OrderCard key={index} data={item}/>))
+                : personalOrders && personalOrders!.map((item, index: number) => (<OrderCard key={index} data={item}/>))
+            }
+        </ul> ) : <PreloaderComponent/>
 }
