@@ -23,22 +23,23 @@ export const DetailedOrderInfo: FunctionComponent = () => {
 
 
     let order: IOrder | undefined = useSelector((state: IRootState) => {
+        let searchableOrder: IOrder | undefined;
         if (ordersData) {
-            let searchableOrder = state.feedTableReducer.ordersArray!.find(o => o._id === detailedOrderNumber!)
+            searchableOrder = state.feedTableReducer.ordersArray!.find(o => o._id === detailedOrderNumber!)
             if (searchableOrder) {
                 return searchableOrder
             }
+        } else {
+            searchableOrder = state.personalOrdersReducer.ordersArray!.find(o => o._id === detailedOrderNumber!)
+            return searchableOrder
         }
-        // order = state.feedProfileReducer.ordersArray!.find(o => o.number === +detailedOrderNumber!)
-        // if (searchableOrder) {
-        //     return searchableOrder
-        // }
     })
 
     useEffect(() => {
         if (!order) {
             getOrderInfo(detailedOrderNumber!)
             .then(res => res.orders[0] !== 0 ? dispatch(configureOrderDetailedInfo(res.orders[0])) : null)
+            return
         }
         dispatch(configureOrderDetailedInfo(order!))
     }, []);

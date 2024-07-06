@@ -7,6 +7,7 @@ import {userInfo} from "./user"
 import {store} from "../../index";
 import {feedTableReducer} from "./socket";
 import {detailedOrderInfo} from "./orderDetailedInfo";
+import {personalOrdersReducer} from "./ownOrderSocket";
 
 export type IRootState = ReturnType<typeof store.getState>
 
@@ -17,5 +18,6 @@ export const rootReducer = combineReducers({
     orderStore: orderStore,
     userInfo: userInfo,
     feedTableReducer: feedTableReducer,
-    detailedOrderInfo: detailedOrderInfo
+    detailedOrderInfo: detailedOrderInfo,
+    personalOrdersReducer: personalOrdersReducer
 });

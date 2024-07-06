@@ -23,7 +23,6 @@ import {IRootState} from "./services/reducers/root-reducer";
 import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "./services/hooks/hooks";
 import {FeedPage} from "./pages/feed/feedPage";
 import {OrdersQueue} from "./components/feed/OrdersQueue/OrdersQueue";
-import {WS_CONNECTION_START} from "./services/actions/socket";
 import {DetailedOrderInfo} from "./components/Modal/DetailedOrderInfo/DetailedOrderInfo";
 import {clearOrderDetailedInfo} from "./services/actions/orderDetailedInfo";
 import {OrderPage} from "./pages/OrderPage/OrderPage";

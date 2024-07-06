@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import {IRootState} from "../../services/reducers/root-reducer";
 import {PreloaderComponent} from "../../components/Preloader/PreloaderComponent";
 import {useDispatchTyped} from "../../services/hooks/hooks";
-import {WS_CONNECTION_START} from "../../services/actions/socket";
+import {WS_CONNECTION_CLOSED, WS_CONNECTION_START} from "../../services/actions/socket";
 
 export const FeedPage: FunctionComponent = () => {
 
@@ -14,7 +14,8 @@ export const FeedPage: FunctionComponent = () => {
 
     useEffect(() => {
         dispatch({type: WS_CONNECTION_START})
-    }, [])
+        return () => {dispatch({type: WS_CONNECTION_CLOSED})}
+    }, [dispatch])
 
     const orders = useSelector((state: IRootState) => state.feedTableReducer.ordersArray)
 

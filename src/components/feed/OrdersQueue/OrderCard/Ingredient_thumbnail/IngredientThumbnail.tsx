@@ -9,7 +9,8 @@ interface IIngredientThumbnailProps {
 
 export const IngredientThumbnail: FunctionComponent<IIngredientThumbnailProps> = ({index, url}) => {
 
-    const relativePosition = useMatch('/feed')
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const relativePosition = useMatch('/feed') || useMatch('/profile/history')
 
     const relativeRimStyles: any = {
         position: `relative`,
