@@ -78,7 +78,7 @@ export const personalOrdersReducer = (state: ISocket = initialState, action: TFe
         case WS_OWN_ORDERS_CONNECTION_ERROR: {
             return {
                 ...state,
-                error: action
+                // error: action
             }
         }
         case WS_OWN_ORDERS_SEND_MESSAGE: {

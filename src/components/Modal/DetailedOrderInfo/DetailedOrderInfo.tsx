@@ -31,7 +31,9 @@ export const DetailedOrderInfo: FunctionComponent = () => {
             }
         } else {
             searchableOrder = state.personalOrdersReducer.ordersArray!.find(o => o._id === detailedOrderNumber!)
-            return searchableOrder
+            if (searchableOrder) {
+                return searchableOrder
+            }
         }
     })
 

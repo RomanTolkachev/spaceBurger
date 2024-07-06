@@ -1,10 +1,10 @@
 .frame {
     max-width: 1280px;
     margin: 0 auto;
-    padding-top: 300px;
-    height: calc(100svh - 386px);
+    padding-top: 86px;
+    height: calc(100svh - 86px);
     display: flex;
-    align-items: start;
+    align-items: center;
     justify-content: start;
     overflow: hidden;
 }
