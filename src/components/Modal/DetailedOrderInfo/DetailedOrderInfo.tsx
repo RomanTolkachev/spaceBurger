@@ -19,23 +19,25 @@ export const DetailedOrderInfo: FunctionComponent = () => {
     const detailedOrderInfo = useSelector((state: IRootState) => state.detailedOrderInfo.info);
     const ordersData = useSelector((state: IRootState) => state.feedTableReducer.ordersArray);
     const infoAboutIngredients = useSelector((state: IRootState) => state.burgerIngredients.ingredients);
-
+    const personalOrdersData = useSelector((state: IRootState) => state.personalOrdersReducer.ordersArray);
 
 
     let order: IOrder | undefined = useSelector((state: IRootState) => {
         let searchableOrder: IOrder | undefined;
         if (ordersData) {
-            searchableOrder = state.feedTableReducer.ordersArray!.find(o => o._id === detailedOrderNumber!)
+            searchableOrder = state.feedTableReducer.ordersArray!.find(o => o.number === +detailedOrderNumber!)
             if (searchableOrder) {
                 return searchableOrder
             }
-        } else {
-            searchableOrder = state.personalOrdersReducer.ordersArray!.find(o => o._id === detailedOrderNumber!)
+        }
+        if (personalOrdersData) {
+            searchableOrder = state.personalOrdersReducer.ordersArray!.find(o => o.number === +detailedOrderNumber!)
             if (searchableOrder) {
                 return searchableOrder
             }
         }
     })
+    console.log(order)
 
     useEffect(() => {
         if (!order) {

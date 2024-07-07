@@ -25,7 +25,12 @@ export const userInfo = (state: IUserState = initialState, action: TUser): IUser
             }
         }
         case CLEAR_USER: {
-            return initialState
+            return {
+                isAuthChecked: true,
+                email: null,
+                name: null,
+                isRequestButtonLocked: false,
+            }
         }
         case AUTH_STATUS_CHECKED: {
             return {

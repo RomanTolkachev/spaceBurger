@@ -2,13 +2,11 @@ import {Middleware, MiddlewareAPI} from "redux";
 import {TAppActions as AppActions, TAppDispatch as AppDispatch} from "../../utils/types";
 import {IRootState as RootState} from "../reducers/root-reducer";
 import {
-    WS_OWN_ORDERS_CONNECTION_ERROR,
     WS_OWN_ORDERS_CONNECTION_START
 } from "../actions/ownOrdersSocket";
-import {fetchWithRefresh, refreshToken} from "../../utils/api";
+import {refreshToken} from "../../utils/api";
 
 const wsPersonalSocketURL: 'wss://norma.nomoreparties.space/orders' = 'wss://norma.nomoreparties.space/orders'
-let accessToken: string | null = localStorage.getItem("accessToken");
 
 export const personalOrdersSocketMiddleware = (): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
@@ -20,7 +18,7 @@ export const personalOrdersSocketMiddleware = (): Middleware => {
 
             if (type === 'WS_OWN_ORDERS_CONNECTION_START') {
                 // объект класса WebSocket
-                socket = new WebSocket(`${wsPersonalSocketURL}?token=${accessToken}`);
+                socket = new WebSocket(`${wsPersonalSocketURL}?token=${localStorage.getItem("accessToken")}`);
             }
             if (socket) {
             if (type === 'WS_OWN_ORDERS_CONNECTION_CLOSED') {
@@ -41,8 +39,8 @@ export const personalOrdersSocketMiddleware = (): Middleware => {
                 socket.onmessage = event => {
                     const { data } = event;
                     if (JSON.parse(data).message === "Invalid or missing token") {
-                        refreshToken().then(async res => {
-                        localStorage.setItem('accessToken', res.accessToken.replace('Bearer ', ""))
+                         return refreshToken().then(res => {
+                         localStorage.setItem('accessToken', res.accessToken.replace('Bearer ', ""))
                         }).then(() => dispatch({type: WS_OWN_ORDERS_CONNECTION_START}))
                     }
                     dispatch({ type: 'WS_OWN_ORDERS_GET_MESSAGE', payload: data });

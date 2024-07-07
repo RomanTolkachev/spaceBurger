@@ -47,15 +47,19 @@ function App():React.JSX.Element {
     },[dispatch]);
 
     useEffect((): void => {
-        getUserData()
-        .then(res => dispatch(setUser(res)))
-        .catch((): void => {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-        })
-        .finally((): void => {
+        if (localStorage.getItem('accessToken')) {
+            getUserData()
+            .then(res => dispatch(setUser(res)))
+            .catch((): void => {
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('refreshToken');
+            })
+            .finally((): void => {
+                dispatch(finishAuthStatus())
+            })
+        } else {
             dispatch(finishAuthStatus())
-        })
+        }
     }, [dispatch])
 
     const {modalContent} = useSelector((state: IRootState) => state.orderStore);
@@ -78,7 +82,8 @@ function App():React.JSX.Element {
     return (
         <>
             <AppHeader/>
-            {dataIsLoaded && <Routes location={background || location}>
+            {dataIsLoaded &&
+            <Routes location={background || location}>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/feed" element={<FeedPage />} />
                 <Route path="/feed/:detailedOrderNumber" element={<OrderPage />} />
@@ -87,9 +92,11 @@ function App():React.JSX.Element {
                 <Route path="/register" element={<OnlyUnAuth component={<RegisterPage />} />} />
                 <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
                 <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
+                <Route path="/profile/history/:detailedOrderNumber" element={<OnlyAuth component={<OrderPage />} />} />
                 <Route path="/profile">
                     <Route path="" element={<OnlyAuth component={<ProfilePage component={<ProfileChange/>} />} />}></Route>
-                    <Route path="history" element={<OnlyAuth component={<ProfilePage component={<OrdersQueue/>} />} />}></Route>
+                    <Route path="history" element={<OnlyAuth component={<ProfilePage component={<OrdersQueue/>} />} />}>
+                </Route>
                 </Route>
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>}
@@ -106,6 +113,11 @@ function App():React.JSX.Element {
                                 <DetailedIngredientInfo/>
                             </Modal>} />
                         <Route path="/feed/:detailedOrderNumber" element={
+                            <Modal closeModal={closeModal}>
+                                <DetailedOrderInfo />
+                            </Modal>
+                        }/>
+                        <Route path="/profile/history/:detailedOrderNumber" element={
                             <Modal closeModal={closeModal}>
                                 <DetailedOrderInfo />
                             </Modal>

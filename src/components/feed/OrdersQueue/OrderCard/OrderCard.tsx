@@ -21,10 +21,10 @@ export const OrderCard: FunctionComponent<IOrderCardProps> = ({data}) => {
         }, 0);
     }, [data.ingredients, ingredientsInfo])
 
-    const location: {state: string} = useLocation()
+    const location: {state: string, pathname: string} = useLocation()
 
     return (
-        <Link to={`/feed/${data._id}`} state={{ background: location }} className={styles.link}>
+        <Link to={`${useLocation().pathname}/${data.number}`} state={{ background: location }} className={styles.link}>
             <li className={styles.wrapper}>
                 <div className={styles.order_info}>
                     <span className={styles.number}>{data.number}</span>
