@@ -9,9 +9,12 @@ import {IIngredient} from "../../../utils/types";
 import styles from './DetailedOrdeerInfo.module.css'
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {getOrderInfo} from "../../../utils/api";
+import {PreloaderComponent} from "../../Preloader/PreloaderComponent";
 
 
 export const DetailedOrderInfo: FunctionComponent = () => {
+
+    console.log('рендер детальной информации')
 
     const dispatch = useDispatchTyped()
 
@@ -37,7 +40,7 @@ export const DetailedOrderInfo: FunctionComponent = () => {
             }
         }
     })
-    console.log(order)
+
 
     useEffect(() => {
         if (!order) {
@@ -113,6 +116,6 @@ export const DetailedOrderInfo: FunctionComponent = () => {
                     <CurrencyIcon type="primary"/>
                 </span>
             </div>
-        </section> : <div>Данные отсутствуют</div>
+        </section> : <div>данные отсутствуют</div>
     )
 }

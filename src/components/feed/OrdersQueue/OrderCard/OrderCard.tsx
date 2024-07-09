@@ -5,7 +5,7 @@ import {IOrder} from "../../../../services/reducers/socket";
 import {IngredientThumbnail} from "./Ingredient_thumbnail/IngredientThumbnail";
 import {useSelector} from "react-redux";
 import {IRootState} from "../../../../services/reducers/root-reducer";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useMatch} from "react-router-dom";
 interface IOrderCardProps {
     data: IOrder
 }
@@ -28,11 +28,12 @@ export const OrderCard: FunctionComponent<IOrderCardProps> = ({data}) => {
             <li className={styles.wrapper}>
                 <div className={styles.order_info}>
                     <span className={styles.number}>{data.number}</span>
-                    <span className={styles.time}><FormattedDate date={new Date(data.createdAt)} /></span>
+                    <span className={styles.time}><FormattedDate date={new Date(data.createdAt)}/></span>
                 </div>
                 <h3 className={styles.order_name}>
                     {data.name}
                 </h3>
+                {useMatch('/profile/history') ? <span style={data.status==='done' ? {color: '#0cc'} : undefined}>{data.status}</span> : null}
                 <div className={styles.order_ingredients_thumbnails}>
                     <ul className={styles.list}>{data.ingredients.map((item, index) => {
                         return <IngredientThumbnail
@@ -40,13 +41,13 @@ export const OrderCard: FunctionComponent<IOrderCardProps> = ({data}) => {
                             index={index}
                             url={ingredientsInfo!.filter(iterable => iterable._id === item)[0].image_mobile}
                         />
-                                })}</ul>
-                            <span className={styles.price}>
+                    })}</ul>
+                    <span className={styles.price}>
                         <CurrencyIcon type="primary"/>
                         <span>{totalPrice}</span>
                     </span>
-                        </div>
-                    </li>
+                </div>
+            </li>
         </Link>
     )
 }

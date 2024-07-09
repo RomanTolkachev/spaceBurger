@@ -87,9 +87,11 @@ export const personalOrdersReducer = (state: ISocket = initialState, action: TFe
             }
         }
         case WS_OWN_ORDERS_GET_MESSAGE: {
+            let parsedPayload: IOrder[] = JSON.parse(action.payload).orders;
+            parsedPayload = parsedPayload.sort((a: IOrder, b: IOrder) =>  +new Date(b.createdAt) - +new Date(a.createdAt))
             return {
                 ...state,
-                ordersArray: JSON.parse(action.payload).orders,
+                ordersArray: parsedPayload,
                 total: JSON.parse(action.payload).total,
                 totalToday: JSON.parse(action.payload).totalToday
             }
