@@ -2,6 +2,7 @@ import {WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_SEND
 
 interface IStartConnection {
     type: typeof WS_CONNECTION_START
+    payload: string | URL
 }
 
 interface IConnectionSuccess {
@@ -14,6 +15,7 @@ interface IConnectionFailed {
 
 interface ISendMessage {
     type: typeof WS_SEND_MESSAGE
+    payload: string
 }
 
 interface IGetMessage {
@@ -38,7 +40,6 @@ export interface IOrder {
 }
 
 export interface ISocket {
-    isLoading: boolean,
     ordersArray: null | IOrder[],
     total?: null | number,
     totalToday?: null | number
@@ -46,25 +47,24 @@ export interface ISocket {
 }
 
 const initialState = {
-    isLoading: false,
     ordersArray: null,
     error: "i am state of feed",
     total: null,
     totalToday: null,
 }
 
+
+
 export const feedTableReducer = (state: ISocket = initialState, action: TFeedAction): ISocket => {
     switch (action.type) {
         case WS_CONNECTION_START: {
             return {
                 ...state,
-                isLoading: true
             }
         }
         case WS_CONNECTION_SUCCESS: {
             return {
                 ...state,
-                isLoading: false,
             }
         }
         case WS_CONNECTION_ERROR: {

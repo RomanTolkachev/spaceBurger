@@ -7,13 +7,14 @@ import {IRootState} from "../../services/reducers/root-reducer";
 import {PreloaderComponent} from "../../components/Preloader/PreloaderComponent";
 import {useDispatchTyped} from "../../services/hooks/hooks";
 import {WS_CONNECTION_CLOSED, WS_CONNECTION_START} from "../../services/actions/socket";
+const socketURL: 'wss://norma.nomoreparties.space/orders/all' = 'wss://norma.nomoreparties.space/orders/all'
 
 export const FeedPage: FunctionComponent = () => {
 
     const dispatch = useDispatchTyped()
 
     useEffect(() => {
-        dispatch({type: WS_CONNECTION_START})
+        dispatch({type: WS_CONNECTION_START, payload: socketURL})
         return () => {dispatch({type: WS_CONNECTION_CLOSED})}
     }, [dispatch])
 

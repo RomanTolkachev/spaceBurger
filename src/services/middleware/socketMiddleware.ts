@@ -6,7 +6,7 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null;
 
-        return next => (action: AppActions) => {
+        return (next) => (action: AppActions) => {
             const { dispatch, getState } = store;
             const { type, payload } = action;
 
@@ -15,28 +15,24 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
                 socket = new WebSocket(wsUrl);
             }
             if (socket) {
+                if (type === 'WS_CONNECTION_CLOSED') {
+                    // объект класса WebSocket
+                    socket.close()
+                }
 
-            if (type === 'WS_CONNECTION_CLOSED') {
-                // объект класса WebSocket
-                socket.close()
-            }
-
-                // функция, которая вызывается при открытии сокета
                 socket.onopen = event => {
                     dispatch({ type: 'WS_CONNECTION_SUCCESS', payload: event });
                 };
 
-                // функция, которая вызывается при ошибке соединения
                 socket.onerror = event => {
                     dispatch({ type: 'WS_CONNECTION_ERROR', payload: event });
                 };
 
-                // функция, которая вызывается при получения события от сервера
                 socket.onmessage = event => {
                     const { data } = event;
                     dispatch({ type: 'WS_GET_MESSAGE', payload: data });
                 };
-                // функция, которая вызывается при закрытии соединения
+
                 socket.onclose = event => {
                     dispatch({ type: 'WS_CONNECTION_CLOSED', payload: event });
                 };

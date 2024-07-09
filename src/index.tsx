@@ -10,15 +10,18 @@ import { BrowserRouter } from 'react-router-dom'
 import {configureStore} from "@reduxjs/toolkit";
 import {socketMiddleware} from "./services/middleware/socketMiddleware";
 import {personalOrdersSocketMiddleware} from "./services/middleware/PersomanOrdersSocketMiddleware";
+import {unionSocketMiddleware} from "./services/middleware/unionSocketMiddleware";
 const socketURL: 'wss://norma.nomoreparties.space/orders/all' = 'wss://norma.nomoreparties.space/orders/all'
+
 
 
 export const store = configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({serializableCheck: false}).prepend(
-            socketMiddleware(socketURL),
-            personalOrdersSocketMiddleware()
+            // socketMiddleware(socketURL),
+            // personalOrdersSocketMiddleware()
+            unionSocketMiddleware()
         ),
 });
 

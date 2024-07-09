@@ -10,7 +10,7 @@ import {
     WS_OWN_ORDERS_CONNECTION_START
 } from "../../../services/actions/ownOrdersSocket";
 import {PreloaderComponent} from "../../Preloader/PreloaderComponent";
-
+const socketURL: 'wss://norma.nomoreparties.space/orders/all' = 'wss://norma.nomoreparties.space/orders/all'
 
 export const OrdersQueue: FunctionComponent = () => {
 
@@ -21,10 +21,10 @@ export const OrdersQueue: FunctionComponent = () => {
 
     useEffect(() => {
         if (!matchFeed) {
-            dispatch({type: WS_OWN_ORDERS_CONNECTION_START})
-        }
-        return () => {
-            dispatch({type:WS_OWN_ORDERS_CONNECTION_CLOSED})
+            dispatch({type: WS_OWN_ORDERS_CONNECTION_START, payload: socketURL})
+            return () => {
+                dispatch({type:WS_OWN_ORDERS_CONNECTION_CLOSED})
+            }
         }
     },[dispatch, matchFeed])
 
