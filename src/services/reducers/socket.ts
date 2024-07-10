@@ -1,8 +1,8 @@
 import {WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_CONNECTION_ERROR, WS_SEND_MESSAGE, WS_GET_MESSAGE, WS_CONNECTION_CLOSED} from "../actions/socket";
 
-interface IStartConnection {
+export interface IStartConnection {
     type: typeof WS_CONNECTION_START
-    payload: string | URL
+    payload: string
 }
 
 interface IConnectionSuccess {
@@ -53,8 +53,6 @@ const initialState = {
     totalToday: null,
 }
 
-
-
 export const feedTableReducer = (state: ISocket = initialState, action: TFeedAction): ISocket => {
     switch (action.type) {
         case WS_CONNECTION_START: {
@@ -81,9 +79,9 @@ export const feedTableReducer = (state: ISocket = initialState, action: TFeedAct
         case WS_GET_MESSAGE: {
             return {
                 ...state,
-                ordersArray: JSON.parse(action.payload).orders,
-                total: JSON.parse(action.payload).total,
-                totalToday: JSON.parse(action.payload).totalToday
+                ordersArray: action.payload.orders,
+                total: action.payload.total,
+                totalToday: action.payload.totalToday
             }
         }
         case WS_CONNECTION_CLOSED: {

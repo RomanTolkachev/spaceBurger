@@ -8,20 +8,26 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { BrowserRouter } from 'react-router-dom'
 import {configureStore} from "@reduxjs/toolkit";
-import {socketMiddleware} from "./services/middleware/socketMiddleware";
-import {personalOrdersSocketMiddleware} from "./services/middleware/PersomanOrdersSocketMiddleware";
 import {unionSocketMiddleware} from "./services/middleware/unionSocketMiddleware";
-const socketURL: 'wss://norma.nomoreparties.space/orders/all' = 'wss://norma.nomoreparties.space/orders/all'
+import {WSFeedConnected, WSFeedError, WSFeedClose, WSFeedGetMessage, WSFeedStart} from "./services/actions/socket";
 
 
+
+const socketEventHandlers = {
+    connect: WSFeedStart,
+    disconnect: WSFeedClose,
+    connected: WSFeedConnected,
+    opened: null,
+    gotError: WSFeedError,
+    gotMessage: WSFeedGetMessage,
+    sendMessage: null
+}
 
 export const store = configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({serializableCheck: false}).prepend(
-            // socketMiddleware(socketURL),
-            // personalOrdersSocketMiddleware()
-            unionSocketMiddleware()
+            unionSocketMiddleware(socketEventHandlers)
         ),
 });
 

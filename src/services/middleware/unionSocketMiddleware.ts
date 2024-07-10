@@ -8,67 +8,78 @@ import {
     WS_SEND_MESSAGE
 } from "../actions/socket";
 import {TFeedAction} from "../reducers/socket";
+import {ActionCreatorWithoutPayload, ActionCreatorWithPayload} from "@reduxjs/toolkit";
 
 
 export type socketActionTypes = {
 
 }
 
+export type TWSHandlersTypes = {
+    connect: ActionCreatorWithPayload<string>,
+    disconnect: ActionCreatorWithoutPayload,
+    sendMessage?: ActionCreatorWithPayload<any> | null,
+    connected: ActionCreatorWithoutPayload,
+    opened?: ActionCreatorWithoutPayload | null,
+    gotError: ActionCreatorWithPayload<string>,
+    gotMessage: ActionCreatorWithPayload<any>
+}
 
-export const unionSocketMiddleware = (): Middleware => {
+
+export const unionSocketMiddleware = (eventHandlers: TWSHandlersTypes): Middleware => {
     return ((store) => {
+
         let socket: WebSocket | null = null;
         const {dispatch} = store;
 
+        const {
+            connect,
+            disconnect,
+            sendMessage,
+            connected,
+            gotError,
+            gotMessage
+        } = eventHandlers
+
         return (next) => (action: TFeedAction) => {
-            if (action.type === WS_CONNECTION_START) {
+            if (connect.match(action)) {
                 socket = new WebSocket(action.payload)
-                console.log(action)
             }
 
             if (socket) {
                 socket.onopen = () => {
-                    dispatch({type: WS_CONNECTION_SUCCESS})
+                    dispatch(connected())
+                }
+                socket.onclose = () => {
+                    dispatch(disconnect())
                 }
                 socket.onmessage = event => {
                     const { data } = event;
-                    dispatch({ type: WS_GET_MESSAGE, payload: data });
+                    try {
+                        const parsedData = JSON.parse(data);
+                        dispatch(gotMessage(parsedData))
+                    } catch (e) {
+                        dispatch(gotError((e as any).message))
+                    }
                 };
-                socket.onerror = event => {
-                    dispatch({ type: WS_CONNECTION_ERROR, payload: event });
+                socket.onerror = () => {
+                    dispatch(gotError('Error'));
                 };
 
-                if (action.type === WS_SEND_MESSAGE) {
-                    const message = action.payload;
-                    socket.send(JSON.stringify(message));
+                if (sendMessage?.match(action)) {
+                    try {
+                        const message: any = action.payload;
+                        socket.send(JSON.stringify(message));
+                    } catch (e) {
+                        dispatch(gotError((e as any).message))
+                    }
                 }
-                if (action.type === WS_CONNECTION_CLOSED) {
+                if (disconnect.match(action)) {
                     socket.close()
+                    socket = null
                 }
             }
             return next(action)
         }
     }) as Middleware;
 };
-
-// const connect = () => {
-//
-// }
-// const disconnect = () => {
-//
-// }
-// const connecting = () => {
-//
-// }
-// const senMessage = () => {
-//
-// }
-// const onOpen = () => {
-//
-// }
-// const onError = () => {
-//
-// }
-// const onMessage = () => {
-//
-// }

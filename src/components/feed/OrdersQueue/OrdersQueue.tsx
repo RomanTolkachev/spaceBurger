@@ -5,12 +5,9 @@ import {useSelector} from "react-redux";
 import {IRootState} from "../../../services/reducers/root-reducer";
 import {PathMatch, useMatch} from "react-router-dom";
 import {useDispatchTyped} from "../../../services/hooks/hooks";
-import {
-    WS_OWN_ORDERS_CONNECTION_CLOSED,
-    WS_OWN_ORDERS_CONNECTION_START
-} from "../../../services/actions/ownOrdersSocket";
 import {PreloaderComponent} from "../../Preloader/PreloaderComponent";
-const socketURL: 'wss://norma.nomoreparties.space/orders/all' = 'wss://norma.nomoreparties.space/orders/all'
+import {WS_CONNECTION_CLOSED, WS_CONNECTION_START} from "../../../services/actions/socket";
+const wsPersonalOrdersURL: 'wss://norma.nomoreparties.space/orders' = 'wss://norma.nomoreparties.space/orders'
 
 export const OrdersQueue: FunctionComponent = () => {
 
@@ -21,9 +18,9 @@ export const OrdersQueue: FunctionComponent = () => {
 
     useEffect(() => {
         if (!matchFeed) {
-            dispatch({type: WS_OWN_ORDERS_CONNECTION_START, payload: socketURL})
+            dispatch({type: WS_CONNECTION_START, payload: `${wsPersonalOrdersURL}?token=${localStorage.getItem("accessToken")}`})
             return () => {
-                dispatch({type:WS_OWN_ORDERS_CONNECTION_CLOSED})
+                dispatch({type:WS_CONNECTION_CLOSED})
             }
         }
     },[dispatch, matchFeed])
