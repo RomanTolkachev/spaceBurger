@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import {IRootState} from "../../services/reducers/root-reducer";
 import {PreloaderComponent} from "../../components/Preloader/PreloaderComponent";
 import {useDispatchTyped} from "../../services/hooks/hooks";
-import {WSFeedClose, WSFeedStart} from "../../services/actions/socket";
+import { WSFeedStart, WSStartDisconnect} from "../../services/actions/socket";
 const socketURL: 'wss://norma.nomoreparties.space/orders/all' = 'wss://norma.nomoreparties.space/orders/all'
 
 export const FeedPage: FunctionComponent = () => {
@@ -15,7 +15,7 @@ export const FeedPage: FunctionComponent = () => {
 
     useEffect(() => {
         dispatch(WSFeedStart(socketURL))
-        return () => {dispatch(WSFeedClose())}
+        return () => {dispatch(WSStartDisconnect())}
     }, [dispatch])
 
     const orders = useSelector((state: IRootState) => state.feedTableReducer.ordersArray)

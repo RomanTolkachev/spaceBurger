@@ -25,7 +25,7 @@ const AppHeader: React.FunctionComponent = () => {
                         </NavLink>
                     </li>
                     <li className={styles.logo}><a href="#"><Logo/></a></li>
-                    <NavLink to="/profile" className={({isActive}): string => isActive ? styles.active : styles.link}>
+                    <NavLink to="/profile" end className={({isActive}): string => isActive ? styles.active : styles.link}>
                         <li><NavButton icon={<ProfileIcon type={useMatch('/profile') ? "primary" : "secondary"}/>}>{userdata ? userdata : "личный кабинет"}</NavButton></li>
                     </NavLink>
                 </ul>

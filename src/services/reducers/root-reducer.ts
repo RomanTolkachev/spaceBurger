@@ -7,7 +7,7 @@ import {userInfo} from "./user"
 import {store} from "../../index";
 import {feedTableReducer} from "./socket";
 import {detailedOrderInfo} from "./orderDetailedInfo";
-import {personalOrdersReducer} from "./ownOrderSocket";
+import {personalOrdersReducer} from "./PersonalOrdersSocket";
 
 export type IRootState = ReturnType<typeof store.getState>
 

@@ -1,22 +1,11 @@
-import {Middleware, MiddlewareAPI} from "redux";
-import {
-    WS_CONNECTION_CLOSED,
-    WS_CONNECTION_ERROR,
-    WS_CONNECTION_START,
-    WS_CONNECTION_SUCCESS,
-    WS_GET_MESSAGE,
-    WS_SEND_MESSAGE
-} from "../actions/socket";
+import {Middleware} from "redux";
 import {TFeedAction} from "../reducers/socket";
 import {ActionCreatorWithoutPayload, ActionCreatorWithPayload} from "@reduxjs/toolkit";
-
-
-export type socketActionTypes = {
-
-}
+import {refreshToken} from "../../utils/api";
 
 export type TWSHandlersTypes = {
     connect: ActionCreatorWithPayload<string>,
+    startDisconnect: ActionCreatorWithoutPayload
     disconnect: ActionCreatorWithoutPayload,
     sendMessage?: ActionCreatorWithPayload<any> | null,
     connected: ActionCreatorWithoutPayload,
@@ -24,7 +13,6 @@ export type TWSHandlersTypes = {
     gotError: ActionCreatorWithPayload<string>,
     gotMessage: ActionCreatorWithPayload<any>
 }
-
 
 export const unionSocketMiddleware = (eventHandlers: TWSHandlersTypes): Middleware => {
     return ((store) => {
@@ -35,6 +23,7 @@ export const unionSocketMiddleware = (eventHandlers: TWSHandlersTypes): Middlewa
         const {
             connect,
             disconnect,
+            startDisconnect,
             sendMessage,
             connected,
             gotError,
@@ -52,11 +41,19 @@ export const unionSocketMiddleware = (eventHandlers: TWSHandlersTypes): Middlewa
                 }
                 socket.onclose = () => {
                     dispatch(disconnect())
+                    socket = null
                 }
                 socket.onmessage = event => {
                     const { data } = event;
                     try {
                         const parsedData = JSON.parse(data);
+                        if (data.message === "Invalid or missing token") { // проверка что токен не протух
+                            return refreshToken()
+                            .then(res => {
+                                localStorage.setItem('accessToken', res.accessToken.replace('Bearer ', ""))
+                            })
+                            .then(() => dispatch(connect(`${socket!.url}?token=${localStorage.getItem("accessToken")}`)))
+                        }
                         dispatch(gotMessage(parsedData))
                     } catch (e) {
                         dispatch(gotError((e as any).message))
@@ -74,9 +71,9 @@ export const unionSocketMiddleware = (eventHandlers: TWSHandlersTypes): Middlewa
                         dispatch(gotError((e as any).message))
                     }
                 }
-                if (disconnect.match(action)) {
+                if (startDisconnect.match(action)) {
                     socket.close()
-                    socket = null
+                    console.log(socket.readyState)
                 }
             }
             return next(action)

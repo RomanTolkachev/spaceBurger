@@ -2,8 +2,9 @@ import {Middleware, MiddlewareAPI} from "redux";
 import {TAppActions as AppActions, TAppDispatch as AppDispatch} from "../../utils/types";
 import {IRootState as RootState} from "../reducers/root-reducer";
 import {
-    WS_OWN_ORDERS_CONNECTION_START
-} from "../actions/ownOrdersSocket";
+    WS_PERSONAL_ORDERS_CONNECTION_START
+
+} from "../actions/PersonalOrdersSocket";
 import {refreshToken} from "../../utils/api";
 
 const wsPersonalSocketURL: 'wss://norma.nomoreparties.space/orders' = 'wss://norma.nomoreparties.space/orders'
@@ -41,7 +42,7 @@ export const personalOrdersSocketMiddleware = (): Middleware => {
                     if (JSON.parse(data).message === "Invalid or missing token") {
                          return refreshToken().then(res => {
                          localStorage.setItem('accessToken', res.accessToken.replace('Bearer ', ""))
-                        }).then(() => dispatch({type: WS_OWN_ORDERS_CONNECTION_START}))
+                        }).then(() => dispatch({type: WS_PERSONAL_ORDERS_CONNECTION_START}))
                     }
                     dispatch({ type: 'WS_OWN_ORDERS_GET_MESSAGE', payload: data });
                 };

@@ -6,7 +6,11 @@ import {IRootState} from "../../../services/reducers/root-reducer";
 import {PathMatch, useMatch} from "react-router-dom";
 import {useDispatchTyped} from "../../../services/hooks/hooks";
 import {PreloaderComponent} from "../../Preloader/PreloaderComponent";
-import {WS_CONNECTION_CLOSED, WS_CONNECTION_START} from "../../../services/actions/socket";
+import {
+    WSPersonalOrdersFeedClose,
+    WSPersonalOrdersFeedStart,
+    WSPersonalOrdersStartDisconnect
+} from "../../../services/actions/PersonalOrdersSocket";
 const wsPersonalOrdersURL: 'wss://norma.nomoreparties.space/orders' = 'wss://norma.nomoreparties.space/orders'
 
 export const OrdersQueue: FunctionComponent = () => {
@@ -18,9 +22,9 @@ export const OrdersQueue: FunctionComponent = () => {
 
     useEffect(() => {
         if (!matchFeed) {
-            dispatch({type: WS_CONNECTION_START, payload: `${wsPersonalOrdersURL}?token=${localStorage.getItem("accessToken")}`})
+            dispatch(WSPersonalOrdersFeedStart(`${wsPersonalOrdersURL}?token=${localStorage.getItem("accessToken")}`))
             return () => {
-                dispatch({type:WS_CONNECTION_CLOSED})
+                dispatch(WSPersonalOrdersStartDisconnect())
             }
         }
     },[dispatch, matchFeed])
