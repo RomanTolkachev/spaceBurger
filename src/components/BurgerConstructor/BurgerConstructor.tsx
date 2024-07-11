@@ -3,17 +3,10 @@ import {YaLibraryCard} from "./ConstructorCard/YaLIbraryCard";
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useMemo } from "react";
 import { useDrop } from "react-dnd";
-import {handleClearCart, handleDrop} from "../../services/actions/burgerCounstructor";
+import {handleDrop} from "../../services/actions/burgerCounstructor";
 import { EmptyCard } from './ConstructorCard/EmptyCard'
-import {
-    handleOrderSuccess,
-    orderSentFailed,
-    orderSentFinished,
-    startSendOrder,
-    takeMyOrder
-} from "../../services/actions/order";
+import { takeMyOrder } from "../../services/actions/order";
 import {useNavigate} from "react-router-dom";
-import {sendOrderRequest} from "../../utils/api";
 import {IBurgerConstructorStore} from "../../services/reducers/burgerCounstructor";
 import {IConstructorIngredient, IIngredient} from '../../utils/types';
 import {useDispatchTyped, useSelectorTyped} from "../../services/hooks/hooks";
