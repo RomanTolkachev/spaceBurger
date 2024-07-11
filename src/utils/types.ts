@@ -6,6 +6,9 @@ import {AUTH_STATUS_CHECKED, CLEAR_USER, SEND_EMAIL_FINISHED, SEND_EMAIL_START, 
 
 import {store} from "../index";
 import {TFeedAction} from "../services/reducers/socket";
+import {ThunkAction} from "redux-thunk";
+import {IRootState} from "../services/reducers/root-reducer";
+import {Action} from "redux";
 
 export interface IIngredient {
     _id: string,
@@ -196,6 +199,7 @@ export interface IRequestForgotPassCode {
 
 export interface ILogOut extends IRequestForgotPassCode {}
 
+export type AppThunk = ThunkAction<ReturnType<any>, IRootState, unknown, Action>;
 
 export type TAppActions = TConstructorActionType & TBurgerConstructor & TDetailedInfo & TOrderProcessing & TUser & TFeedAction
 export type TAppDispatch = typeof store.dispatch;

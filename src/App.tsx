@@ -1,7 +1,7 @@
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {HomePage} from "./pages/homePage";
 import React, {useCallback, useEffect} from "react";
-import {handleFailedFetch, setIngredients, startFetch} from "./services/actions/burgerIngredients";
+import {getIngredients, handleFailedFetch, setIngredients, startFetch} from "./services/actions/burgerIngredients";
 import AppHeader from "./components/AppHeader/AppHeader";
 import Modal from "./components/Modal/Modal";
 import DetailedIngredientInfo from "./components/Modal/DetailedIngredientInfo/DetailedIngredientInfo";
@@ -25,6 +25,7 @@ import {OrdersQueue} from "./components/feed/OrdersQueue/OrdersQueue";
 import {DetailedOrderInfo} from "./components/Modal/DetailedOrderInfo/DetailedOrderInfo";
 import {clearOrderDetailedInfo} from "./services/actions/orderDetailedInfo";
 import {OrderPage} from "./pages/OrderPage/OrderPage";
+import {AppThunk} from "./utils/types";
 
 function App():React.JSX.Element {
 
@@ -39,11 +40,8 @@ function App():React.JSX.Element {
     const orderNumber = useSelectorTyped((state) => state.orderStore.modalContent);
 
     useEffect(() => {
-        dispatch(startFetch());
-        fetchIngredients()
-        .then(res => dispatch(setIngredients(res.data)))
-        .catch(() => dispatch(handleFailedFetch()))
-    },[dispatch]);
+        dispatch(getIngredients());
+    },[]);
 
     useEffect((): void => {
         if (localStorage.getItem('accessToken')) {

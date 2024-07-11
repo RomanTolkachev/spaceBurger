@@ -1,10 +1,20 @@
-import {IIngredient, TBurgerConstructor} from "../../utils/types";
+import {AppThunk, IIngredient, TBurgerConstructor} from "../../utils/types";
+import {fetchIngredients} from "../../utils/api";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {IRootState} from "../reducers/root-reducer";
+import {Action} from "redux";
 
 export const FETCH_INGREDIENTS:"FETCH_INGREDIENTS" = "FETCH_INGREDIENTS";
 export const FETCH_INGREDIENTS_SUCCESS: "FETCH_INGREDIENTS_SUCCESS" = "FETCH_INGREDIENTS_SUCCESS";
 export const FETCH_INGREDIENTS_FAILED:"FETCH_INGREDIENTS_FAILED" = "FETCH_INGREDIENTS_FAILED";
 export const SWITCH_TAB: 'SWITCH_TAB' = 'SWITCH_TAB'
 
+export const setCurrentTab = (tab: string | undefined): TBurgerConstructor => {
+    return {
+        type: SWITCH_TAB,
+        current: tab
+    }
+}
 
 export function handleFailedFetch(): TBurgerConstructor {
     return {
@@ -26,9 +36,13 @@ export function setIngredients(parsed: IIngredient[]): TBurgerConstructor {
     }
 }
 
-export const setCurrentTab = (tab: string | undefined): TBurgerConstructor => {
-    return {
-        type: SWITCH_TAB,
-        current: tab
+
+
+export const getIngredients = (): AppThunk => {
+    return function(dispatch) {
+        dispatch(startFetch());
+        fetchIngredients()
+            .then(res => dispatch(setIngredients(res.data)))
+            .catch(() => dispatch(handleFailedFetch()));
     }
-}
+};
