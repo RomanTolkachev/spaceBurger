@@ -1,8 +1,5 @@
 import {AppThunk, IIngredient, TBurgerConstructor} from "../../utils/types";
 import {fetchIngredients} from "../../utils/api";
-import {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {IRootState} from "../reducers/root-reducer";
-import {Action} from "redux";
 
 export const FETCH_INGREDIENTS:"FETCH_INGREDIENTS" = "FETCH_INGREDIENTS";
 export const FETCH_INGREDIENTS_SUCCESS: "FETCH_INGREDIENTS_SUCCESS" = "FETCH_INGREDIENTS_SUCCESS";

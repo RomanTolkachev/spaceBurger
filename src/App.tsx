@@ -1,7 +1,7 @@
 import {Route, Routes, useLocation, useNavigate} from "react-router-dom";
 import {HomePage} from "./pages/homePage";
 import React, {useCallback, useEffect} from "react";
-import {getIngredients, handleFailedFetch, setIngredients, startFetch} from "./services/actions/burgerIngredients";
+import {getIngredients} from "./services/actions/burgerIngredients";
 import AppHeader from "./components/AppHeader/AppHeader";
 import Modal from "./components/Modal/Modal";
 import DetailedIngredientInfo from "./components/Modal/DetailedIngredientInfo/DetailedIngredientInfo";
@@ -12,11 +12,10 @@ import {ForgotPasswordPage} from "./pages/forgotPasswordPage/forgotPasswordPage"
 import {ResetPasswordPage} from "./pages/resetPasswordPage/resetPasswordPage";
 import {ProfilePage} from "./pages/profilePage/profilePage";
 import {NotFoundPage} from "./pages/404Page/404Page";
-import {finishAuthStatus,setUser} from "./services/actions/user";
+import {getUser} from "./services/actions/user";
 import {OnlyAuth, OnlyUnAuth,} from "./components/ProtectedRoute/ProtectedRoute";
 import {ProfileChange} from "./components/ProfileChange/ProfileChange";
 import OrderModal from "./components/Modal/OrderModal/OrderModal";
-import {getUserData, fetchIngredients} from "./utils/api";
 import {clearOrderNumber} from "./services/actions/order";
 import {clearDetailedInfo} from "./services/actions/ingredientDetailedInfo";
 import {useDispatchTyped , useSelectorTyped} from "./services/hooks/hooks";
@@ -25,7 +24,7 @@ import {OrdersQueue} from "./components/feed/OrdersQueue/OrdersQueue";
 import {DetailedOrderInfo} from "./components/Modal/DetailedOrderInfo/DetailedOrderInfo";
 import {clearOrderDetailedInfo} from "./services/actions/orderDetailedInfo";
 import {OrderPage} from "./pages/OrderPage/OrderPage";
-import {AppThunk} from "./utils/types";
+
 
 function App():React.JSX.Element {
 
@@ -44,20 +43,8 @@ function App():React.JSX.Element {
     },[]);
 
     useEffect((): void => {
-        if (localStorage.getItem('accessToken')) {
-            getUserData()
-            .then(res => dispatch(setUser(res)))
-            .catch((): void => {
-                localStorage.removeItem('accessToken');
-                localStorage.removeItem('refreshToken');
-            })
-            .finally((): void => {
-                dispatch(finishAuthStatus())
-            })
-        } else {
-            dispatch(finishAuthStatus())
-        }
-    }, [dispatch])
+        dispatch(getUser())
+    }, [])
 
     const {modalContent} = useSelectorTyped((state) => state.orderStore);
     const {info}  = useSelectorTyped((state) => state.detailedOrderInfo);
