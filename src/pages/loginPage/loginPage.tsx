@@ -2,9 +2,8 @@ import styles from "./loginPage.module.css"
 import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {FormEvent} from "react";
 import {Link} from "react-router-dom";
-import {loginRequest} from "../../utils/api";
-import {setUser} from "../../services/actions/user";
-import {ILoginForm, IRegisterUserResponse} from "../../utils/types";
+import {letMeLogin} from "../../services/actions/user";
+import {ILoginForm} from "../../utils/types";
 import {useDispatchTyped} from "../../services/hooks/hooks";
 
 export const LoginPage: React.FunctionComponent = () => {
@@ -19,23 +18,9 @@ export const LoginPage: React.FunctionComponent = () => {
         password: password
     }
 
-    const handleLoginSuccess = (res: IRegisterUserResponse) => {
-        localStorage.setItem('accessToken', res.accessToken.split('Bearer ')[1]);
-        localStorage.setItem('refreshToken', res.refreshToken)
-        return dispatch(setUser(res))
-    }
-
     const handleSubmit = async (e: FormEvent<HTMLFormElement>, form: ILoginForm): Promise<void> => {
         e.preventDefault();
-        loginRequest(form)
-        .then((res: IRegisterUserResponse) => {
-            if (res.success) {
-                return handleLoginSuccess(res);
-            } else {
-                return alert(res)
-            }
-        })
-        .catch(err => alert(err))
+        dispatch(letMeLogin(form))
     }
 
     return (

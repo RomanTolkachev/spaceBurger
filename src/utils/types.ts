@@ -9,6 +9,7 @@ import {TFeedAction} from "../services/reducers/socket";
 import {ThunkAction} from "redux-thunk";
 import {IRootState} from "../services/reducers/root-reducer";
 import {Action} from "redux";
+import {useNavigate} from "react-router-dom";
 
 export interface IIngredient {
     _id: string,
@@ -197,9 +198,15 @@ export interface IRequestForgotPassCode {
     success: boolean
 }
 
+export interface ILeaveResponse {
+    message: string
+    success: boolean
+}
+
 export interface ILogOut extends IRequestForgotPassCode {}
 
 export type AppThunk = ThunkAction<ReturnType<any>, IRootState, unknown, Action>;
+export type TNavigate = ReturnType<typeof useNavigate>
 
 export type TAppActions = TConstructorActionType & TBurgerConstructor & TDetailedInfo & TOrderProcessing & TUser & TFeedAction
 export type TAppDispatch = typeof store.dispatch;

@@ -2,9 +2,8 @@ import styles from "./forgotPassworgPage.module.css"
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {FormEvent} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import {blockButton, unBlockButton} from "../../services/actions/user";
-import {requestForgotPassCode} from "../../utils/api";
-import {IForgotPassForm, IRequestForgotPassCode} from "../../utils/types";
+import {requestCode} from "../../services/actions/user";
+import {IForgotPassForm, TNavigate} from "../../utils/types";
 import {useDispatchTyped, useSelectorTyped} from "../../services/hooks/hooks";
 
 export const ForgotPasswordPage: React.FunctionComponent = () => {
@@ -13,28 +12,15 @@ export const ForgotPasswordPage: React.FunctionComponent = () => {
     const isRequestButtonLocked: boolean = useSelectorTyped((state) => state.userInfo.isRequestButtonLocked);
     const dispatch = useDispatchTyped();
 
-    type TNavigate = ReturnType<typeof useNavigate>
     const navigate: TNavigate = useNavigate();
-
-
 
     const form: IForgotPassForm = {
         email: email
     }
 
-    const handlePassCodeSuccess = (message: string): void => {
-        localStorage.setItem('resetPasswordTokenSent', "yes");
-        alert(message)
-        navigate("/reset-password")
-    }
-
     const handleSubmit = (e: FormEvent<HTMLFormElement>, form: IForgotPassForm): void => {
         e.preventDefault();
-        dispatch(blockButton());
-        requestForgotPassCode(form)
-        .then((res: IRequestForgotPassCode): void => res.message === 'Reset email sent' ? handlePassCodeSuccess(res.message) : undefined)
-        .catch(err => alert(err))
-        .finally(() => dispatch(unBlockButton()))
+        dispatch(requestCode(form, navigate))
     }
 
     return (

@@ -5,7 +5,13 @@ import React, { useMemo } from "react";
 import { useDrop } from "react-dnd";
 import {handleClearCart, handleDrop} from "../../services/actions/burgerCounstructor";
 import { EmptyCard } from './ConstructorCard/EmptyCard'
-import {handleOrderSuccess, orderSentFiled, orderSentFinished, startSendOrder} from "../../services/actions/order";
+import {
+    handleOrderSuccess,
+    orderSentFailed,
+    orderSentFinished,
+    startSendOrder,
+    takeMyOrder
+} from "../../services/actions/order";
 import {useNavigate} from "react-router-dom";
 import {sendOrderRequest} from "../../utils/api";
 import {IBurgerConstructorStore} from "../../services/reducers/burgerCounstructor";
@@ -74,21 +80,7 @@ const BurgerConstructor: React.FunctionComponent = () => {
 
     const handleSendOrder = (e: React.SyntheticEvent<Element, Event>) => {
         e.preventDefault()
-        if (!user) {
-            return navigate('/login')
-        } else {
-            dispatch({type: 'WS_SEND_MESSAGE', payload: ids})
-            dispatch(startSendOrder());
-            sendOrderRequest(ids)
-                .then(res => {
-                    if (res.success) {
-                        dispatch(handleOrderSuccess(res));
-                        dispatch(handleClearCart())
-                    } else alert('заказ не создан')
-                })
-                .catch(() => orderSentFiled())
-                .finally(() => dispatch(orderSentFinished()))
-        }
+        dispatch(takeMyOrder(user, navigate, ids))
     }
 
     return (
