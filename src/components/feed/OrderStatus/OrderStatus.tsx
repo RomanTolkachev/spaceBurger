@@ -1,13 +1,12 @@
 import styles from './OrderStatus.module.css'
 import {FunctionComponent, useMemo} from "react";
-import {useSelector} from "react-redux";
-import {IRootState} from "../../../services/reducers/root-reducer";
 import {IOrder} from "../../../services/reducers/socket";
+import {useSelectorTyped} from "../../../services/hooks/hooks";
 
 export const OrderStatus: FunctionComponent = () => {
 
-    const orders = useSelector((state: IRootState) => state.feedTableReducer.ordersArray);
-    const {total, totalToday} = useSelector((state: IRootState) => state.feedTableReducer)
+    const orders = useSelectorTyped((state) => state.feedTableReducer.ordersArray);
+    const {total, totalToday} = useSelectorTyped((state) => state.feedTableReducer)
 
     const readyOrders = useMemo<IOrder[] | null>(() => {
         const getReadyOrders = (): null | IOrder[] => {

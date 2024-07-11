@@ -4,10 +4,9 @@ import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useDrag} from "react-dnd";
 import {Link, useLocation} from "react-router-dom";
-import {IRootState} from "../../../../services/reducers/root-reducer";
 import {IBurgerConstructorStore} from "../../../../services/reducers/burgerCounstructor";
 import {IIngredient} from "../../../../utils/types";
-import {useSelectorTyped as useSelector} from "../../../../services/hooks/hooks";
+import {useSelectorTyped} from "../../../../services/hooks/hooks";
 
 
 interface IIngredientCard {
@@ -24,7 +23,7 @@ const IngredientCard: React.FC<IIngredientCard> = ({burgerData}) => {
         item: burgerData
     })
 
-    const commonCart: IBurgerConstructorStore = useSelector((state:IRootState) => state.burgerConstructor)
+    const commonCart: IBurgerConstructorStore = useSelectorTyped((state) => state.burgerConstructor)
     const quantity: number = useMemo<number>(() => {
         let total: number = 0;
         for (let key in commonCart) {

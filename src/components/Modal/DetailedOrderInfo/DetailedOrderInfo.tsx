@@ -1,7 +1,6 @@
 import React, {FunctionComponent, useEffect, useMemo} from "react";
 import {useParams} from "react-router-dom";
-import {useDispatchTyped, useSelectorTyped as useSelector} from "../../../services/hooks/hooks";
-import {IRootState} from "../../../services/reducers/root-reducer";
+import {useDispatchTyped, useSelectorTyped} from "../../../services/hooks/hooks";
 import {configureOrderDetailedInfo} from "../../../services/actions/orderDetailedInfo";
 import {IOrder} from "../../../services/reducers/socket";
 import {IngredientThumbnail} from "../../feed/OrdersQueue/OrderCard/Ingredient_thumbnail/IngredientThumbnail";
@@ -9,7 +8,6 @@ import {IIngredient} from "../../../utils/types";
 import styles from './DetailedOrdeerInfo.module.css'
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {getOrderInfo} from "../../../utils/api";
-import {PreloaderComponent} from "../../Preloader/PreloaderComponent";
 
 
 export const DetailedOrderInfo: FunctionComponent = () => {
@@ -19,13 +17,13 @@ export const DetailedOrderInfo: FunctionComponent = () => {
     const dispatch = useDispatchTyped()
 
     const { detailedOrderNumber} = useParams();
-    const detailedOrderInfo = useSelector((state: IRootState) => state.detailedOrderInfo.info);
-    const ordersData = useSelector((state: IRootState) => state.feedTableReducer.ordersArray);
-    const infoAboutIngredients = useSelector((state: IRootState) => state.burgerIngredients.ingredients);
-    const personalOrdersData = useSelector((state: IRootState) => state.personalOrdersReducer.ordersArray);
+    const detailedOrderInfo = useSelectorTyped((state) => state.detailedOrderInfo.info);
+    const ordersData = useSelectorTyped((state) => state.feedTableReducer.ordersArray);
+    const infoAboutIngredients = useSelectorTyped((state) => state.burgerIngredients.ingredients);
+    const personalOrdersData = useSelectorTyped((state) => state.personalOrdersReducer.ordersArray);
 
 
-    let order: IOrder | undefined = useSelector((state: IRootState) => {
+    let order: IOrder | undefined = useSelectorTyped((state) => {
         let searchableOrder: IOrder | undefined;
         if (ordersData) {
             searchableOrder = state.feedTableReducer.ordersArray!.find(o => o.number === +detailedOrderNumber!)

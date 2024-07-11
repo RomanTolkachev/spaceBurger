@@ -19,8 +19,7 @@ import OrderModal from "./components/Modal/OrderModal/OrderModal";
 import {getUserData, fetchIngredients} from "./utils/api";
 import {clearOrderNumber} from "./services/actions/order";
 import {clearDetailedInfo} from "./services/actions/ingredientDetailedInfo";
-import {IRootState} from "./services/reducers/root-reducer";
-import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "./services/hooks/hooks";
+import {useDispatchTyped , useSelectorTyped} from "./services/hooks/hooks";
 import {FeedPage} from "./pages/feed/feedPage";
 import {OrdersQueue} from "./components/feed/OrdersQueue/OrdersQueue";
 import {DetailedOrderInfo} from "./components/Modal/DetailedOrderInfo/DetailedOrderInfo";
@@ -29,15 +28,15 @@ import {OrderPage} from "./pages/OrderPage/OrderPage";
 
 function App():React.JSX.Element {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatchTyped();
 
     type TNavigate = ReturnType<typeof useNavigate>
     const navigate: TNavigate = useNavigate()
     const location: {state: { background: string }} = useLocation();
     const background: string = location.state && location.state.background;
 
-    const dataIsLoaded = useSelector((state: IRootState) => state.burgerIngredients.ingredients);
-    const orderNumber = useSelector((state: IRootState) => state.orderStore.modalContent);
+    const dataIsLoaded = useSelectorTyped((state) => state.burgerIngredients.ingredients);
+    const orderNumber = useSelectorTyped((state) => state.orderStore.modalContent);
 
     useEffect(() => {
         dispatch(startFetch());
@@ -62,8 +61,8 @@ function App():React.JSX.Element {
         }
     }, [dispatch])
 
-    const {modalContent} = useSelector((state: IRootState) => state.orderStore);
-    const {info}  = useSelector((state: IRootState) => state.detailedOrderInfo);
+    const {modalContent} = useSelectorTyped((state) => state.orderStore);
+    const {info}  = useSelectorTyped((state) => state.detailedOrderInfo);
 
 
     const closeModal = useCallback(() => {

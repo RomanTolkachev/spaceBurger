@@ -5,13 +5,13 @@ import {Link} from "react-router-dom";
 import {loginRequest} from "../../utils/api";
 import {setUser} from "../../services/actions/user";
 import {ILoginForm, IRegisterUserResponse} from "../../utils/types";
-import {useDispatchTyped as useDispatch} from "../../services/hooks/hooks";
+import {useDispatchTyped} from "../../services/hooks/hooks";
 
 export const LoginPage: React.FunctionComponent = () => {
 
     const [email, setEmail] = React.useState<string>('tolkachevroman@bk.ru')
     const [password, setPassword] = React.useState<string>('RomA1992')
-    const dispatch = useDispatch()
+    const dispatch = useDispatchTyped()
 
 
     const form: ILoginForm = {

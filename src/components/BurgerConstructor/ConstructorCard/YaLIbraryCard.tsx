@@ -5,7 +5,7 @@ import {handleDelete} from "../../../services/actions/burgerCounstructor";
 import {useDrag, useDrop, XYCoord} from "react-dnd";
 import {handleSwap} from "../../../services/actions/burgerCounstructor";
 import {IConstructorIngredient} from "../../../utils/types";
-import {useDispatchTyped as useDispatch} from "../../../services/hooks/hooks";
+import {useDispatchTyped} from "../../../services/hooks/hooks";
 
 interface IYaLibraryCard {
     id: number
@@ -15,7 +15,7 @@ interface IYaLibraryCard {
 
 export const YaLibraryCard: React.FunctionComponent<IYaLibraryCard> = (props ) =>  {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatchTyped();
     const ref: React.RefObject<HTMLLIElement> = useRef<HTMLLIElement>(null);
 
     const [ ,drop] = useDrop({

@@ -3,14 +3,13 @@ import NavButton from './NavButton/NavButton'
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink, useMatch,} from "react-router-dom";
 import React from "react";
-import {IRootState} from "../../services/reducers/root-reducer";
-import {useSelectorTyped as useSelector} from "../../services/hooks/hooks";
+import {useSelectorTyped} from "../../services/hooks/hooks";
 
 
 const AppHeader: React.FunctionComponent = () => {
 
 
-    const userdata: string | null = useSelector((state: IRootState) => state.userInfo.name)
+    const userdata: string | null = useSelectorTyped((state) => state.userInfo.name)
 
     return (
         <header className={styles.header}>

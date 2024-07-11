@@ -3,16 +3,16 @@ import styles from "./OrderCard.module.css"
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IOrder} from "../../../../services/reducers/socket";
 import {IngredientThumbnail} from "./Ingredient_thumbnail/IngredientThumbnail";
-import {useSelector} from "react-redux";
-import {IRootState} from "../../../../services/reducers/root-reducer";
 import {Link, useLocation, useMatch} from "react-router-dom";
+import {useSelectorTyped} from "../../../../services/hooks/hooks";
+
 interface IOrderCardProps {
     data: IOrder
 }
 
 export const OrderCard: FunctionComponent<IOrderCardProps> = ({data}) => {
 
-    const ingredientsInfo = useSelector((state: IRootState) => state.burgerIngredients.ingredients);
+    const ingredientsInfo = useSelectorTyped((state) => state.burgerIngredients.ingredients);
 
     let totalPrice: number = useMemo<number>(() => {
         return data.ingredients.reduce((acc, current) => {

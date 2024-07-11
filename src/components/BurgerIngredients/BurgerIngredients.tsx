@@ -3,18 +3,17 @@ import React, {useCallback, useMemo, useRef} from "react";
 import IngredientsSection from "./IngridientsSection/IngredientSection";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {setCurrentTab} from "../../services/actions/burgerIngredients";
-import {IRootState} from "../../services/reducers/root-reducer";
 import {IIngredient} from "../../utils/types";
-import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "../../services/hooks/hooks";
+import {useDispatchTyped, useSelectorTyped} from "../../services/hooks/hooks";
 
 const BurgerIngredients: React.FunctionComponent = () => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatchTyped();
 
-    const isLoading: boolean = useSelector((state: IRootState) => state.burgerIngredients.isLoading);
-    const currentTab: string | undefined = useSelector((state: IRootState) => state.burgerIngredients.currentTab);
-    const hasError: boolean = useSelector((state: IRootState) => state.burgerIngredients.hasError);
-    const ingredients: IIngredient[] | null = useSelector((state: IRootState) => state.burgerIngredients.ingredients);
+    const isLoading: boolean = useSelectorTyped((state) => state.burgerIngredients.isLoading);
+    const currentTab: string | undefined = useSelectorTyped((state) => state.burgerIngredients.currentTab);
+    const hasError: boolean = useSelectorTyped((state) => state.burgerIngredients.hasError);
+    const ingredients: IIngredient[] | null = useSelectorTyped((state) => state.burgerIngredients.ingredients);
 
     const {buns, sauce, main} = useMemo(() => {
     const filterIngredientTypeBy = (type: string) => ingredients!.filter(item => item.type === type);

@@ -2,10 +2,8 @@ import {FunctionComponent, useEffect} from "react";
 import styles from './feedPage.module.css'
 import {OrdersQueue} from "../../components/feed/OrdersQueue/OrdersQueue";
 import {OrderStatus} from "../../components/feed/OrderStatus/OrderStatus";
-import {useSelector} from "react-redux";
-import {IRootState} from "../../services/reducers/root-reducer";
 import {PreloaderComponent} from "../../components/Preloader/PreloaderComponent";
-import {useDispatchTyped} from "../../services/hooks/hooks";
+import {useDispatchTyped, useSelectorTyped} from "../../services/hooks/hooks";
 import { WSFeedStart, WSStartDisconnect} from "../../services/actions/socket";
 const socketURL: 'wss://norma.nomoreparties.space/orders/all' = 'wss://norma.nomoreparties.space/orders/all'
 
@@ -18,7 +16,7 @@ export const FeedPage: FunctionComponent = () => {
         return () => {dispatch(WSStartDisconnect())}
     }, [dispatch])
 
-    const orders = useSelector((state: IRootState) => state.feedTableReducer.ordersArray)
+    const orders = useSelectorTyped((state) => state.feedTableReducer.ordersArray)
 
     return (orders ?
             <section className={styles.wrapper}>

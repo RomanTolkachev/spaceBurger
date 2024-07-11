@@ -3,17 +3,16 @@ import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-deve
 import React, {useEffect, useMemo} from "react";
 import {setUser} from "../../services/actions/user";
 import {amendUserData} from "../../utils/api";
-import {IRootState} from "../../services/reducers/root-reducer";
 import {IGetUserResponse, IRegisterForm} from "../../utils/types";
-import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "../../services/hooks/hooks";
+import {useDispatchTyped, useSelectorTyped} from "../../services/hooks/hooks";
 
 export const ProfileChange: React.FC = () => {
 
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatchTyped()
 
-    const storageUser: string = useSelector((state: IRootState) => state.userInfo.name!);
-    const storageEmail: string  = useSelector((state: IRootState) => state.userInfo.email!)
+    const storageUser: string = useSelectorTyped((state) => state.userInfo.name!);
+    const storageEmail: string  = useSelectorTyped((state) => state.userInfo.email!)
 
     const [name, setName] = React.useState<string>(storageUser);
     const [email, setEmail] = React.useState<string>(storageEmail);

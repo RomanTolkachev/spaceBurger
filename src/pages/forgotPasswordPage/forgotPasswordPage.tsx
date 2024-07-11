@@ -4,15 +4,14 @@ import React, {FormEvent} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {blockButton, unBlockButton} from "../../services/actions/user";
 import {requestForgotPassCode} from "../../utils/api";
-import { IRootState } from "../../services/reducers/root-reducer";
 import {IForgotPassForm, IRequestForgotPassCode} from "../../utils/types";
-import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "../../services/hooks/hooks";
+import {useDispatchTyped, useSelectorTyped} from "../../services/hooks/hooks";
 
 export const ForgotPasswordPage: React.FunctionComponent = () => {
 
     const [email, setEmail] = React.useState<string>('email')
-    const isRequestButtonLocked: boolean = useSelector((state: IRootState) => state.userInfo.isRequestButtonLocked);
-    const dispatch = useDispatch();
+    const isRequestButtonLocked: boolean = useSelectorTyped((state) => state.userInfo.isRequestButtonLocked);
+    const dispatch = useDispatchTyped();
 
     type TNavigate = ReturnType<typeof useNavigate>
     const navigate: TNavigate = useNavigate();

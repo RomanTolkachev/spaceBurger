@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {setUser} from "../../services/actions/user";
 import {registerUser} from "../../utils/api";
 import {IRegisterForm, IRegisterUserResponse} from "../../utils/types";
-import {useDispatchTyped as useDispatch} from "../../services/hooks/hooks";
+import {useDispatchTyped} from "../../services/hooks/hooks";
 
 
 export const RegisterPage: React.FunctionComponent = () => {
@@ -13,7 +13,7 @@ export const RegisterPage: React.FunctionComponent = () => {
     const [name, setName] = React.useState<string>('name');
     const [email, setEmail] = React.useState<string>('mail@blabla.ru');
     const [password, setPassword] = React.useState<string>('123456');
-    const dispatch = useDispatch()
+    const dispatch = useDispatchTyped()
 
    const form: IRegisterForm = {
         name: name,

@@ -8,19 +8,18 @@ import { EmptyCard } from './ConstructorCard/EmptyCard'
 import {handleOrderSuccess, orderSentFiled, orderSentFinished, startSendOrder} from "../../services/actions/order";
 import {useNavigate} from "react-router-dom";
 import {sendOrderRequest} from "../../utils/api";
-import {IRootState} from "../../services/reducers/root-reducer";
 import {IBurgerConstructorStore} from "../../services/reducers/burgerCounstructor";
 import {IConstructorIngredient, IIngredient} from '../../utils/types';
-import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "../../services/hooks/hooks";
+import {useDispatchTyped, useSelectorTyped} from "../../services/hooks/hooks";
 
 const BurgerConstructor: React.FunctionComponent = () => {
 
-    const dispatch = useDispatch();
-    const commonCart: IBurgerConstructorStore = useSelector((state: IRootState) => state.burgerConstructor)
-    const currentFilling = useSelector((state: IRootState) => state.burgerConstructor.filling)
-    const currentBun = useSelector((state: IRootState) => state.burgerConstructor.bun)
-    const isOrderLocked: boolean = useSelector((state: IRootState) => state.orderStore.isOrderButtonLocked);
-    const user: string | null = useSelector((state: IRootState) => state.userInfo.name);
+    const dispatch = useDispatchTyped();
+    const commonCart: IBurgerConstructorStore = useSelectorTyped((state) => state.burgerConstructor)
+    const currentFilling = useSelectorTyped((state) => state.burgerConstructor.filling)
+    const currentBun = useSelectorTyped((state) => state.burgerConstructor.bun)
+    const isOrderLocked: boolean = useSelectorTyped((state) => state.orderStore.isOrderButtonLocked);
+    const user: string | null = useSelectorTyped((state) => state.userInfo.name);
 
     type TNavigate = ReturnType<typeof useNavigate>
     const navigate: TNavigate = useNavigate()

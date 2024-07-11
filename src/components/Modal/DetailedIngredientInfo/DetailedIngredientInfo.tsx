@@ -2,17 +2,16 @@ import React, {useEffect} from "react";
 import styles from './DetailedIngredientInfo.module.css'
 import {useParams} from "react-router-dom";
 import {configureDetailedInfo} from "../../../services/actions/ingredientDetailedInfo";
-import {IRootState} from "../../../services/reducers/root-reducer";
-import {useDispatchTyped as useDispatch, useSelectorTyped as useSelector} from "../../../services/hooks/hooks";
+import {useDispatchTyped, useSelectorTyped} from "../../../services/hooks/hooks";
 
 const DetailedIngredientInfo: React.FC<{}> = () => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatchTyped();
 
     const { anyIdNumber} = useParams();
-    const { info } = useSelector((state: IRootState) => state.ingredientDetailedInfo);
+    const { info } = useSelectorTyped((state) => state.ingredientDetailedInfo);
 
-    const data = useSelector((state: IRootState) => state.burgerIngredients.ingredients);
+    const data = useSelectorTyped((state) => state.burgerIngredients.ingredients);
 
     useEffect(() => {
         const currentIngredientData = data!.find((item: { _id: string | undefined; }) => item._id === anyIdNumber)

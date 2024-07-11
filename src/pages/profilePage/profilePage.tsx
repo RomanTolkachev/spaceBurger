@@ -4,14 +4,14 @@ import {NavLink, useMatch} from "react-router-dom";
 import {clearUser, finishAuthStatus} from "../../services/actions/user";
 import {logOutRequest} from "../../utils/api";
 import {ILogOut} from "../../utils/types";
-import {useDispatchTyped as useDispatch} from "../../services/hooks/hooks";
+import {useDispatchTyped} from "../../services/hooks/hooks";
 
 interface IProfilePage {
     component?: React.ReactElement | null
 }
 
 export const ProfilePage: React.FunctionComponent<IProfilePage> = ({component}) => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatchTyped()
 
     interface IResponse {
         message: string
