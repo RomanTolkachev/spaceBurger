@@ -15,7 +15,7 @@ export interface IUserState {
     isRequestButtonLocked: boolean,
 }
 
-export const userInfo = (state: IUserState = initialState, action: TUser):  IUserState => {
+export const userInfo = (state: IUserState = initialState, action: TUser): IUserState => {
     switch (action.type) {
         case SET_USER: {
             return {
@@ -25,7 +25,12 @@ export const userInfo = (state: IUserState = initialState, action: TUser):  IUse
             }
         }
         case CLEAR_USER: {
-            return initialState
+            return {
+                isAuthChecked: true,
+                email: null,
+                name: null,
+                isRequestButtonLocked: false,
+            }
         }
         case AUTH_STATUS_CHECKED: {
             return {

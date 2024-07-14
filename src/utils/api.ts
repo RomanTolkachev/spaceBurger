@@ -1,5 +1,5 @@
 import {
-    IForgotPassForm,
+    IForgotPassForm, IGetUserResponse,
     IIngredient, ILoginForm, ILogOut,
     IOrderResponse,
     IRegisterForm,
@@ -9,16 +9,17 @@ import {
 
 export const BASE_URL: "https://norma.nomoreparties.space/api" = "https://norma.nomoreparties.space/api";
 
-export const fetchIngredients = (): Promise<IIngredient[]> => {
+export const fetchIngredients = (): Promise<{data: IIngredient[]}> => {
     return fetch(`${BASE_URL}/ingredients`)
-    .then(checkResponse<IIngredient[]>)
+    .then(checkResponse<{data: IIngredient[]}>)
 }
 
 export const sendOrderRequest = (arrayOfIds: string[]): Promise<IOrderResponse> => {
     return fetch(`${BASE_URL}/orders`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'authorization': `Bearer ${localStorage.getItem('accessToken')}`
         },
         body: JSON.stringify({ingredients: arrayOfIds})
     })
@@ -90,7 +91,7 @@ export const refreshToken = (): Promise<IRegisterUserResponse | never>  => {
     .then(checkResponse<IRegisterUserResponse>)
     .then((parsed: IRegisterUserResponse): IRegisterUserResponse | Promise<never> => {
         if (parsed.success) {
-            localStorage.setItem("refreshToken", parsed.refreshToken); //@ts-ignore
+            localStorage.setItem("refreshToken", parsed.refreshToken);
             localStorage.setItem("accessToken", parsed.accessToken.split('Bearer ')[1]);
             return parsed;
         } else {
@@ -121,7 +122,7 @@ export const fetchWithRefresh = async <T>(url: string, options: IOptions): Promi
     }
 }
 
-export const getUserData = <T>(): Promise<T> => {
+export const getUserData = (): Promise<IGetUserResponse> => {
     return fetchWithRefresh(`${BASE_URL}/auth/user`, {
         method: 'GET',
         headers: {
@@ -172,4 +173,9 @@ export const logOutRequest = (): Promise<ILogOut> => {
         })
     })
     .then(checkResponse<ILogOut>)
+}
+
+export const getOrderInfo = (orderNumber: string): Promise<any> => {
+    return fetch(`${BASE_URL}/orders/${orderNumber}`)
+    .then(checkResponse)
 }

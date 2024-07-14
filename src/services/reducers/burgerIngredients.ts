@@ -18,7 +18,6 @@ export interface IBurgerIngredientsState {
 }
 
 export const burgerIngredients = (state: IBurgerIngredientsState = initialState, action: TBurgerConstructor): IBurgerIngredientsState => {
-
     switch (action.type) {
         case FETCH_INGREDIENTS_SUCCESS: {
             return {

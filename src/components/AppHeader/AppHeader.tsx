@@ -2,13 +2,14 @@ import styles from './AppHeader.module.css'
 import NavButton from './NavButton/NavButton'
 import {BurgerIcon, ListIcon, Logo, ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink, useMatch,} from "react-router-dom";
-import {useSelector} from "react-redux";
 import React from "react";
-import {IRootState} from "../../services/reducers/root-reducer";
+import {useSelectorTyped} from "../../services/hooks/hooks";
+
 
 const AppHeader: React.FunctionComponent = () => {
 
-    const userdata: string | null = useSelector((state: IRootState) => state.userInfo.name)
+
+    const userdata: string | null = useSelectorTyped((state) => state.userInfo.name)
 
     return (
         <header className={styles.header}>
@@ -18,12 +19,12 @@ const AppHeader: React.FunctionComponent = () => {
                         <NavLink to="/" className={({isActive}): string => isActive ? styles.active : styles.link}>
                             <NavButton icon={<BurgerIcon type={useMatch('/') ? "primary" : "secondary"}/>}>Конструктор</NavButton>
                         </NavLink>
-                        <NavLink to="/orders" className={({isActive}): string => isActive ? styles.active : styles.link}>
-                            <NavButton icon={<ListIcon type={useMatch('/orders') ? "primary" : "secondary"}/>}>лента заказов</NavButton>
+                        <NavLink to="/feed" end className={({isActive}): string => isActive ? styles.active : styles.link}>
+                            <NavButton icon={<ListIcon type={useMatch('/feed') ? "primary" : "secondary"}/>}>лента заказов</NavButton>
                         </NavLink>
                     </li>
                     <li className={styles.logo}><a href="#"><Logo/></a></li>
-                    <NavLink to="/profile" className={({isActive}): string => isActive ? styles.active : styles.link}>
+                    <NavLink to="/profile" end className={({isActive}): string => isActive ? styles.active : styles.link}>
                         <li><NavButton icon={<ProfileIcon type={useMatch('/profile') ? "primary" : "secondary"}/>}>{userdata ? userdata : "личный кабинет"}</NavButton></li>
                     </NavLink>
                 </ul>

@@ -3,7 +3,7 @@ import {Button, Input, PasswordInput} from "@ya.praktikum/react-developer-burger
 import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {resetPassword} from "../../utils/api";
-import {IRegisterUserResponse, IResetPassForm} from "../../utils/types";
+import {IResetPassForm} from "../../utils/types";
 
 export const ResetPasswordPage: React.FC = () => {
 
@@ -17,7 +17,7 @@ export const ResetPasswordPage: React.FC = () => {
         if (localStorage.getItem('resetPasswordTokenSent') !== 'yes') {
             navigate('/forgot-password')
         }
-    }, []);
+    }, [navigate]);
 
 
     const form: IResetPassForm = {

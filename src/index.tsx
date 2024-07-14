@@ -2,27 +2,60 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { rootReducer } from "./services/reducers/root-reducer";
+import {rootReducer} from "./services/reducers/root-reducer";
 import { Provider } from "react-redux";
-import { thunk } from "redux-thunk";
-import { createStore, compose, applyMiddleware } from "redux";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { BrowserRouter } from 'react-router-dom'
+import {configureStore} from "@reduxjs/toolkit";
+import {unionSocketMiddleware} from "./services/middleware/unionSocketMiddleware";
+import {
+    WSFeedConnected,
+    WSFeedError,
+    WSFeedClose,
+    WSFeedGetMessage,
+    WSFeedStart,
+    WSStartDisconnect
+} from "./services/actions/socket";
+import {
+    WSPersonalOrdersFeedClose,
+    WSPersonalOrdersFeedConnected, WSPersonalOrdersFeedGetMessage,
+    WSPersonalOrdersFeedStart, WSPersonalOrdersStartDisconnect
+} from "./services/actions/PersonalOrdersSocket";
 
 
-const composeEnhancers =
-    typeof window === 'object' // @ts-ignore
-        && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ // @ts-ignore
-        ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) // @ts-ignore
-        : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const socketEventHandlers = {
+    connect: WSFeedStart,
+    startDisconnect: WSStartDisconnect,
+    disconnect: WSFeedClose,
+    connected: WSFeedConnected,
+    opened: null,
+    gotError: WSFeedError,
+    gotMessage: WSFeedGetMessage,
+    sendMessage: null
+}
 
-// @ts-ignore
-const store = createStore(rootReducer, enhancer);
+const personalOrdersEventHandlers = {
+    connect: WSPersonalOrdersFeedStart,
+    startDisconnect: WSPersonalOrdersStartDisconnect,
+    disconnect: WSPersonalOrdersFeedClose,
+    connected: WSPersonalOrdersFeedConnected,
+    opened: null,
+    gotError: WSFeedError,
+    gotMessage: WSPersonalOrdersFeedGetMessage,
+    sendMessage: null
+}
 
-const root = ReactDOM.createRoot(
+export const store = configureStore({
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware =>
+        getDefaultMiddleware({serializableCheck: false}).prepend(
+            unionSocketMiddleware(socketEventHandlers), unionSocketMiddleware(personalOrdersEventHandlers)
+        ),
+});
+
+const root: ReactDOM.Root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 

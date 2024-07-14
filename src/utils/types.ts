@@ -4,6 +4,13 @@ import {CLEAR_DETAILED_INGREDIENT_INFO, GET_DETAILED_INGREDIENT_INFO} from "../s
 import {CLEAR_ORDER_NUMBER, ORDER_PROCESSING_FINISHED, ORDER_SENT, ORDER_SENT_FAILED, ORDER_SENT_SUCCESS} from "../services/actions/order";
 import {AUTH_STATUS_CHECKED, CLEAR_USER, SEND_EMAIL_FINISHED, SEND_EMAIL_START, SET_USER} from "../services/actions/user";
 
+import {store} from "../index";
+import {TFeedAction} from "../services/reducers/socket";
+import {ThunkAction} from "redux-thunk";
+import {IRootState} from "../services/reducers/root-reducer";
+import {Action} from "redux";
+import {useNavigate} from "react-router-dom";
+
 export interface IIngredient {
     _id: string,
     name: string,
@@ -84,7 +91,7 @@ export type TBurgerConstructor = IStartFetch | IFailedFetch | ISetIngredients | 
 // Детальная информация об ингредиенте
 interface IDetailedIngredientInfo {
     type: typeof GET_DETAILED_INGREDIENT_INFO,
-    info: IIngredient
+    info: IIngredient | undefined
 }
 
 interface IClearDetailedInfo {
@@ -144,11 +151,10 @@ interface ISetUser {
     }
 }
 
-export type TUser = IFinishAuth | IClearUser | IBlockButton | IUnBlockButton | ISetUser
+export type TUser = ISetUser | IFinishAuth | IClearUser | IBlockButton | IUnBlockButton
 
 
 // Формы
-
 export interface ILoginForm {
     email: string
     password: string
@@ -192,6 +198,15 @@ export interface IRequestForgotPassCode {
     success: boolean
 }
 
-export interface ILogOut extends IRequestForgotPassCode {
-
+export interface ILeaveResponse {
+    message: string
+    success: boolean
 }
+
+export interface ILogOut extends IRequestForgotPassCode {}
+
+export type AppThunk = ThunkAction<ReturnType<any>, IRootState, unknown, Action>;
+export type TNavigate = ReturnType<typeof useNavigate>
+
+export type TAppActions = TConstructorActionType & TBurgerConstructor & TDetailedInfo & TOrderProcessing & TUser & TFeedAction
+export type TAppDispatch = typeof store.dispatch;

@@ -1,18 +1,18 @@
 import styles from "./ProfileChange.module.css";
 import {Button, EmailInput, Input, PasswordInput} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useEffect, useMemo} from "react";
-import {useDispatch, useSelector} from "react-redux";
 import {setUser} from "../../services/actions/user";
 import {amendUserData} from "../../utils/api";
-import {IRootState} from "../../services/reducers/root-reducer";
 import {IGetUserResponse, IRegisterForm} from "../../utils/types";
+import {useDispatchTyped, useSelectorTyped} from "../../services/hooks/hooks";
 
 export const ProfileChange: React.FC = () => {
 
-    const dispatch = useDispatch()
 
-    const storageUser: string = useSelector((state: IRootState) => state.userInfo.name!);
-    const storageEmail: string  = useSelector((state: IRootState) => state.userInfo.email!)
+    const dispatch = useDispatchTyped()
+
+    const storageUser: string = useSelectorTyped((state) => state.userInfo.name!);
+    const storageEmail: string  = useSelectorTyped((state) => state.userInfo.email!)
 
     const [name, setName] = React.useState<string>(storageUser);
     const [email, setEmail] = React.useState<string>(storageEmail);
@@ -36,7 +36,7 @@ export const ProfileChange: React.FC = () => {
     }, [form, storageUser, storageEmail, password, hasFormChanged]);
 
     const handleSuccessAmendUser = (res: IGetUserResponse) => {
-        alert('данные успешно обновлены'); //@ts-ignore
+        alert('данные успешно обновлены');
         return dispatch(setUser(res))
     }
 

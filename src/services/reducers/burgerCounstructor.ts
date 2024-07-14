@@ -5,7 +5,7 @@ import {IConstructorIngredient, TConstructorActionType} from "../../utils/types"
 export interface IBurgerConstructorStore {
     bun: IConstructorIngredient[] | [],
     filling: IConstructorIngredient[] | [],
-    [key: string]: IConstructorIngredient[] | []; // это костыль, чтобы можно было сделать итерацию для подсчета стоимости корзины
+    [key: string]: IConstructorIngredient[] | [];
 }
 
 const initialState: IBurgerConstructorStore = {

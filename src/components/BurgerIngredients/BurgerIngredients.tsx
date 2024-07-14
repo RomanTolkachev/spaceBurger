@@ -2,19 +2,18 @@ import styles from './BurgerIngredients.module.css'
 import React, {useCallback, useMemo, useRef} from "react";
 import IngredientsSection from "./IngridientsSection/IngredientSection";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useSelector, useDispatch} from "react-redux";
 import {setCurrentTab} from "../../services/actions/burgerIngredients";
-import {IRootState} from "../../services/reducers/root-reducer";
 import {IIngredient} from "../../utils/types";
+import {useDispatchTyped, useSelectorTyped} from "../../services/hooks/hooks";
 
 const BurgerIngredients: React.FunctionComponent = () => {
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatchTyped();
 
-    const isLoading: boolean = useSelector((state: IRootState) => state.burgerIngredients.isLoading);
-    const currentTab: string | undefined = useSelector((state: IRootState) => state.burgerIngredients.currentTab);
-    const hasError: boolean = useSelector((state: IRootState) => state.burgerIngredients.hasError);
-    const ingredients: IIngredient[] | null = useSelector((state: IRootState) => state.burgerIngredients.ingredients);
+    const isLoading: boolean = useSelectorTyped((state) => state.burgerIngredients.isLoading);
+    const currentTab: string | undefined = useSelectorTyped((state) => state.burgerIngredients.currentTab);
+    const hasError: boolean = useSelectorTyped((state) => state.burgerIngredients.hasError);
+    const ingredients: IIngredient[] | null = useSelectorTyped((state) => state.burgerIngredients.ingredients);
 
     const {buns, sauce, main} = useMemo(() => {
     const filterIngredientTypeBy = (type: string) => ingredients!.filter(item => item.type === type);
@@ -50,20 +49,19 @@ const BurgerIngredients: React.FunctionComponent = () => {
 
     const compareStoreAndScroll = useCallback(() => {
         const currentSection = getCurrentTab();
-        if (currentSection !== currentTab) { //@ts-ignore
+        if (currentSection !== currentTab) {
             dispatch(setCurrentTab( currentSection))
         }
     }, [currentTab, dispatch, getCurrentTab])
 
     const handleSetTab = (type: string) => {
-        //@ts-ignore
         return dispatch(setCurrentTab(type))
     }
 
     return (
         <>
             <section className={styles.section}>
-                <h1 className={`${styles.section_header}`}>соберите бургер</h1>
+                <h1 className={styles.section_header}>соберите бургер</h1>
                 <nav>
                     <nav className={styles.nav}>
                         <Tab value="buns" active={currentTab === 'buns'} onClick={() => handleSetTab('buns', )}>

@@ -1,0 +1,37 @@
+.wrapper {
+    height: 100svh;
+    max-height: 100svh;
+    max-width: 1280px;
+    margin: 0 auto;
+    overflow: hidden;
+    user-select: none;
+}
+
+.wrapper_preloader {
+    height: 100svh;
+    max-width: 1280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.header_plug {
+    height: 86px;
+}
+
+.main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    height: 100svh;
+}
+
+.main > * {
+    flex-basis: 50%;
+}
+
+.section_header {
+    composes: text text_type_main-large pt-10 pb-5 from global;
+}

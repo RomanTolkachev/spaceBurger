@@ -2,31 +2,30 @@ import styles from './BurgerConstructor.module.css'
 import {YaLibraryCard} from "./ConstructorCard/YaLIbraryCard";
 import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useMemo } from "react";
-import {useSelector, useDispatch} from "react-redux";
 import { useDrop } from "react-dnd";
-import {handleClearCart, handleDrop} from "../../services/actions/burgerCounstructor";
+import {handleDrop} from "../../services/actions/burgerCounstructor";
 import { EmptyCard } from './ConstructorCard/EmptyCard'
-import {handleOrderSuccess, orderSentFiled, orderSentFinished, startSendOrder} from "../../services/actions/order";
+import { takeMyOrder } from "../../services/actions/order";
 import {useNavigate} from "react-router-dom";
-import {sendOrderRequest} from "../../utils/api";
-import {IRootState} from "../../services/reducers/root-reducer";
 import {IBurgerConstructorStore} from "../../services/reducers/burgerCounstructor";
+import {IConstructorIngredient, IIngredient} from '../../utils/types';
+import {useDispatchTyped, useSelectorTyped} from "../../services/hooks/hooks";
 
 const BurgerConstructor: React.FunctionComponent = () => {
 
-    const dispatch = useDispatch();
-    const commonCart: IBurgerConstructorStore = useSelector((state: IRootState) => state.burgerConstructor)
-    const currentFilling = useSelector((state: IRootState) => state.burgerConstructor.filling)
-    const currentBun = useSelector((state: IRootState) => state.burgerConstructor.bun)
-    const isOrderLocked: boolean = useSelector((state: IRootState) => state.orderStore.isOrderButtonLocked);
-    const user: string | null = useSelector((state: IRootState) => state.userInfo.name);
+    const dispatch = useDispatchTyped();
+    const commonCart: IBurgerConstructorStore = useSelectorTyped((state) => state.burgerConstructor)
+    const currentFilling = useSelectorTyped((state) => state.burgerConstructor.filling)
+    const currentBun = useSelectorTyped((state) => state.burgerConstructor.bun)
+    const isOrderLocked: boolean = useSelectorTyped((state) => state.orderStore.isOrderButtonLocked);
+    const user: string | null = useSelectorTyped((state) => state.userInfo.name);
 
     type TNavigate = ReturnType<typeof useNavigate>
     const navigate: TNavigate = useNavigate()
 
     const [{isDragging}, dropRef] = useDrop({
         accept: ['main', 'sauce'],
-        drop(droppableItem): void { //@ts-ignore
+        drop(droppableItem: IIngredient): void {
             dispatch(handleDrop(droppableItem))
         },
         collect: (monitor) => ({
@@ -34,9 +33,9 @@ const BurgerConstructor: React.FunctionComponent = () => {
         })
     })
 
-    const [{isBunDragging} , bunRef] = useDrop({
+    const [{isBunDragging}, bunRef] = useDrop({
         accept: 'bun',
-        drop(droppableItem): void { //@ts-ignore
+        drop(droppableItem: IIngredient): void {
             dispatch(handleDrop(droppableItem))
         },
         collect: (monitor) => ({
@@ -44,9 +43,9 @@ const BurgerConstructor: React.FunctionComponent = () => {
         })
     })
 
-    const [{isBottomBunDragging} , bottomBunRef] = useDrop({
+    const [{isBottomBunDragging}, bottomBunRef] = useDrop({
         accept: 'bun',
-        drop(droppableItem): void { //@ts-ignore
+        drop(droppableItem: IIngredient): void {
             dispatch(handleDrop(droppableItem))
         },
         collect: (monitor) => ({
@@ -57,7 +56,7 @@ const BurgerConstructor: React.FunctionComponent = () => {
     const totalPrice: number = useMemo<number>(() => {
         let total: number = 0;
         for (let key in commonCart) {
-            commonCart[key].forEach(item => total+=item.price)
+            commonCart[key].forEach(item => total += item.price)
         }
         return total;
     }, [commonCart])
@@ -74,26 +73,14 @@ const BurgerConstructor: React.FunctionComponent = () => {
 
     const handleSendOrder = (e: React.SyntheticEvent<Element, Event>) => {
         e.preventDefault()
-        if (!user) {
-            return navigate('/login')
-        } else { //@ts-ignore
-            dispatch(startSendOrder());
-            sendOrderRequest(ids)
-            .then(res => { //@ts-ignore
-                if (res.success) { //@ts-ignore
-                    dispatch(handleOrderSuccess(res)); //@ts-ignore
-                    dispatch(handleClearCart())
-                } else alert('заказ не создан')
-            })
-            .catch(() => orderSentFiled()) //@ts-ignore
-            .finally(() => dispatch(orderSentFinished()))
-        }
+        dispatch(takeMyOrder(user, navigate, ids))
     }
 
     return (
         <>
             {<div className={styles.constructor_wrapper}>
-                <div className={`${styles.item} ${isBunDragging || isBottomBunDragging ? styles.dragging : ""}`} ref={bunRef}>
+                <div className={`${styles.item} ${isBunDragging || isBottomBunDragging ? styles.dragging : ""}`}
+                     ref={bunRef}>
                     {currentBun.length > 0 ? (
                             <div className={styles.top_bun}>
                                 <ConstructorElement
@@ -103,10 +90,11 @@ const BurgerConstructor: React.FunctionComponent = () => {
                                     type={'top'}
                                 />
                             </div>) :
-                        <EmptyCard type={'top'} >перетащите сюда булку</EmptyCard>}
+                        <EmptyCard type={'top'}>перетащите сюда булку</EmptyCard>}
                 </div>
-                <ul className={`${styles.chosen_items} custom-scroll ${isDragging ? styles.dragging : ""}` } ref={dropRef}>
-                    {currentFilling.length > 0 ? (currentFilling.map((listItem, index) => (
+                <ul className={`${styles.chosen_items} custom-scroll ${isDragging ? styles.dragging : ""}`}
+                    ref={dropRef}>
+                    {currentFilling.length > 0 ? (currentFilling.map((listItem: IConstructorIngredient, index: number) => (
                             <YaLibraryCard key={listItem.dynamicId} id={index} index={index} listItem={listItem}/>)))
                         : (<EmptyCard type={'middle'}>перетащите сюда ингредиенты</EmptyCard>)
                     }

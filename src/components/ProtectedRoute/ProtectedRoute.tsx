@@ -1,7 +1,6 @@
-import {useSelector} from "react-redux";
 import {Navigate, useLocation} from "react-router-dom";
 import React from "react";
-import {IRootState} from "../../services/reducers/root-reducer";
+import {useSelectorTyped} from "../../services/hooks/hooks";
 
 interface IProtectedRoute {
     onlyUnAuth?: boolean
@@ -9,8 +8,8 @@ interface IProtectedRoute {
 }
 
 const ProtectedRoute: React.FunctionComponent<IProtectedRoute> = ({onlyUnAuth = false, component}) => {
-    const user = useSelector((state: IRootState) => state.userInfo.name)
-    const isAuthChecked = useSelector((state: IRootState) => state.userInfo.isAuthChecked);
+    const user = useSelectorTyped((state) => state.userInfo.name)
+    const isAuthChecked = useSelectorTyped((state) => state.userInfo.isAuthChecked);
     const location: { state?: {from?: { pathname: string }}} = useLocation()
 
     if (!isAuthChecked) {

@@ -1,4 +1,7 @@
-import {TOrderProcessing} from "../../utils/types";
+import {AppThunk, TNavigate, TOrderProcessing} from "../../utils/types";
+import {sendOrderRequest} from "../../utils/api";
+import {handleClearCart} from "./burgerCounstructor";
+import {WSSendMessage} from "./socket";
 
 export const ORDER_SENT: 'ORDER_SENT' = 'ORDER_SENT';
 export const ORDER_SENT_SUCCESS: 'ORDER_SENT_SUCCESS' = 'ORDER_SENT_SUCCESS';
@@ -27,7 +30,7 @@ export const handleOrderSuccess = (parsed: IOrderResponse): TOrderProcessing => 
     }
 }
 
-export const orderSentFiled = (): TOrderProcessing => {
+export const orderSentFailed = (): TOrderProcessing => {
     return {
         type: ORDER_SENT_FAILED,
     }
@@ -44,3 +47,24 @@ export function clearOrderNumber(): TOrderProcessing {
         type: CLEAR_ORDER_NUMBER
     }
 }
+
+export const takeMyOrder = (user: string | null, navigate: TNavigate, ids: string[]): AppThunk => {
+    return dispatch => {
+        if (!user) {
+            return navigate('/login')
+        } else {
+            // dispatch(WSSendMessage(ids))
+            dispatch(startSendOrder());
+            sendOrderRequest(ids)
+                .then(res => {
+                    if (res.success) {
+                        dispatch(handleOrderSuccess(res));
+                        dispatch(handleClearCart())
+                    } else alert('заказ не создан')
+                })
+                .catch(() => orderSentFailed())
+                .finally(() => dispatch(orderSentFinished()))
+        }
+    }
+}
+
