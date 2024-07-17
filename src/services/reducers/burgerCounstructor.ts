@@ -49,7 +49,6 @@ export const burgerConstructor = (state: IBurgerConstructorStore = initialState,
             const newCards = [...state.filling];
             newCards.splice(action.dragIndex, 1);
             newCards.splice(action.hoverIndex, 0, state.filling[action.dragIndex]);
-            console.log(`тащим: ${action.dragIndex}   принимаем: ${action.hoverIndex}`)
             return {
                 ...state,
                 filling: [...newCards]
@@ -61,8 +60,8 @@ export const burgerConstructor = (state: IBurgerConstructorStore = initialState,
             }
         }
         default:
-            {
                 return state
-            }
     }
 }
+
+export default initialState

@@ -47,8 +47,9 @@ export const burgerIngredients = (state: IBurgerIngredientsState = initialState,
                 currentTab: action.current
             }
         }
-        default: {
+        default:
             return state
-        }
     }
 }
+
+export default initialState;
