@@ -2,11 +2,12 @@ import initialState, { burgerIngredients } from "./burgerIngredients";
 import * as actions from "../actions/burgerIngredients";
 import fetchMock from "fetch-mock";
 import thunk from 'redux-thunk';
-import configureStore from "redux-mock-store";
+import configureMockStore from "redux-mock-store";
+import {fetchIngredients} from "../../utils/api";
 
 
 const middlewares = [thunk]
-const mockStore = configureStore(middlewares)
+const mockStore = configureMockStore(middlewares)
 
 const ingredientExample = {
     _id:"643d69a5c3f7b9001cfa0943",
@@ -76,6 +77,46 @@ describe("common tests for burgerIngredients",  () => {
                 data: parsedArray
             }
             expect(actions.setIngredients(parsedArray)).toEqual(expectedAction)
+        })
+        it("tests async fetch thunk", () => {
+            afterEach(() => {
+                fetchMock.restore()
+            })
+
+
+            afterAll(() => {
+                jest.resetAllMocks()
+            })
+        })
+    })
+
+    describe('test fetch ingredients', () => {
+        beforeEach(() => {
+            jest.spyOn(require('../../utils/api'), 'fetchIngredients').mockResolvedValue({
+                success: true,
+                data: {result: "ok"}
+            })
+        })
+        afterAll(() => {
+            jest.resetAllMocks()
+        })
+        test('fetch ingredients async function test', () => {
+            let fetched;
+            return fetchIngredients()
+            .then(res => {
+                fetched = res;
+                expect(fetched).toEqual({success: true, data: {result: 'ok'}})
+                expect(fetchIngredients).toHaveBeenCalledTimes(1)
+            })
+        });
+        test('should pass if fetchIngredients is rejected', () => {
+            fetchIngredients.mockReturnValue(Promise.reject({ success: false }))
+            let rejected;
+            return fetchIngredients()
+                .catch(err => {
+                    rejected = err;
+                    expect(rejected).toEqual({success: false})
+                })
         })
     })
 })
