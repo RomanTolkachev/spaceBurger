@@ -1,7 +1,7 @@
 import { SET_USER, CLEAR_USER, SEND_EMAIL_START, SEND_EMAIL_FINISHED, AUTH_STATUS_CHECKED} from "../actions/user";
 import {TUser} from "../../utils/types";
 
-const initialState: IUserState = {
+export const initialState: IUserState = {
     isAuthChecked: false,
     email: null,
     name: null,
@@ -50,8 +50,6 @@ export const userInfo = (state: IUserState = initialState, action: TUser): IUser
                 isRequestButtonLocked: false,
             }
         }
-        default: {
-            return state;
-        }
+        default: return state;
     }
 }

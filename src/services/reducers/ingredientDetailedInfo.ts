@@ -21,8 +21,8 @@ export const ingredientDetailedInfo = (state: IDetailedIngredientStore = initial
         case CLEAR_DETAILED_INGREDIENT_INFO: {
             return initialState
         }
-        default: {
-            return state
-        }
+        default: return state
     }
 }
+
+export default initialState

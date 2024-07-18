@@ -47,8 +47,8 @@ export const orderStore = (state: IOrderStore = initialState, action: TOrderProc
         case CLEAR_ORDER_NUMBER: {
             return initialState
         }
-        default: {
-            return state
-        }
+        default: return state
     }
 }
+
+export default initialState

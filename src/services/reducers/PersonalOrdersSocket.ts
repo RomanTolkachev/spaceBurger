@@ -56,7 +56,7 @@ export interface ISocket {
     error?: any
 }
 
-const initialState = {
+export const initialState = {
     ordersArray: null,
     error: "i am state of personalOrderReduces",
     total: null,

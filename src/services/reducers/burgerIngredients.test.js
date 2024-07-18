@@ -1,13 +1,6 @@
 import initialState, { burgerIngredients } from "./burgerIngredients";
 import * as actions from "../actions/burgerIngredients";
-import fetchMock from "fetch-mock";
-import thunk from 'redux-thunk';
-import configureMockStore from "redux-mock-store";
 import {fetchIngredients} from "../../utils/api";
-
-
-const middlewares = [thunk]
-const mockStore = configureMockStore(middlewares)
 
 const ingredientExample = {
     _id:"643d69a5c3f7b9001cfa0943",
@@ -31,19 +24,34 @@ describe("common tests for burgerIngredients",  () => {
 
     describe("test for reducers in burgerIngredients", () => {
         it("should test start fetch reducer", () => {
-            expect(burgerIngredients(undefined, {type: actions.FETCH_INGREDIENTS})).toEqual({...initialState, isLoading: true, hasError: false})
+            expect(burgerIngredients(undefined, {type: actions.FETCH_INGREDIENTS})).toEqual({
+                ...initialState,
+                isLoading: true,
+                hasError: false
+            })
         })
         it("should test fetch success reducer", () => {
             const fetchedArray = [ingredientExample,ingredientExample]
-            expect(burgerIngredients(undefined, {type: actions.FETCH_INGREDIENTS_SUCCESS, data: fetchedArray})).toEqual({...initialState, isLoading: false, hasError: false, ingredients: fetchedArray})
+            expect(burgerIngredients(undefined, {
+                type: actions.FETCH_INGREDIENTS_SUCCESS,
+                data: fetchedArray
+            })).toEqual({...initialState, isLoading: false, hasError: false, ingredients: fetchedArray})
         })
         it("should test fetch failed reducer", () => {
             const error = "no way"
-            expect(burgerIngredients(undefined, {type: actions.FETCH_INGREDIENTS_FAILED, error })).toEqual({...initialState, isLoading: false, hasError: true, errorMessage: error})
+            expect(burgerIngredients(undefined, {
+                type: actions.FETCH_INGREDIENTS_FAILED,
+                error
+            })).toEqual({...initialState, isLoading: false, hasError: true, errorMessage: error})
         })
         it("should test switch tab", () => {
             const current = "sauce"
-            expect(burgerIngredients(undefined, {type: actions.SWITCH_TAB, current })).toEqual({...initialState, isLoading: false, hasError: false, currentTab: current})
+            expect(burgerIngredients(undefined, {type: actions.SWITCH_TAB, current})).toEqual({
+                ...initialState,
+                isLoading: false,
+                hasError: false,
+                currentTab: current
+            })
         })
     })
 
@@ -78,16 +86,6 @@ describe("common tests for burgerIngredients",  () => {
             }
             expect(actions.setIngredients(parsedArray)).toEqual(expectedAction)
         })
-        it("tests async fetch thunk", () => {
-            afterEach(() => {
-                fetchMock.restore()
-            })
-
-
-            afterAll(() => {
-                jest.resetAllMocks()
-            })
-        })
     })
 
     describe('test fetch ingredients', () => {
@@ -109,12 +107,13 @@ describe("common tests for burgerIngredients",  () => {
                 expect(fetchIngredients).toHaveBeenCalledTimes(1)
             })
         });
-        test('should pass if fetchIngredients is rejected', () => {
+        test('should pass if fetchIngredients is rejected', async () => {
             fetchIngredients.mockReturnValue(Promise.reject({ success: false }))
             let rejected;
             return fetchIngredients()
                 .catch(err => {
                     rejected = err;
+                    // eslint-disable-next-line jest/no-conditional-expect
                     expect(rejected).toEqual({success: false})
                 })
         })
