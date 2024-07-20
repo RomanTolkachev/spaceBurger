@@ -11,6 +11,7 @@ const AppHeader: React.FunctionComponent = () => {
 
     const userdata: string | null = useSelectorTyped((state) => state.userInfo.name)
 
+
     return (
         <header className={styles.header}>
             <nav className={styles.container}>
@@ -24,7 +25,7 @@ const AppHeader: React.FunctionComponent = () => {
                         </NavLink>
                     </li>
                     <li className={styles.logo}><a href="#"><Logo/></a></li>
-                    <NavLink to="/profile" end className={({isActive}): string => isActive ? styles.active : styles.link}>
+                    <NavLink to="/profile" end className={({isActive}): string => isActive ? styles.active : styles.link} cy-data="profile">
                         <li><NavButton icon={<ProfileIcon type={useMatch('/profile') ? "primary" : "secondary"}/>}>{userdata ? userdata : "личный кабинет"}</NavButton></li>
                     </NavLink>
                 </ul>
