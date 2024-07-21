@@ -1,6 +1,14 @@
-# Getting Started with Create React App
+Проект задеплоен на https://spaceburger.onrender.com/
+Сервис render.com разворачивает проект из последнего коммита ветки sprint-6 (укажу на main после merge) 
+на github и автоматически обновляется, если меняется ссылка на последний коммит.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+для деплоя следует запустить npm run build, сделать коммит и запушить его на gitHub
+
+Для того, чтобы запустить проект на локальном сервере нужно:
+ - скачать его с gitHub, при помощи команды git clone https://github.com/RomanTolkachev/spaceBurger,
+ - запустить его на локальном сервере при помощи команды npm run start
+
+Для запуска e2e тестов нужно выполнить команду npm run cypress
 
 ## Available Scripts
 
@@ -24,10 +32,6 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 ### `npm run eject`
 
@@ -39,8 +43,5 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
