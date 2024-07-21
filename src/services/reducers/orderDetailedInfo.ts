@@ -6,7 +6,7 @@ export interface IDetailedOrderInfo {
     info: IOrder | null
 }
 
-const initialState: IDetailedOrderInfo = {info: null};
+export const initialState: IDetailedOrderInfo = {info: null};
 
 export const detailedOrderInfo = (state: IDetailedOrderInfo = initialState, action: TOrderInfoActions): IDetailedOrderInfo => {
     switch (action.type) {
